@@ -1,0 +1,19 @@
+server:
+  port: 8815
+
+spring:
+  application:
+    name: study-eureka
+  cloud:
+    config:
+      enabled: false
+
+eureka:
+  client:
+    register-with-eureka: false #服務器不用注冊到其他服務器
+    fetch-registry: false # 服務器不用去抓取注冊信息
+
+logging:
+  level:
+    root: INFO                    #默认的日志级别
+  file: log/study-eureka.log  #生成日志文件的位置 e:/study-eureka.log
