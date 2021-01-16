@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo systemctl restart studyeureka
+sudo systemctl restart studyfile

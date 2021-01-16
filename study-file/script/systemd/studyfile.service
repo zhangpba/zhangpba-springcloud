@@ -1,5 +1,5 @@
 [Unit]
-Description=study-eureka
+Description=study-file
 After=network.target
 After=syslog.target
 
@@ -7,8 +7,8 @@ After=syslog.target
 Type=simple
 Restart=always
 RestartSec=30s
-WorkingDirectory=/opt/zhangpb/study-eureka
-ExecStart=/home/zhangpba/software/jdk1.8.0_40/bin/java -Xms1024m -Xmx1024m -Dloader.path=/opt/zhangpb/study-eureka/lib -jar /opt/zhangpb/study-eureka/study-eureka.jar
+WorkingDirectory=/opt/zhangpb/study-file
+ExecStart=/home/zhangpba/software/jdk1.8.0_40/bin/java -Xms1024m -Xmx1024m -Dloader.path=/opt/zhangpb/study-file/lib -jar /opt/zhangpb/study-file/study-file.jar
 ExecStop=/usr/bin/kill -15 $MAINPID
 SuccessExitStatus=143
 

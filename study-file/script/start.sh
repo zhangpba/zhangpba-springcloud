@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo systemctl start studyeureka
+sudo systemctl start studyfile

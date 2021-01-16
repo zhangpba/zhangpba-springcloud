@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo systemctl stop studyeureka
+sudo systemctl stop studyfile

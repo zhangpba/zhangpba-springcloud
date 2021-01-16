@@ -9,11 +9,11 @@
         <version>1.5.9.RELEASE</version>
         <relativePath/>
     </parent>
-    <groupId>study-file</groupId>
-    <artifactId>study-file</artifactId>
+    <groupId>study-user</groupId>
+    <artifactId>study-user</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>study-file</name>
-    <description>文件服务-file</description>
+    <name>study-user</name>
+    <description>用户服务-file</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

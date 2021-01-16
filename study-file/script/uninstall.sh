@@ -1,4 +1,4 @@
 #!/bin/bash
-sudo systemctl stop studyeureka
-sudo systemctl disable studyeureka
-sudo rm -rf /etc/systemd/system/studyeureka.service
+sudo systemctl stop studyfile
+sudo systemctl disable studyfile
+sudo rm -rf /etc/systemd/system/studyfile.service
