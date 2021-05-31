@@ -1,0 +1,21 @@
+公共工程：study-common
+注册中心：study-eureka   8815
+文件工程：study-file     8816
+用户服务：study-user     8817
+
+
+1   公共工程：study-common   公共服务：所有服务依赖它，所有的公共Entiry，公共方法，帮助类，静态类
+    注册中心：study-eureka   注册中心：发现所有的服务提供者，并注册；发现所有的消费者服务，并注册
+    文件工程：study-file     文件服务：provider
+    用户服务：study-user     用户服务：consumer
+
+2   feign接口测试：
+    启动注册中心（eureka），启动文件服务（file），启动用户服务（user），
+    用户服务调用文件服务：
+        GET请求：  http://localhost:8817/client/getFile?name=zhang
+        POST请求： http://localhost:8817/client/postFile
+                {
+                	"name":"postSend"
+                }
+
+        文件服务作为服务提供者provider，用户服务作为服务消费者consumer，被调用方打赢日志
