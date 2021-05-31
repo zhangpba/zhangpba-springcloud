@@ -1,3 +1,5 @@
+这是一个纯净版本的springcloud框架，可以直接打包上服务器部署，有成熟的shell脚本用来启动和停止服务，该版本为1
+
 公共工程：study-common
 注册中心：study-eureka   8815
 文件工程：study-file     8816
