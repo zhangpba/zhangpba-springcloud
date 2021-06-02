@@ -25,6 +25,10 @@ Test:
             3.study-user通过feign接口请求study-file
 
 
+        http://localhost:8888/api/client/getFile?name=测试zuul    :通过study-user调用文件study-file
+        http://127.0.0.1:8888/api/file/getFileHost                :直接调用study-file
+
+
 
 
 
