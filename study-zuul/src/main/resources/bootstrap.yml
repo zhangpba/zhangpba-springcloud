@@ -31,8 +31,8 @@ zuul:
     study-user-service.path: /user/**                  # 使用路径方式匹配路由规则
     study-user-service.serviceId: study-user           # 使用服务名称匹配
 
-#    study-file-service.path: /file/**                  # 使用路径方式匹配路由规则
-#    study-file-service.serviceId: study-file           # 使用服务名称匹配
+    study-file-service.path: /file/**                  # 使用路径方式匹配路由规则
+    study-file-service.serviceId: study-file           # 使用服务名称匹配
 
 #    study-zuul-service.url: http://127.0.0.1:8888/    # 2.URL路径匹配
 
