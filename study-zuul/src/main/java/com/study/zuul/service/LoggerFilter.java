@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * zuulguo过滤器，必须继承ZuulFilter父类
+ * zuul过滤器，必须继承ZuulFilter父类
  * 当前类型的对象必须交由spring容器管理，使用注解@Component
  * 继承父类后，必须实现父类中定义的4个抽象方法：shouldFilter、 run、 filterType、 filterOrder
  *
