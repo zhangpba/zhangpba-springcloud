@@ -8,8 +8,8 @@
     tar -zxvf study-zuul.tar.gz -C /opt/zhangpb/
 
 三 执行脚本
-    ./opt/zhangpb/study-user/install.sh
-    ./opt/zhangpb/study-user/start.sh
+    ./opt/zhangpb/study-zuul/install.sh
+    ./opt/zhangpb/study-zuul/start.sh
 
 
 

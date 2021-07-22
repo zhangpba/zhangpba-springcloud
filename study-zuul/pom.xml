@@ -13,7 +13,7 @@
     <artifactId>study-zuul</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>study-zuul</name>
-    <description>用户服务-file</description>
+    <description>网关-zuul服务</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
