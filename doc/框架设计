@@ -21,3 +21,7 @@
                 }
 
         文件服务作为服务提供者provider，用户服务作为服务消费者consumer，被调用方打赢日志
+
+3 eureka升级
+    服务端的使用：https://blog.csdn.net/qq_15821191/article/details/105581009
+    客户端的使用：https://www.cnblogs.com/wps54213/p/13127501.html
