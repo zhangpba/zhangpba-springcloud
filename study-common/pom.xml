@@ -8,5 +8,14 @@
     <artifactId>study-common</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    
+    <dependencies>
+        <!--获取请求，加入依赖ip 2021-08-15-->
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <version>9.0.33</version>
+        </dependency>
+    </dependencies>
+
+
 </project>

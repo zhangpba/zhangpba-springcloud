@@ -29,6 +29,7 @@ public class FeignTestController {
      */
     @RequestMapping(value = "/client/postFile", method = RequestMethod.POST)
     public String postFile(User user) {
+        logger.info("study-user服务，参数:{}", user);
         return fileServiceFeign.postFileHost(user);
     }
 
@@ -40,6 +41,7 @@ public class FeignTestController {
      */
     @RequestMapping(value = "/client/getFile", method = RequestMethod.GET)
     public String getFile(String name) {
+        logger.info("study-user服务，参数:{}", name);
         return fileServiceFeign.getFileHost(name);
     }
 
