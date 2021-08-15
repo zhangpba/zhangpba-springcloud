@@ -34,7 +34,7 @@ public class UserFilter extends ZuulFilter {
         String user = request.getParameter("user");
         String uri = request.getRequestURI();
 
-        // 若请求中包含/user8080路径，且没有user请求参数，则无法通过过滤
+        // 若请求中包含/user8080路径，且没有user请求参数，则无法通过过滤 2021-08-15
         if (uri.contains("/user8080") && StringUtils.isEmpty(user)) {
             logger.warn("user用户为空");
             // 指定当前请求未通过zuul过滤，默认值为true
