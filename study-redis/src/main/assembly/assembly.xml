@@ -6,7 +6,7 @@
 		<format>tar.gz</format>
 	</formats>
 	<includeBaseDirectory>true</includeBaseDirectory>
-	<baseDirectory>study-user</baseDirectory>
+	<baseDirectory>study-redis</baseDirectory>
 	<fileSets>
 		<fileSet>
 			<directory>${project.build.directory}/script</directory>
@@ -40,7 +40,7 @@
 			<fileMode>0755</fileMode>
 		</file>
 		<file>
-			<source>script/systemd/studyuser.service</source>
+			<source>script/systemd/studyredis.service</source>
 			<outputDirectory>${file.separator}systemd</outputDirectory>
 			<fileMode>0755</fileMode>
 		</file>
