@@ -10,3 +10,10 @@
 三 执行脚本
     ./opt/zhangpb/study-redis/install.sh
     ./opt/zhangpb/study-redis/start.sh
+
+
+
+
+
+
+https://blog.csdn.net/weixin_40623736/article/details/98097708
