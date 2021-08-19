@@ -4,7 +4,8 @@
 注册中心：study-eureka   8815
 文件工程：study-file     8816
 用户服务：study-user     8817
-
+缓存服务：study-redis    8819
+网关服务：study-zuul     8888
 
 1   公共工程：study-common   公共服务：所有服务依赖它，所有的公共Entiry，公共方法，帮助类，静态类
     注册中心：study-eureka   注册中心：发现所有的服务提供者，并注册；发现所有的消费者服务，并注册
@@ -22,6 +23,11 @@
 
         文件服务作为服务提供者provider，用户服务作为服务消费者consumer，被调用方打赢日志
 
-3 eureka升级
+3 网关服务
+    有了网关之后，外来系统要访问服务集群的任何一个微服务，都统一请求网关的端口8888，网关代理所有的微服务
+    访问study-user:   http://1127.0.0.1:8888/api/user/client/getFile?name=测试zuul
+    访问study-file:   http://1127.0.0.1:8888/api/file/client/getFile?name=测试zuul
+
+4 eureka升级
     服务端的使用：https://blog.csdn.net/qq_15821191/article/details/105581009
     客户端的使用：https://www.cnblogs.com/wps54213/p/13127501.html

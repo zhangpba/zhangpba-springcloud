@@ -1,7 +1,7 @@
-package com.study.user.controller;
+package com.study.reids.controller;
 
 import com.study.vo.User;
-import com.study.user.feign.FileServiceFeign;
+import com.study.reids.feign.FileServiceFeign;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

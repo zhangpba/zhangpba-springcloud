@@ -1,4 +1,4 @@
-package com.study.user.feign;
+package com.study.reids.feign;
 
 import com.study.vo.User;
 //import org.springframework.cloud.netflix.feign.FeignClient;

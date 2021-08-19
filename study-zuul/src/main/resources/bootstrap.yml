@@ -37,6 +37,9 @@ zuul:
     study-zuul-service.path: /zuul/**                  # 使用路径方式匹配路由规则
     study-zuul-service.serviceId: study-zuul           # 使用服务名称匹配
 
+    study-redis-service.path: /redis/**                # 使用路径方式匹配路由规则 http://127.0.0.1:8888/api/redis/get/name
+    study-redis-service.serviceId: study-redis         # 使用服务名称匹配
+
 #    study-zuul-service.url: http://127.0.0.1:8888/    # 2.URL路径匹配
 
 #  ignored-patterns: /**/test/**                       # 路由排除配置(所有符合patterns的请求路径都不被zuul网关代理)
