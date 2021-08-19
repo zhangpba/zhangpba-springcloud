@@ -28,11 +28,14 @@ eureka:
 zuul:
   prefix: /api                                        # 配置请求路径前缀，所有基于此前缀的请求都由zuul网关提供代理
   routes:
-    study-user-service.path: /user/**                  # 使用路径方式匹配路由规则
+    study-user-service.path: /user/**                  # 使用路径方式匹配路由规则 http://192.168.182.129:8888/api/user/client/getFile?name=测试zuul
     study-user-service.serviceId: study-user           # 使用服务名称匹配
 
-    study-file-service.path: /file/**                  # 使用路径方式匹配路由规则
+    study-file-service.path: /file/**                  # 使用路径方式匹配路由规则 http://192.168.182.129:8888/api/file/client/getFile?name=测试zuul
     study-file-service.serviceId: study-file           # 使用服务名称匹配
+
+    study-zuul-service.path: /zuul/**                  # 使用路径方式匹配路由规则
+    study-zuul-service.serviceId: study-zuul           # 使用服务名称匹配
 
 #    study-zuul-service.url: http://127.0.0.1:8888/    # 2.URL路径匹配
 
