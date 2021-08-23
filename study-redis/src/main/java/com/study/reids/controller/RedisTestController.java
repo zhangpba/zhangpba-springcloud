@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 测试feign接口：fegin接口消费方
+ * 测试Red接口
  *
  * @author zhangpba
  * @date 2021-08-19

@@ -1,0 +1,36 @@
+环境
+安装jdk
+
+一 打包
+    选择release打.tar.gz包
+
+二 打好的 .tar.gz包上传服务器解压到路径/opt/zhangpb/
+    tar -zxvf study-user.tar.gz -C /opt/zhangpb/
+
+三 执行脚本
+    ./opt/zhangpb/study-config-sever/install.sh
+    ./opt/zhangpb/study-config-sever/start.sh
+
+
+数据库中插入：
+INSERT INTO `springcloud`.`config_info`(`id`, `key`, `value`, `application`, `profile`, `label`, `create_date`) VALUES (1, 'foo', 'this is foo', 'study-config-server', 'dev', 'master', '2021-08-24 23:39:26');
+INSERT INTO `springcloud`.`config_info`(`id`, `key`, `value`, `application`, `profile`, `label`, `create_date`) VALUES (2, 'server.port', '9003', 'study-config-server', 'dev', 'master', '2021-08-24 00:19:05');
+执行：http://localhost:9001/study-config-server/dev/master
+{
+    "name": "study-config-server",
+    "profiles": [
+        "dev"
+    ],
+    "label": "master",
+    "version": null,
+    "state": null,
+    "propertySources": [
+        {
+            "name": "study-config-server-dev",
+            "source": {
+                "foo": "this is foo",
+                "server.port": "9003"
+            }
+        }
+    ]
+}

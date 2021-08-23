@@ -6,14 +6,13 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.6.RELEASE</version>
-        <!--<version>1.5.9.RELEASE</version>-->
         <relativePath/>
     </parent>
-    <groupId>study-user</groupId>
-    <artifactId>study-user</artifactId>
+    <groupId>study-config-client</groupId>
+    <artifactId>study-config-client</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>study-user</name>
-    <description>用户服务-user</description>
+    <name>study-config-client</name>
+    <description>配置中心客户端服务-config-client</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,42 +22,27 @@
 
     <!--2021-01-04 在dependencyManagement进行申明版本后，就无需在dependencies再次申明版本，但是需要申明依赖-->
     <dependencies>
-
-        <!--导入springcloud的依赖管理-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-eureka-server</artifactId>-->
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>com.fasterxml.jackson.dataformat</groupId>-->
-                    <!--<artifactId>jackson-dataformat-xml</artifactId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
-        <!--</dependency>-->
-
-        <!--升级springboot和springcloud 2021-08-12，增加下面依赖，删掉依赖spring-cloud-starter-eureka-server-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
         <!--升级后启动报错，加入此依赖，可以正常启动 2021-08-12-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--eureka-server-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.study.common</groupId>
             <artifactId>study-common</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <!--2021-01-16 fegin接口-->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <!--升级springboot和springcloud 2021-08-12-->
-            <!--<artifactId>spring-cloud-starter-feign</artifactId>-->
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
     </dependencies>
@@ -69,7 +53,6 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <!--<version>Dalston.SR5</version>-->
                 <version>Hoxton.SR3</version>
                 <type>pom</type>
                 <scope>import</scope>
