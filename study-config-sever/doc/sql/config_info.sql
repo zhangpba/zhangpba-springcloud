@@ -11,3 +11,5 @@ CREATE TABLE `springcloud`.`config_info`  (
 
 INSERT INTO `springcloud`.`config_info`(`id`, `key`, `value`, `application`, `profile`, `label`, `create_date`) VALUES (1, 'foo', 'this is foo', 'study-config-server', 'dev', 'master', '2021-08-24 23:39:26');
 INSERT INTO `springcloud`.`config_info`(`id`, `key`, `value`, `application`, `profile`, `label`, `create_date`) VALUES (2, 'server.port', '9003', 'study-config-server', 'dev', 'master', '2021-08-24 00:19:05');
+INSERT INTO `springcloud`.`config_info`(`id`, `key`, `value`, `application`, `profile`, `label`, `create_date`) VALUES (3, 'server.port', '9004', 'study-config-client', 'dev', 'master', '2021-08-24 00:55:26');
+INSERT INTO `springcloud`.`config_info`(`id`, `key`, `value`, `application`, `profile`, `label`, `create_date`) VALUES (4, 'foo', 'hello world', 'study-config-client', 'dev', 'master', '2021-08-24 00:56:02');
