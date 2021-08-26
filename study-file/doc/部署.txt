@@ -10,3 +10,14 @@
 三 执行脚本
     ./opt/zhangpb/study-file/install.sh
     ./opt/zhangpb/study-file/start.sh
+
+
+熔断：
+    1.增加依赖spring-cloud-starter-netflix-hystrix
+    2.启动类增加：@EnableHystrix
+    3.给需要熔断的方法上面增加注解：@HystrixCommand(fallbackMethod = "getFileHostError")
+    4.编写熔断代码方法：getFileHostError
+
+使用断路器-熔断：
+https://blog.csdn.net/forezp/article/details/69934399
+    在方法中增加异常处理，直接走熔断代码

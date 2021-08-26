@@ -24,6 +24,10 @@ eureka:
     lease-renewal-interval-in-seconds: 2
     instance-id: ${spring.cloud.client.ipAddress}:ribbon-service-provider-peer:${server.port}
 
+feign:
+  hystrix:
+    enabled: true # 打开feign对hystrix的支持
+
 
 logging:
   level:

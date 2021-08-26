@@ -6,7 +6,6 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.6.RELEASE</version>
-        <!--<version>1.5.9.RELEASE</version>-->
         <relativePath/>
     </parent>
     <groupId>study-file</groupId>
@@ -23,19 +22,6 @@
 
     <!--2021-01-04 在dependencyManagement进行申明版本后，就无需在dependencies再次申明版本，但是需要申明依赖-->
     <dependencies>
-
-        <!--导入springcloud的依赖管理-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-eureka-server</artifactId>-->
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>com.fasterxml.jackson.dataformat</groupId>-->
-                    <!--<artifactId>jackson-dataformat-xml</artifactId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
-        <!--</dependency>-->
-
         <!--升级springboot和springcloud 2021-08-12，增加下面依赖，删掉依赖spring-cloud-starter-eureka-server-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -59,6 +45,13 @@
             <!--升级springboot和springcloud 2021-08-12-->
             <!--<artifactId>spring-cloud-starter-feign</artifactId>-->
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <!--hystrix 断路器-被调用方（熔断） 2021-08-26-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+            <version>2.2.2.RELEASE</version>
         </dependency>
 
     </dependencies>
