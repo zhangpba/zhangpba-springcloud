@@ -1,6 +1,6 @@
-package com.study.reids.feign;
+package com.study.user.feign;
 
-import com.study.reids.hystrix.FileServiceFallBack;
+import com.study.user.hystrix.FileServiceFallBack;
 import com.study.vo.User;
 //import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.cloud.openfeign.FeignClient;

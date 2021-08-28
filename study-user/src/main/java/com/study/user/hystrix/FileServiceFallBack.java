@@ -1,6 +1,6 @@
-package com.study.reids.hystrix;
+package com.study.user.hystrix;
 
-import com.study.reids.feign.FileServiceFeign;
+import com.study.user.feign.FileServiceFeign;
 import com.study.vo.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

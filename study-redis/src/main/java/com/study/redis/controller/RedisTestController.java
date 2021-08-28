@@ -1,6 +1,6 @@
-package com.study.reids.controller;
+package com.study.redis.controller;
 
-import com.study.reids.RedisUtils;
+import com.study.redis.RedisUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
