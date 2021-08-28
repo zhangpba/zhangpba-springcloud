@@ -1,12 +1,25 @@
 server:
-  port: 8817
+  port: 9001
 
 spring:
   application:
-    name: study-config-sever
+    name: study-config-server
+  profiles:
+    active: jdbc
   cloud:
     config:
-      enabled: false
+      enabled: true
+      label: master
+      server:
+        jdbc: true
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/springcloud?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver #5.0版本的数据库驱动配置
+
+spring.cloud.config.server.jdbc.sql: select `KEY`, `VALUE` from config_info where application = ? and profile = ? and label = ?
 
 eureka:
   client:
@@ -17,12 +30,10 @@ eureka:
       defaultZone: http://127.0.0.1:8815/eureka/
 #      defaultZone: http://192.168.182.128:8815/eureka/   #客户端和服务器端进行交互的地址
 
-
   instance:
     prefer-ip-address: true
     lease-expiration-duration-in-seconds: 1
     lease-renewal-interval-in-seconds: 2
-
 
 logging:
   level:
