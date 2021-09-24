@@ -9,6 +9,11 @@
 配置中心-服务端：study-config-server    9001
 配置中心-客户端：study-config-client    9002
 
+服务的降级在study-user
+服务的熔断在study-file
+
+缓存服务：study-email    8820
+
 1   公共工程：study-common   公共服务：所有服务依赖它，所有的公共Entiry，公共方法，帮助类，静态类
     注册中心：study-eureka   注册中心：发现所有的服务提供者，并注册；发现所有的消费者服务，并注册
     文件工程：study-file     文件服务：provider
