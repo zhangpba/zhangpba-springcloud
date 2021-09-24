@@ -36,10 +36,6 @@ eureka:
     lease-expiration-duration-in-seconds: 1
     lease-renewal-interval-in-seconds: 2
 
-feign:
-  hystrix:
-    enabled: true # 打开feign对hystrix的支持
-
 
 logging:
   level:
