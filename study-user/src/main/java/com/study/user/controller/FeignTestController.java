@@ -2,6 +2,8 @@ package com.study.user.controller;
 
 import com.study.vo.User;
 import com.study.user.feign.FileServiceFeign;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author zhangpba
  */
+@Api(value = "fegin接口消费方")
 @RestController
 public class FeignTestController {
     private static final Logger logger = LoggerFactory.getLogger(FeignTestController.class);
@@ -27,6 +30,7 @@ public class FeignTestController {
      * @param user 用户参数
      * @return
      */
+    @ApiOperation(value = "测试post请求：消费方")
     @RequestMapping(value = "/client/postFile", method = RequestMethod.POST)
     public String postFile(User user) {
         logger.info("study-user服务，参数:{}", user);
@@ -39,6 +43,7 @@ public class FeignTestController {
      * @param name 参数
      * @return
      */
+    @ApiOperation(value = "测试get请求：消费方")
     @RequestMapping(value = "/client/getFile", method = RequestMethod.GET)
     public String getFile(String name) {
         logger.info("study-user服务，参数:{}", name);

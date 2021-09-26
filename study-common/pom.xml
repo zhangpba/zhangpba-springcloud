@@ -15,7 +15,25 @@
             <artifactId>tomcat-embed-core</artifactId>
             <version>9.0.33</version>
         </dependency>
+
+        <!-- swagger 2021-09-26-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>2.9.2</version>
+        </dependency>
+
+        <!--lombok 2021-09-26-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.10</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
-
-
 </project>
