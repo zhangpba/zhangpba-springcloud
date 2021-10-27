@@ -34,4 +34,41 @@ public class IpUtils {
         }
         return "0:0:0:0:0:0:0:1".equals(ip) ? "127.0.0.1" : ip;
     }
+
+    /**
+     * 判断ip是否合法
+     *
+     * @param ip 输入参数
+     * @return ip是否合法
+     * @date 2021-10-27
+     */
+    public static boolean checkIp(String ip) {
+        // 转义分割
+        String[] arrs = ip.split("\\.");
+        if (arrs.length != 4) {
+            return false;
+        }
+        for (int i = 0; i < arrs.length; i++) {
+            try {
+                Integer num = Integer.parseInt(arrs[i]);
+                // 字段在0-255之间
+                if (num < 0 || num > 255) {
+                    return false;
+                }
+                // 当数字不为0，首个字符不能为0
+                if (!arrs[i].equals("0") && arrs[i].startsWith("0")) {
+                    return false;
+                }
+                // 首尾不能为0
+                if (i == 0 || i == 3) {
+                    if (num == 0) {
+                        return false;
+                    }
+                }
+            } catch (Exception e) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
