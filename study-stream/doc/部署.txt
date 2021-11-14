@@ -1,0 +1,19 @@
+环境
+安装jdk
+
+一 打包
+    选择release打.tar.gz包
+
+二 打好的 .tar.gz包上传服务器解压到路径/opt/zhangpb/
+    tar -zxvf study-stream.tar.gz -C /opt/zhangpb/
+
+三 执行脚本
+    ./opt/zhangpb/study-stream/install.sh
+    ./opt/zhangpb/study-stream/start.sh
+
+
+
+启动工程，访问 http://localhost:8821/send
+接口发送消息，通过控制台，可以看到，消息已成功被接收
+
+* 参考文档：https://blog.csdn.net/hubo_88/article/details/80904165
