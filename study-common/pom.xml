@@ -35,5 +35,12 @@
             <version>1.16.10</version>
             <scope>provided</scope>
         </dependency>
+
+        <!--token 2022-03-21-->
+        <dependency>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
+            <version>3.8.2</version>
+        </dependency>
     </dependencies>
 </project>
