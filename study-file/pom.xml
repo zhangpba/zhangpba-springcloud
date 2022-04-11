@@ -35,7 +35,7 @@
 
         <dependency>
             <groupId>com.study.common</groupId>
-            <artifactId>study-common</artifactId>
+            <artifactId>study-common-starter</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
