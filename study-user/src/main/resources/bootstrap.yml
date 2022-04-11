@@ -32,3 +32,15 @@ logging:
   level:
     root: INFO                    #默认的日志级别
   file: log/study-user.log  #生成日志文件的位置 e:/study-user.log
+
+# 测试starter 2022-04-11
+demo:
+  say-what: you are good!
+  to-who: zhangpba
+  isopen: true
+datasource:
+  driver: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://127.0.0.1:3306/study?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+  password: 123456
+  username: zhangpba
+  datasourceName: true

@@ -1,4 +1,4 @@
-package com.study.util;
+package com.study.starter.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

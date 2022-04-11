@@ -1,7 +1,7 @@
 package com.study.user.hystrix;
 
+import com.study.starter.vo.User;
 import com.study.user.feign.FileServiceFeign;
-import com.study.vo.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -17,13 +17,13 @@ public class FileServiceFallBack implements FileServiceFeign {
 
     @Override
     public String getFileHost(String name) {
-        logger.info("getFileHost 进行降级处理！:{}",name);
+        logger.info("getFileHost 进行降级处理！:{}", name);
         return "getFileHost 进行降级处理！";
     }
 
     @Override
     public String postFileHost(User user) {
-        logger.info("postFileHost 进行降级处理！:{}",user);
+        logger.info("postFileHost 进行降级处理！:{}", user);
         return "postFileHost 进行降级处理！";
     }
 }

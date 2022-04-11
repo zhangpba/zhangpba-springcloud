@@ -32,7 +32,7 @@ public class RedisTestController {
         if (exists) {
             //获取缓存
             Object object = redisUtils.get(key);
-            logger.info("从缓存获取的数据" + object);
+            logger.info("从缓存获取的数据:{}" , object);
             str = object.toString();
         } else {
             //从数据库中获取信息
@@ -59,7 +59,7 @@ public class RedisTestController {
         // 查询缓存中是否存在
         boolean exists = redisUtils.exists(key);
         String str = "";
-        if (exists) {
+        if (!exists) {
             // 保存缓存
             Object object = redisUtils.set(key, value, -1L, TimeUnit.DAYS);
             logger.info("从缓存获取的数据" + object);

@@ -1,4 +1,4 @@
-package com.study.vo;
+package com.study.starter.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

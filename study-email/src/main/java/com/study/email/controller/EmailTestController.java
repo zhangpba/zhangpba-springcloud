@@ -1,7 +1,7 @@
 package com.study.email.controller;
 
 import com.study.email.service.IEmailService;
-import com.study.vo.User;
+import com.study.starter.vo.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.study.util;
+package com.study.starter.utils;
 
 import javax.servlet.http.HttpServletRequest;
 

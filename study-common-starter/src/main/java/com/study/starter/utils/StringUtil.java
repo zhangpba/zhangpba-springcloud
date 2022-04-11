@@ -1,4 +1,4 @@
-package com.study.util;
+package com.study.starter.utils;
 
 /**
  * 字符串帮助类

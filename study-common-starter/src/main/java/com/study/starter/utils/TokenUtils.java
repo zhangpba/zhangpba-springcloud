@@ -1,4 +1,4 @@
-package com.study.util;
+package com.study.starter.utils;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -58,9 +58,9 @@ public class TokenUtils {
     }
 
     /**
-     * @desc 验证token，通过返回true
      * @param token 需要校验的串
      * @return
+     * @desc 验证token，通过返回true
      */
     public static boolean verify(String token) {
         try {

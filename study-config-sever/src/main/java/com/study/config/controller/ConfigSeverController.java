@@ -2,7 +2,7 @@ package com.study.config.controller;
 
 import com.study.config.mapper.ConfigSeverMapper;
 import com.study.config.model.ConfigInfo;
-import com.study.vo.User;
+import com.study.starter.vo.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
