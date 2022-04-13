@@ -37,7 +37,7 @@ public class StarterController {
     @RequestMapping(value = "/starter", method = RequestMethod.GET)
     public String starter() {
         logger.info("study-user服务，starter方法");
-        demoService.say();
+        logger.info(demoService.say());
         return datasourceService.toString();
     }
 

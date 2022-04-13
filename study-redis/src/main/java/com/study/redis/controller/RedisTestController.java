@@ -1,6 +1,9 @@
 package com.study.redis.controller;
 
 import com.study.redis.RedisUtils;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @author zhangpba
  * @date 2021-08-19
  */
+@Api(value = "测试redis")
 @RestController
 public class RedisTestController {
     private static final Logger logger = LoggerFactory.getLogger(RedisTestController.class);
@@ -24,15 +28,16 @@ public class RedisTestController {
     @Autowired
     private RedisUtils redisUtils;
 
+    @ApiOperation(value = "redis的GET方法")
     @RequestMapping(value = "/get/{key}")
-    public String getValue(@PathVariable(value = "key") String key) {
+    public String getValue(@PathVariable(value = "key") @ApiParam(name = "redis的key") String key) {
         //查询缓存中是否存在
         boolean exists = redisUtils.exists(key);
         String str = "";
         if (exists) {
             //获取缓存
             Object object = redisUtils.get(key);
-            logger.info("从缓存获取的数据:{}" , object);
+            logger.info("从缓存获取的数据:{}", object);
             str = object.toString();
         } else {
             //从数据库中获取信息
@@ -53,9 +58,10 @@ public class RedisTestController {
      * @param value
      * @return
      */
+    @ApiOperation(value = "保存缓存数据")
     @RequestMapping(value = "/put/{key}/{value}")
-    public String putValue(@PathVariable(value = "key") String key,
-                           @PathVariable(value = "value") String value) {
+    public String putValue(@PathVariable(value = "key") @ApiParam(name = "redis的key") String key,
+                           @PathVariable(value = "value") @ApiParam(name = "redis的值") String value) {
         // 查询缓存中是否存在
         boolean exists = redisUtils.exists(key);
         String str = "";
@@ -69,16 +75,14 @@ public class RedisTestController {
     }
 
     /**
-     * 测试get请求：消费方
+     * study-reids服务,启动验证
      *
-     * @param name 参数
      * @return
      */
+    @ApiOperation(value = "")
     @GetMapping(value = "/index")
-    public String get(String name) {
-        logger.info("study-reids服务，参数:{}", name);
-        return "study-reids get服务";
+    public String index() {
+        logger.info("study-reids服务,启动 success!");
+        return "study-reids服务,启动 success!";
     }
-
-
 }

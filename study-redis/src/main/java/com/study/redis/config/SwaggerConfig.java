@@ -1,4 +1,4 @@
-package com.study.file.config;
+package com.study.redis.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * swagger配置类
  *
  * @author zhangpba
- * @date 2021-09-26
+ * @date 2022-04-12
  */
 @Configuration
 @EnableSwagger2
