@@ -13,4 +13,12 @@ public interface IAreaService {
     List<Area> getAllArea();
 
     Area getAreaByCode(String code);
+
+    // 去重后的所有城市名
+    List<String> eveCityNames();
+
+    // 去重后的所有区县名
+    List<String> eveAreaNames();
 }
+
+

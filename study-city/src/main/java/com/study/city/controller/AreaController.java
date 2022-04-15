@@ -49,6 +49,20 @@ public class AreaController {
         return ResponseMessage.success(areas);
     }
 
+    @ApiOperation(value = "去重后的所有城市名")
+    @GetMapping(value = "/eveCityNames")
+    public ResponseMessage eveCityNames() {
+        List<String> cityNames = areaService.eveCityNames();
+        return ResponseMessage.success(cityNames);
+    }
+
+    @ApiOperation(value = "去重后的所有区县名")
+    @GetMapping(value = "/eveAreaNames")
+    public ResponseMessage eveAreaNames() {
+        List<String> areaNames = areaService.eveAreaNames();
+        return ResponseMessage.success(areaNames);
+    }
+
 
     public static List<Area> create() {
         String[] strings = str.split("\n");

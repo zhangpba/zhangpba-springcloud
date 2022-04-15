@@ -25,4 +25,15 @@
     <select id="getAllArea" resultMap="areaResultMap">
         select code,city,province,area from area
     </select>
+
+    <!--去重后的城市名-->
+    <select id="eveCityNames" resultType="java.lang.String">
+        select DISTINCT(a.city) from area a;
+    </select>
+
+    <!--去重后的区县名-->
+    <select id="eveAreaNames" resultType="java.lang.String">
+        select DISTINCT(a.area) from area a;
+    </select>
+
 </mapper>

@@ -20,7 +20,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 天气预报控制类
@@ -74,11 +76,21 @@ public class WeatherController {
     @GetMapping(value = "/all-city-weathers")
     public ResponseMessage allCityWeathers() {
         logger.info("入参：{}");
-        List<Area> areas = areaService.getAllArea();
-        for (Area area : areas) {
+
+        List<String> cityNameList = areaService.eveCityNames();
+        List<String> areaNamesList = areaService.eveAreaNames();
+
+        Set<String> names = new HashSet<>();
+        cityNameList.forEach(cityName -> {
+            names.add(cityName);
+        });
+        areaNamesList.forEach(area->{
+            names.add(area);
+        });
+        for (String name : names) {
             String cityName = "";
-            if (area.getCity().contains("市")) {
-                cityName = area.getCity().replace("市", "");
+            if (name.contains("市")) {
+                cityName = name.replace("市", "");
             }
             List<Weather> weatherEveDays = weatherService.getWheatherByCity(cityName);
             weatherService.batchAddWeathers(weatherEveDays);

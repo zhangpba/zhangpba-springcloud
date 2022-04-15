@@ -51,4 +51,16 @@ public class AreaServiceImpl implements IAreaService {
         return areaMapper.getAreaByCode(code);
     }
 
+    // 去重后的所有城市名
+    @Override
+    public List<String> eveCityNames(){
+        return areaMapper.eveCityNames();
+    }
+
+    // 去重后的所有区县名
+    @Override
+    public List<String> eveAreaNames(){
+        return areaMapper.eveAreaNames();
+    }
+
 }
