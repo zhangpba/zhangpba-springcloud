@@ -117,6 +117,13 @@ public class ResponseMessage<T> {
         return responseMessage;
     }
 
+    public static ResponseMessage error(String message) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        responseMessage.setErrCode(-1);
+        responseMessage.setErrMsg("失败");
+        return responseMessage;
+    }
+
     public static ResponseMessage error(GeneralErrorCode generalErrorCode, Object data) {
         ResponseMessage responseMessage = new ResponseMessage();
         responseMessage.setErrCode(generalErrorCode.getCode());

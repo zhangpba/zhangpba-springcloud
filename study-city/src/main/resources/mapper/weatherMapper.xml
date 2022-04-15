@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.city.mapper.WeatherMapper">
+
+    <resultMap id="weatherEveMap" type="com.study.city.entity.Weather">
+        <id property="date" column="date"/>
+        <result property="high" column="high"/>
+        <result property="fengxiang" column="fengxiang"/>
+        <result property="low" column="low"/>
+        <result property="fengli" column="fengli"/>
+    </resultMap>
+
+
+    <!--    <delete id="deleteByWeatherId" parameterType="java.lang.Long">-->
+    <!--        delete from weather where weather_id in-->
+    <!--        <foreach collection="array" item="weatherId" open="(" separator="," close=")">-->
+    <!--            #{weatherId}-->
+    <!--        </foreach>-->
+    <!--    </delete>-->
+
+    <!--
+        xml特殊符号转义写法
+            &lt; <
+            &gt; >
+            &lt;&gt; <>
+            &amp; &
+            &apos; '
+            &quot; "
+    -->
+    <!--    <select id="getWeather" parameterType="java.util.Date" resultMap="weatherResultMap">-->
+    <!--        SELECT-->
+    <!--        a.date,-->
+    <!--        a.high,-->
+    <!--        a.fengxiang,-->
+    <!--        a.low,-->
+    <!--        a.fengli,-->
+    <!--        a.type-->
+    <!--        FROM-->
+    <!--        weather a where date(create_date) &lt; #{date}-->
+    <!--    </select>-->
+
+
+    <select id="getWeatherByCityAndDate" resultMap="weatherEveMap" parameterType="java.util.Map">
+        select * from weather a where a.city = #{city} and a.date = #{date}
+    </select>
+
+    <select id="getWeather" resultMap="weatherEveMap">
+        SELECT
+        a.date,
+        a.high,
+        a.fengxiang,
+        a.low,
+        a.fengli,
+        a.type
+        FROM
+        weather a
+    </select>
+
+    <insert id="addWeather" parameterType="com.study.city.entity.Weather">
+        insert into weather (
+        date,
+        high,
+        fx,
+        low,
+        fl,
+        type,
+        city,
+        create_date,
+        create_by,
+        warn
+        )
+        values
+        (#{date},#{high},#{fx},#{low},#{fl},#{type},#{city},#{createDate},#{createBy},#{warn})
+    </insert>
+
+    <update id="updateWeather" parameterType="com.study.city.entity.Weather">
+        update weather
+        <set>
+            <if test="date != null">
+                date = #{date,jdbcType=VARCHAR},
+            </if>
+            <if test="high != null">
+                high = #{high,jdbcType=VARCHAR},
+            </if>
+            <if test="fx != null">
+                fx = #{fx,jdbcType=VARCHAR},
+            </if>
+            <if test="low != null">
+                low = #{low,jdbcType=VARCHAR},
+            </if>
+            <if test="fl != null">
+                fl = #{fl,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="city != null">
+                city = #{city,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="warn != null">
+                warn = #{warn,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where city = #{city,jdbcType=VARCHAR} and date = #{date,jdbcType=VARCHAR}
+    </update>
+</mapper>

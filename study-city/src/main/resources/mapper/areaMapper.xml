@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.city.mapper.AreaMapper">
+
+    <resultMap id="areaResultMap" type="com.study.city.entity.Area">
+        <id property="code" column="code"/>
+        <result property="city" column="city"/>
+        <result property="province" column="province"/>
+        <result property="area" column="area"/>
+    </resultMap>
+
+    <insert id="addArea" parameterType="com.study.city.entity.Area">
+        insert into area
+        (code,city,province,area)
+        values
+        (#{code},#{city},#{province},#{area})
+    </insert>
+
+    <!--用code查询-->
+    <select id="getAreaByCode" resultMap="areaResultMap" parameterType="java.lang.String">
+        select code,city,province,area from area where code=#{code}
+    </select>
+
+    <!--所有的区域-->
+    <select id="getAllArea" resultMap="areaResultMap">
+        select code,city,province,area from area
+    </select>
+</mapper>

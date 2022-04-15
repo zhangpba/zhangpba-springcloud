@@ -14,10 +14,19 @@ import java.util.List;
  */
 public class DateUtils {
 
-    private static final String YYYY_MM_DD_1 = "yyyy-MM-dd";
+    private static final String YYYY_MM_DD = "yyyy-MM-dd";
 
+    private static SimpleDateFormat FORMAT_YYYY_MM_DD = new SimpleDateFormat(YYYY_MM_DD);
 
-    private static SimpleDateFormat FORMAT_YYYY_MM_DD_1 = new SimpleDateFormat(YYYY_MM_DD_1);
+    /**
+     * 格式化时间
+     *
+     * @param date
+     * @return
+     */
+    public static String format(Date date) {
+        return FORMAT_YYYY_MM_DD.format(date);
+    }
 
     /**
      * 计算两个时间之间的天数
@@ -31,8 +40,8 @@ public class DateUtils {
         Date startDate = null;
         Date endDate = null;
         try {
-            startDate = FORMAT_YYYY_MM_DD_1.parse(startDateStr);
-            endDate = FORMAT_YYYY_MM_DD_1.parse(endDateStr);
+            startDate = FORMAT_YYYY_MM_DD.parse(startDateStr);
+            endDate = FORMAT_YYYY_MM_DD.parse(endDateStr);
         } catch (Exception e) {
             // 日期型字符串格式错误
             System.out.println("日期型字符串格式错误");
@@ -55,7 +64,7 @@ public class DateUtils {
 
         for (int i = 0; i < days; i++) {
             Date day = calendar.getTime();
-            String dayStr = FORMAT_YYYY_MM_DD_1.format(day);
+            String dayStr = FORMAT_YYYY_MM_DD.format(day);
             dayList.add(dayStr);
             System.out.println(dayStr);
             calendar.add(Calendar.DATE, -1);
@@ -63,4 +72,10 @@ public class DateUtils {
         return dayList;
     }
 
+    // 获取昨天
+    public static Date getYesterday() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, -1);
+        return calendar.getTime();
+    }
 }

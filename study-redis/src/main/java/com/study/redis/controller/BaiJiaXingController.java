@@ -1,7 +1,8 @@
 package com.study.redis.controller;
 
 import com.study.redis.RedisUtils;
-import com.study.starter.utils.FirstNameUtils;
+import com.study.starter.utils.BaijiaxingUtils;
+import com.study.starter.utils.RandomNameUtils;
 import com.study.starter.vo.BaiJiaXingVo;
 import com.study.starter.vo.web.ResponseMessage;
 import io.swagger.annotations.Api;
@@ -38,8 +39,13 @@ public class BaiJiaXingController {
     @PutMapping(value = "/setNames")
     public ResponseMessage setNames() {
         // 获取百家姓
-        List<BaiJiaXingVo> list = FirstNameUtils.getBaijaiXing();
+        List<BaiJiaXingVo> list = BaijiaxingUtils.getBaijaiXing();
         redisUtils.set("baijiaxing", list);
+
+        // 随机生成500个姓名
+        for (int i = 0; i < 500; i++) {
+            logger.info("生成的姓名： "+RandomNameUtils.autoSurAndName());
+        }
         return ResponseMessage.success("百家姓存储到redis中!");
     }
 

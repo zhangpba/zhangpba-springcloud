@@ -6,12 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 姓氏帮助类
+ * 姓氏帮助类(主要有百家姓的读音、汉字)
  *
  * @author zhangpba
  * @date 2022-04-12
  */
-public class FirstNameUtils {
+public class BaijiaxingUtils {
 
     /**
      * 获取百家姓的名字和读音
