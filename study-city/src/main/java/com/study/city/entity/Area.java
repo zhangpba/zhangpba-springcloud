@@ -10,4 +10,7 @@ public class Area {
     private String city;
     private String province;
     private String code;
+
+    // 父级ID
+    private String parCode;
 }

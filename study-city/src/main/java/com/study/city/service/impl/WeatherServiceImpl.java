@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.study.city.entity.Weather;
 import com.study.city.entity.WeatherResult;
 import com.study.city.mapper.WeatherMapper;
+import com.study.city.service.IAreaService;
 import com.study.city.service.IWeatherService;
 import com.study.starter.utils.DateUtils;
 import org.slf4j.Logger;
@@ -32,6 +33,15 @@ public class WeatherServiceImpl implements IWeatherService {
     @Autowired
     private WeatherMapper weatherEveDayMapper;
 
+    @Autowired
+    private IAreaService areaService;
+
+    /**
+     * 解析天气预报
+     *
+     * @param cityName
+     * @return
+     */
     public WeatherResult getWheatherResult(String cityName) {
         logger.info("{}的天气预报 start...", cityName);
 
@@ -83,7 +93,6 @@ public class WeatherServiceImpl implements IWeatherService {
 
             // 天气明细
             // 获取未来5天的明细数据
-
             Calendar calendar = Calendar.getInstance();
             for (int i = 0; i < forecast.size(); i++) {
                 calendar.add(Calendar.DATE, i);
@@ -94,7 +103,6 @@ public class WeatherServiceImpl implements IWeatherService {
 
                 String fengli = weatherJson.getString("fengli");
                 String fengxiang = weatherJson.getString("fengxiang");
-                String date = weatherJson.getString("date");
                 String high = weatherJson.getString("high");
                 String low = weatherJson.getString("low");
                 String type = weatherJson.getString("type");
@@ -118,6 +126,8 @@ public class WeatherServiceImpl implements IWeatherService {
             }
             weatherResult.setForecast(weatherList);
         } else {
+            // 请求失败
+            logger.error("没有返回正常的天气预报信息！");
             return null;
         }
         return weatherResult;
@@ -143,6 +153,51 @@ public class WeatherServiceImpl implements IWeatherService {
         map.put("date", date);
         return weatherEveDayMapper.getWeatherByCityAndDate(map);
     }
+
+    /**
+     * 获取所有城市的天气预报，并存入数据库中
+     *
+     * @return
+     */
+    @Override
+    public String saveAllCityWeathers() {
+        int success = 0;
+        int fail = 0;
+
+        StringBuffer successList = new StringBuffer();
+        StringBuffer failList = new StringBuffer();
+
+        List<String> cityNameList = areaService.eveCityNames();
+        for (String name : cityNameList) {
+            // 如果城市名称为空不进行请求
+            if (name == null || name.isEmpty()) {
+                continue;
+            }
+            String cityName = "";
+            if (name.contains("市")) {
+                cityName = name.replace("市", "");
+            } else {
+                cityName = name;
+            }
+            List<Weather> weatherList = this.getWheatherByCity(cityName);
+            if (weatherList != null) {
+                // 解析成功
+                this.batchAddWeathers(weatherList);
+                successList.append(cityName).append("、");
+                success++;
+            } else {
+                // 解析失败
+                fail++;
+                failList.append(cityName).append("、");
+            }
+        }
+        logger.info("成功城市名称：{}", successList);
+        logger.info("失败城市名称：{}", failList);
+        return "所有城市天气预报！成功：" + success
+                + "条，失败：" + fail + "条,总共："
+                + (success + fail) + "条！" + ">>>> 失败城市名称:" + failList;
+    }
+
 
     /**
      * 批量增加

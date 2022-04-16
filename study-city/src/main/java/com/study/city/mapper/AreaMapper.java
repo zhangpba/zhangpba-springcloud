@@ -1,6 +1,7 @@
 package com.study.city.mapper;
 
 import com.study.city.entity.Area;
+import com.study.city.entity.City;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -22,4 +23,10 @@ public interface AreaMapper {
 
     // 去重后的所有区县名
     List<String> eveAreaNames();
+
+    // 根据省编码查询 省下面的市或者辖区
+    List<City> getCityListByCode(String provinceCode);
+
+    // 查询 省下面的市、辖区 所关联的区域
+    List<Area> getAreaListByCode(String cityCode);
 }

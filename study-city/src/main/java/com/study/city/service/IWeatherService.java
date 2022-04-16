@@ -28,7 +28,14 @@ public interface IWeatherService {
      *
      * @param weatherEveDays
      */
-    public void batchAddWeathers(List<Weather> weatherEveDays);
+    void batchAddWeathers(List<Weather> weatherEveDays);
+
+    /**
+     * 获取并保存所有城市的天气预报
+     *
+     * @return
+     */
+    String saveAllCityWeathers();
 
     /**
      * 根据日期和城市名查询
