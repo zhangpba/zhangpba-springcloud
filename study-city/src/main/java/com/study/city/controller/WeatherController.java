@@ -3,7 +3,7 @@ package com.study.city.controller;
 import com.study.city.entity.Weather;
 import com.study.city.entity.WeatherResult;
 import com.study.city.service.IWeatherService;
-import com.study.city.service.RedisUtils;
+import com.study.city.utils.RedisUtils;
 import com.study.starter.vo.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -73,9 +73,10 @@ public class WeatherController {
     }
 
     //    @Scheduled(cron = "*/5 * * * * *")  // 每隔5秒执行一次
-    @Scheduled(cron = "${weather.syn-cron}")    // 每天21点01
-    public void allCityWeather() {
-        logger.info("定时任务执行！！！！！");
+    @Scheduled(cron = "${module.weather.syn-cron}")    // 每天21点01
+    public void synWeathers() {
+        logger.info("定时任务调度-天气预报数据入库 start...");
         allCityWeathers();
+        logger.info("定时任务调度-天气预报数据入库 end...");
     }
 }

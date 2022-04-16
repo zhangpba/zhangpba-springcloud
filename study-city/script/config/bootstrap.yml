@@ -45,9 +45,13 @@ eureka:
     lease-expiration-duration-in-seconds: 1
     lease-renewal-interval-in-seconds: 2
 
-weather:
-  syn-cron: 0 30 21 * * * # 每天21：30执行一次
-#  syn-cron: "*/5 * * * * *"  #每五秒执行一次
+module:
+  weather:
+    syn-cron: 0 30 21 * * * # 每天21：30执行一次
+  #  syn-cron: "*/5 * * * * *"  #每五秒执行一次
+  gold:
+    appkey: a09971b7353c6d08
+    syn-cron: 0 30 23 * * * # 每天23：30执行一次
 
 
 logging:

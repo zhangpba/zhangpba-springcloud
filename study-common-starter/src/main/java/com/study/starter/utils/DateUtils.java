@@ -14,18 +14,37 @@ import java.util.List;
  */
 public class DateUtils {
 
-    private static final String YYYY_MM_DD = "yyyy-MM-dd";
+    public static final String YYYY_MM_DD = "yyyy-MM-dd";
+    public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 
     private static SimpleDateFormat FORMAT_YYYY_MM_DD = new SimpleDateFormat(YYYY_MM_DD);
+    private static SimpleDateFormat FORMAT_YYYY_MM_DD_HH_MM_SS = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
 
     /**
      * 格式化时间
      *
+     * @param date 时间格式
+     * @return 字符串
+     */
+    public static String format(Date date, String format) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+        return dateFormat.format(date);
+    }
+
+    /**
+     * 字符串转化时间
+     *
      * @param date
      * @return
      */
-    public static String format(Date date) {
-        return FORMAT_YYYY_MM_DD.format(date);
+    public static Date prase(String date, String format) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+        try {
+            return dateFormat.parse(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

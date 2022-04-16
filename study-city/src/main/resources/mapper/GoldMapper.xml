@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.city.mapper.GoldMapper">
+
+    <resultMap id="goldMap" type="com.study.city.entity.Gold">
+        <id property="type" column="type"/>
+        <result property="typename" column="typename"/>
+        <result property="price" column="price"/>
+        <result property="openingprice" column="openingprice"/>
+        <result property="maxprice" column="maxprice"/>
+        <result property="minprice" column="minprice"/>
+        <result property="changepercent" column="changepercent"/>
+        <result property="lastclosingprice" column="lastclosingprice"/>
+        <result property="tradeamount" column="tradeamount"/>
+        <result property="updatetime" column="updatetime"/>
+        <result property="date" column="date"/>
+    </resultMap>
+    <select id="getGoldByTypeAndDate" resultMap="goldMap" parameterType="java.util.Map">
+        select * from gold a where a.type = #{type} and a.date = #{date}
+    </select>
+    <select id="getGolds" resultMap="goldMap">
+        SELECT
+        g.type,
+        g.typename,
+        g.price,
+        g.openingprice,
+        g.maxprice,
+        g.minprice,
+        g.changepercent,
+        g.lastclosingprice,
+        g.tradeamount,
+        g.updatetime,
+        g.date
+        FROM
+        gold g
+    </select>
+
+    <insert id="addGold" parameterType="com.study.city.entity.Weather">
+        insert into gold (
+        type,
+        typename,
+        price,
+        openingprice,
+        maxprice,
+        minprice,
+        changepercent,
+        lastclosingprice,
+        tradeamount,
+        updatetime,
+        date,
+        create_date,
+        create_by
+        )
+        values
+        (#{type},#{typename},#{price},#{openingprice},#{maxprice},#{minprice},#{changepercent},#{lastclosingprice},#{tradeamount},#{updatetime},#{date},#{createDate},#{createBy})
+    </insert>
+
+    <update id="updateGlod" parameterType="com.study.city.entity.Gold">
+        update gold
+        <set>
+            <if test="type != null">
+                type = #{type,jdbcType=VARCHAR},
+            </if>
+            <if test="typename != null">
+                typename = #{typename,jdbcType=VARCHAR},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="openingprice != null">
+                openingprice = #{openingprice},
+            </if>
+            <if test="maxprice != null">
+                maxprice = #{maxprice},
+            </if>
+            <if test="minprice != null">
+                minprice = #{minprice},
+            </if>
+            <if test="changepercent != null">
+                changepercent = #{changepercent},
+            </if>
+            <if test="lastclosingprice != null">
+                lastclosingprice = #{lastclosingprice},
+            </if>
+            <if test="tradeamount != null">
+                tradeamount = #{tradeamount},
+            </if>
+            <if test="updatetime != null">
+                updatetime = #{updatetime},
+            </if>
+            <if test="date != null">
+                date = #{date,jdbcType=VARCHAR},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where type = #{type,jdbcType=VARCHAR} and date = #{date,jdbcType=VARCHAR}
+    </update>
+</mapper>

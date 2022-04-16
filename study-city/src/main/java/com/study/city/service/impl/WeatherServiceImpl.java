@@ -2,6 +2,7 @@ package com.study.city.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.study.city.constant.FeeApiUrl;
 import com.study.city.entity.Weather;
 import com.study.city.entity.WeatherResult;
 import com.study.city.mapper.WeatherMapper;
@@ -45,7 +46,7 @@ public class WeatherServiceImpl implements IWeatherService {
     public WeatherResult getWheatherResult(String cityName) {
         logger.info("{}的天气预报 start...", cityName);
 
-        String url = "http://wthrcdn.etouch.cn/weather_mini?city=" + cityName;
+        String url = FeeApiUrl.WEATHER_URL + cityName;
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
         logger.info("{}的天气预报 返回: {}", cityName, responseEntity);
         HttpStatus statusCode = responseEntity.getStatusCode();
@@ -83,7 +84,7 @@ public class WeatherServiceImpl implements IWeatherService {
             yesterdayWeather.setLow(yesterday.getString("low"));
             yesterdayWeather.setType(yesterday.getString("type"));
 
-            yesterdayWeather.setDate(DateUtils.format(DateUtils.getYesterday()));
+            yesterdayWeather.setDate(DateUtils.format(DateUtils.getYesterday(), DateUtils.YYYY_MM_DD));
             yesterdayWeather.setCity(city);
             yesterdayWeather.setUpdateDate(new Date());
             yesterdayWeather.setCreateDate(new Date());
@@ -108,7 +109,7 @@ public class WeatherServiceImpl implements IWeatherService {
                 String type = weatherJson.getString("type");
 
                 Weather weather = new Weather();
-                weather.setDate(DateUtils.format(timestamp));
+                weather.setDate(DateUtils.format(timestamp, DateUtils.YYYY_MM_DD));
                 weather.setFl(fengli);
                 weather.setFx(fengxiang);
                 weather.setHigh(high);

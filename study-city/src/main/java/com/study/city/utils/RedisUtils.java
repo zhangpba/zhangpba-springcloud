@@ -1,4 +1,4 @@
-package com.study.city.service;
+package com.study.city.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.*;
