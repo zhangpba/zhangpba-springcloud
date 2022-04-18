@@ -14,7 +14,13 @@ public class FeeApiUrl {
     public static final String WEATHER_URL = "http://wthrcdn.etouch.cn/weather_mini?city=";
 
     /**
-     * 黄金数据API：https://api.binstd.com/gold/shgold?appkey=自己的appkey
+     * 黄金数据API
+     *
+     * 上海黄金交易所价格：   https://api.jisuapi.com/gold/shgold?appkey=自己的appkey
+     * 上海期货交易所价格：   https://api.jisuapi.com/gold/shfutures?appkey=自己的appkey
+     * 香港黄金价格：        https://api.jisuapi.com/gold/hkgold?appkey=自己的appkey
+     * 银行账户黄金价格:     https://api.jisuapi.com/gold/bank?appkey=自己的appkey
+     * 伦敦金，银价格：      https://api.jisuapi.com/gold/london?appkey=自己的appkey
      *
      * 此API
      *      来自进制数据：https://www.binstd.com/my/authentication.php

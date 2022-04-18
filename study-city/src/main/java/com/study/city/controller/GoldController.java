@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.Map;
  */
 @Api(value = "黄金数据")
 @RestController
+@RequestMapping("/gold")
 public class GoldController {
 
     private static final Logger logger = LoggerFactory.getLogger(GoldController.class);
@@ -33,7 +35,6 @@ public class GoldController {
     @ApiOperation(value = "查询当日黄金")
     @GetMapping(value = "/getTodayGolds")
     public ResponseMessage getTodayGolds() {
-        logger.info("查询当日黄金 start...");
         List<Gold> golds = goldService.getTodayGolds();
         return ResponseMessage.success(golds);
     }
