@@ -71,7 +71,7 @@ public class VisitorInterceptor implements HandlerInterceptor {
                 isIp.set(true);
             }
         });
-        if (!isIp.get()) {
+        if (isIp.get()) {
             logger.info("没有访问权限,该IP {} 已被列为黑名单", requestIp);
         }
         return isIp.get();
