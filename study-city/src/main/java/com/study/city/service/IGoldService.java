@@ -3,6 +3,7 @@ package com.study.city.service;
 import com.study.city.entity.Gold;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 黄金数据实现类接口
@@ -17,7 +18,21 @@ public interface IGoldService {
      *
      * @return
      */
-    List<Gold> getGoldList();
+    List<Gold> getTodayGolds();
+
+    /**
+     * 获取并保存所有黄金数据
+     *
+     * @return
+     */
+    String saveTodayGold();
+
+    /**
+     * 获取历史黄金数据
+     *
+     * @return
+     */
+    Map<String,List<Gold>> getHistoryGolds();
 
     /**
      * 批量增加黄金数据
@@ -25,13 +40,6 @@ public interface IGoldService {
      * @param golds
      */
     void batchAddGolds(List<Gold> golds);
-
-    /**
-     * 获取并保存所有黄金数据
-     *
-     * @return
-     */
-    String saveAllGolds();
 
     /**
      * 根据日期和黄金类型查询

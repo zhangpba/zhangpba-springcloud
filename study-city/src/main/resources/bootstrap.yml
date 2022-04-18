@@ -25,6 +25,15 @@ spring:
       min-idle: 0
     timeout: 30000
 
+  #给swagger加密 2022-04-18
+  security:
+    basic:
+      path: /swagger-ui.html
+      enabled: true
+    user:
+      name: admin
+      password: 123456
+
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml # 由于'classpath:mapper/*.xml'扫描不到还款计划明细下面的mapper，所以做修改2021-08-12
   configuration:

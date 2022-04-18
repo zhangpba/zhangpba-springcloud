@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 黄金数据控制类
@@ -29,27 +30,35 @@ public class GoldController {
     @Autowired
     private IGoldService goldService;
 
-    @ApiOperation(value = "获取黄金数据")
-    @GetMapping(value = "/getGold")
-    public ResponseMessage getGold() {
-        logger.info("全国各个城市区域数据入库 start...");
-        List<Gold> golds = goldService.getGoldList();
+    @ApiOperation(value = "查询当日黄金")
+    @GetMapping(value = "/getTodayGolds")
+    public ResponseMessage getTodayGolds() {
+        logger.info("查询当日黄金 start...");
+        List<Gold> golds = goldService.getTodayGolds();
         return ResponseMessage.success(golds);
     }
 
-    @ApiOperation(value = "存储黄金数据")
-    @GetMapping(value = "/saveGold")
-    public ResponseMessage saveGold() {
-        logger.info("黄金数据入库 start...");
-        String result = goldService.saveAllGolds();
-        return ResponseMessage.success(result);
+    @ApiOperation(value = "查询历史-按照黄金类型分组")
+    @GetMapping(value = "/getHistoryGolds")
+    public ResponseMessage getHistoryGolds() {
+        logger.info("全国各个城市区域数据入库 start...");
+        Map<String,List<Gold>> golds = goldService.getHistoryGolds();
+        return ResponseMessage.success(golds);
     }
 
-    @ApiOperation(value = "定时任务存储黄金数据 cron = ${module.gold.syn-cron")
+    @ApiOperation(value = "存储当日黄金")
+    @GetMapping(value = "/saveTodayGold")
+    public ResponseMessage saveTodayGold() {
+        logger.info("存储当日黄金 start...");
+        goldService.saveTodayGold();
+        return ResponseMessage.success("存储当日黄金成功 ！");
+    }
+
+    @ApiOperation(value = "定时任务存储当日黄金 cron = ${module.gold.syn-cron")
     @Scheduled(cron = "${module.gold.syn-cron}")    // 每天23点30
     public void synWeathers() {
         logger.info("定时任务调度-黄金数据入库 start...");
-        saveGold();
+        saveTodayGold();
         logger.info("定时任务调度-黄金数据入库 end...");
     }
 }

@@ -67,6 +67,12 @@
             <version>5.1.46</version> <!--版本问题，5.0以下的老版本需要配置对应低版本的连接池-->
         </dependency>
 
+        <!--为swagger加密 2022-04-18-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
     </dependencies>
 
     <!--2021-01-04 eureka-->

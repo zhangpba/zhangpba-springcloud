@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 黄金数据实现类
@@ -51,7 +52,7 @@ public class GoldServiceImpl implements IGoldService {
      *
      * @return
      */
-    public List<Gold> getGoldList() {
+    public List<Gold> getTodayGolds() {
         logger.info("黄金数据收集 start...");
         try {
             String url = FeeApiUrl.GOLD_URL + appkey;
@@ -108,13 +109,6 @@ public class GoldServiceImpl implements IGoldService {
         }
     }
 
-    @Override
-    public List<Gold> getGoldByTypeAndDate(String type, String date) {
-        Map<String, String> map = new HashMap<>();
-        map.put("type", type);
-        map.put("date", date);
-        return goldMapper.getGoldByTypeAndDate(map);
-    }
 
     /**
      * 获取并保存所有黄金数据
@@ -122,9 +116,9 @@ public class GoldServiceImpl implements IGoldService {
      * @return
      */
     @Override
-    public String saveAllGolds() {
+    public String saveTodayGold() {
         try {
-            List<Gold> goldList = this.getGoldList();
+            List<Gold> goldList = this.getTodayGolds();
             this.batchAddGolds(goldList);
             return "保存成功！";
         } catch (Exception e) {
@@ -132,6 +126,25 @@ public class GoldServiceImpl implements IGoldService {
         }
     }
 
+    /**
+     * 获取历史黄金数据
+     *
+     * @return
+     */
+    @Override
+    public Map<String, List<Gold>> getHistoryGolds() {
+        List<Gold> golds = goldMapper.getGolds();
+        Map<String, List<Gold>> goldList = golds.stream().collect(Collectors.groupingBy(Gold::getTypename, Collectors.toList()));
+        return goldList;
+    }
+
+    @Override
+    public List<Gold> getGoldByTypeAndDate(String type, String date) {
+        Map<String, String> map = new HashMap<>();
+        map.put("type", type);
+        map.put("date", date);
+        return goldMapper.getGoldByTypeAndDate(map);
+    }
 
     /**
      * 批量增加

@@ -15,6 +15,11 @@ public class FeeApiUrl {
 
     /**
      * 黄金数据API：https://api.binstd.com/gold/shgold?appkey=自己的appkey
+     *
+     * 此API
+     *      来自进制数据：https://www.binstd.com/my/authentication.php
+     *      使用需要注册，并生成自己的appkey，
+     *      详细的链接是：https://www.binstd.com/debug/gold/
      */
     public static final String GOLD_URL = "https://api.binstd.com/gold/shgold?appkey=";
 }

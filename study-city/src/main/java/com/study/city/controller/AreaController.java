@@ -1,5 +1,6 @@
 package com.study.city.controller;
 
+import com.study.city.entity.Area;
 import com.study.city.entity.City;
 import com.study.city.entity.Province;
 import com.study.city.service.IAreaService;
@@ -7,7 +8,6 @@ import com.study.city.service.IProvinceService;
 import com.study.starter.vo.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +35,17 @@ public class AreaController {
     @Autowired
     private IProvinceService provinceService;
 
-    @ApiOperation(value = "全国各个城市区域数据入库")
-    @GetMapping(value = "/putArea")
-    public ResponseMessage putArea() {
+    @ApiOperation(value = "初始化入库-全国各个城市区域数据")
+    @GetMapping(value = "/initArea")
+    public ResponseMessage initArea() {
         logger.info("全国各个城市区域数据入库 start...");
-        String result = areaService.initArea();
+        List<Area> areas = areaService.getAllArea();
+        String result = "";
+        if (areas == null || areas.isEmpty()) {
+            result = areaService.initArea();
+        } else {
+            result = "数据已经初始化，无需再次初始化！";
+        }
         return ResponseMessage.success(result);
     }
 
@@ -89,7 +95,7 @@ public class AreaController {
      */
     @ApiOperation(value = "根据省编码获取名称查询 省下面的市或者辖区、以及辖区下面的地域")
     @GetMapping(value = "/getAreas")
-    public ResponseMessage getAreaByProvince(@RequestParam(name = "codeOrName") @ApiParam(name = "省编码或者名称") String codeOrName) {
+    public ResponseMessage getAreaByProvince(@RequestParam(name = "省编码或者名称") String codeOrName) {
         Province province = provinceService.getProvinceByCodeOrName(codeOrName);
         List<City> cityList = areaService.getAreaByProvince(province.getCode());
         return ResponseMessage.success(cityList);

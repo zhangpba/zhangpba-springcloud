@@ -34,8 +34,8 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("API 文档") // 文档标题
-                .description("This is a restful api document of File.") // 文档描述
+                .title("城市服务接口 文档") // 文档标题
+                .description("This is a restful api document of File for '城市服务接口 文档'") // 文档描述
                 .version("1.0") // 版本
                 .contact(new Contact("zhangpba","","zhangpba@qq.com"))// 作者及联系方式
                 .build();
