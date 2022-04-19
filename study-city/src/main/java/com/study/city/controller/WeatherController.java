@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,6 +40,7 @@ public class WeatherController {
     @Autowired
     private IWeatherService weatherService;
 
+    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "获取某一个地方的原始天气预报")
     @GetMapping(value = "/get-source")
     public ResponseMessage getSource(@RequestParam(name = "城市名称") String cityName) {
@@ -47,6 +49,7 @@ public class WeatherController {
         return ResponseMessage.success(weatherResult);
     }
 
+    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "获取某一个城市的6天的天气预报详情")
     @GetMapping(value = "/get-weathers")
     public ResponseMessage getWeathers(@RequestParam(name = "城市名称") String cityName) {
@@ -55,6 +58,7 @@ public class WeatherController {
         return ResponseMessage.success(weatherEveDays);
     }
 
+    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "保存天气预报详情 到redis")
     @PutMapping(value = "/save-weathers")
     public ResponseMessage saveWeathers(@RequestParam(name = "城市名称") String cityName) {
@@ -66,6 +70,7 @@ public class WeatherController {
         return ResponseMessage.success("保存成功");
     }
 
+    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "获取、保存所有城市天气预报")
     @GetMapping(value = "/all-city-weathers")
     public ResponseMessage allCityWeathers() {

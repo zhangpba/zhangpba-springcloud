@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,6 +38,7 @@ public class AreaController {
     @Autowired
     private IProvinceService provinceService;
 
+    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "初始化入库-全国各个城市区域数据")
     @GetMapping(value = "/initArea")
     public ResponseMessage initArea() {
@@ -51,6 +53,7 @@ public class AreaController {
         return ResponseMessage.success(result);
     }
 
+    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "去重后的所有城市名")
     @GetMapping(value = "/eveCityNames")
     public ResponseMessage eveCityNames() {
@@ -58,6 +61,7 @@ public class AreaController {
         return ResponseMessage.success(cityNames);
     }
 
+    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "去重后的所有区县名")
     @GetMapping(value = "/eveAreaNames")
     public ResponseMessage eveAreaNames() {
@@ -70,6 +74,7 @@ public class AreaController {
      *
      * @return
      */
+    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "查询所有的省信息")
     @GetMapping(value = "/getProvinceDesc")
     public ResponseMessage getProvinceDesc() {
@@ -82,6 +87,7 @@ public class AreaController {
      *
      * @return
      */
+    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "查询所有的省及其下属部门信息")
     @GetMapping(value = "/allProvince")
     public ResponseMessage getAllProvince() {
@@ -95,6 +101,7 @@ public class AreaController {
      * @param codeOrName 省编码或者名称
      * @return
      */
+    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "根据省编码获取名称查询 省下面的市或者辖区、以及辖区下面的地域")
     @GetMapping(value = "/getAreas")
     public ResponseMessage getAreaByProvince(@RequestParam(name = "省编码或者名称") String codeOrName) {

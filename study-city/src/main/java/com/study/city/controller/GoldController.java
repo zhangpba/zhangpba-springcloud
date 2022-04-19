@@ -9,10 +9,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +34,7 @@ public class GoldController {
     @Autowired
     private IGoldService goldService;
 
+    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "查询当日黄金")
     @GetMapping(value = "/getTodayGolds")
     public ResponseMessage getTodayGolds() {
@@ -39,6 +42,7 @@ public class GoldController {
         return ResponseMessage.success(golds);
     }
 
+    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "查询历史-按照黄金类型分组")
     @GetMapping(value = "/getHistoryGolds")
     public ResponseMessage getHistoryGolds() {
@@ -47,6 +51,20 @@ public class GoldController {
         return ResponseMessage.success(golds);
     }
 
+    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
+    @ApiOperation(value = "查询历史-黄金数组")
+    @GetMapping(value = "/getHistoryGoldList")
+    public ResponseMessage getHistoryGoldList() {
+        logger.info("全国各个城市区域数据入库 start...");
+        Map<String,List<Gold>> golds = goldService.getHistoryGolds();
+        List<Gold> goldList = new ArrayList<>();
+        for (String type : golds.keySet()){
+            goldList.addAll(golds.get(type));
+        }
+        return ResponseMessage.success(goldList);
+    }
+
+    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "存储当日黄金")
     @GetMapping(value = "/saveTodayGold")
     public ResponseMessage saveTodayGold() {
@@ -55,6 +73,7 @@ public class GoldController {
         return ResponseMessage.success("存储当日黄金成功 ！");
     }
 
+    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "定时任务存储当日黄金 cron = ${module.gold.syn-cron")
     @Scheduled(cron = "${module.gold.syn-cron}")    // 每天23点30
     public void synWeathers() {
