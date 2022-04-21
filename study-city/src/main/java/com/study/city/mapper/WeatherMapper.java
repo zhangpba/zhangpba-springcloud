@@ -1,5 +1,6 @@
 package com.study.city.mapper;
 
+import com.github.pagehelper.PageInfo;
 import com.study.city.entity.Weather;
 
 import java.util.List;

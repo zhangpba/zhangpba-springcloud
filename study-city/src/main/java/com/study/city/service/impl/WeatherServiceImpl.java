@@ -2,6 +2,8 @@ package com.study.city.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.study.city.constant.FeeApiUrl;
 import com.study.city.entity.Weather;
 import com.study.city.entity.WeatherResult;
@@ -148,11 +150,21 @@ public class WeatherServiceImpl implements IWeatherService {
     }
 
     @Override
+    public PageInfo getWeatherByPage(int pageNUm, int pageSize) {
+        PageHelper.startPage(pageNUm,pageSize);
+        List<Weather> weatherList = weatherEveDayMapper.getWeather();
+        PageInfo<Weather> pageInfo = new PageInfo<>(weatherList);
+        return pageInfo;
+    }
+
+
+    @Override
     public List<Weather> getWeatherByCityAndDate(String cityName, String date) {
         Map<String, String> map = new HashMap<>();
         map.put("city", cityName);
         map.put("date", date);
-        return weatherEveDayMapper.getWeatherByCityAndDate(map);
+        List<Weather> weatherList = weatherEveDayMapper.getWeatherByCityAndDate(map);
+        return weatherList;
     }
 
     /**

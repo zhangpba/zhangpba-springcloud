@@ -53,6 +53,17 @@ eureka:
     lease-expiration-duration-in-seconds: 1
     lease-renewal-interval-in-seconds: 2
 
+#pagehelper 分页插件
+pagehelper:
+  helperDialect: mysql
+  #开启优化，如果开启优化，在分页页码结果没有数据的时候,会显示有数据的页码数据
+  reasonable: true
+  #是否支持接口参数来传递分页参数，默认false
+  supportMethodsArguments: true
+  #pageSize=0 返回所有
+  pageSizeZero: false
+  params: count=countSql
+
 # ip黑名单
 black-list:
   ip: 127.0.0.2,127.0.0.3

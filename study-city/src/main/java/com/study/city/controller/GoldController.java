@@ -34,7 +34,6 @@ public class GoldController {
     @Autowired
     private IGoldService goldService;
 
-    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "查询当日黄金")
     @GetMapping(value = "/getTodayGolds")
     public ResponseMessage getTodayGolds() {
@@ -42,7 +41,6 @@ public class GoldController {
         return ResponseMessage.success(golds);
     }
 
-    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "查询历史-按照黄金类型分组")
     @GetMapping(value = "/getHistoryGolds")
     public ResponseMessage getHistoryGolds() {
@@ -64,7 +62,6 @@ public class GoldController {
         return ResponseMessage.success(goldList);
     }
 
-    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "存储当日黄金")
     @GetMapping(value = "/saveTodayGold")
     public ResponseMessage saveTodayGold() {
@@ -73,7 +70,6 @@ public class GoldController {
         return ResponseMessage.success("存储当日黄金成功 ！");
     }
 
-    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "定时任务存储当日黄金 cron = ${module.gold.syn-cron")
     @Scheduled(cron = "${module.gold.syn-cron}")    // 每天23点30
     public void synWeathers() {

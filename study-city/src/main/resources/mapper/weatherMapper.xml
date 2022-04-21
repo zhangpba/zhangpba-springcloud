@@ -48,9 +48,9 @@
         SELECT
         a.date,
         a.high,
-        a.fengxiang,
+        a.fx,
         a.low,
-        a.fengli,
+        a.fl,
         a.type
         FROM
         weather a

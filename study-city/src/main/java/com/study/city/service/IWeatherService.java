@@ -1,5 +1,6 @@
 package com.study.city.service;
 
+import com.github.pagehelper.PageInfo;
 import com.study.city.entity.Weather;
 import com.study.city.entity.WeatherResult;
 
@@ -36,6 +37,14 @@ public interface IWeatherService {
      * @return
      */
     String saveAllCityWeathers();
+
+    /**
+     * 分页查询
+     * @param pageNUm
+     * @param pageSize
+     * @return
+     */
+    PageInfo getWeatherByPage(int pageNUm, int pageSize);
 
     /**
      * 根据日期和城市名查询
