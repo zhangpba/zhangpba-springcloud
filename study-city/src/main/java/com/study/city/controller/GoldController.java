@@ -24,7 +24,7 @@ import java.util.Map;
  * @author zhangpba
  * @date 2022-04-16
  */
-@Api(value = "黄金数据")
+@Api(value = "黄金数据", tags = "黄金数据")
 @RestController
 @RequestMapping("/gold")
 public class GoldController {
@@ -45,18 +45,18 @@ public class GoldController {
     @GetMapping(value = "/getHistoryGolds")
     public ResponseMessage getHistoryGolds() {
         logger.info("全国各个城市区域数据入库 start...");
-        Map<String,List<Gold>> golds = goldService.getHistoryGolds();
+        Map<String, List<Gold>> golds = goldService.getHistoryGolds();
         return ResponseMessage.success(golds);
     }
 
-    @CrossOrigin(origins = "*",maxAge = 3600) // 解决跨域问题
+    @CrossOrigin(origins = "*", maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "查询历史-黄金数组")
     @GetMapping(value = "/getHistoryGoldList")
     public ResponseMessage getHistoryGoldList() {
         logger.info("全国各个城市区域数据入库 start...");
-        Map<String,List<Gold>> golds = goldService.getHistoryGolds();
+        Map<String, List<Gold>> golds = goldService.getHistoryGolds();
         List<Gold> goldList = new ArrayList<>();
-        for (String type : golds.keySet()){
+        for (String type : golds.keySet()) {
             goldList.addAll(golds.get(type));
         }
         return ResponseMessage.success(goldList);

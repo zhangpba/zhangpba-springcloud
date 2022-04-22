@@ -8,6 +8,7 @@ import com.study.city.service.IProvinceService;
 import com.study.starter.vo.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import java.util.List;
  * @author zhangpba
  * @date 2022-04-15
  */
-@Api(value = "区域数据")
+@Api(value = "区域数据", tags = "区域数据")
 @RestController
 @RequestMapping("/area")
 public class AreaController {
@@ -100,7 +101,7 @@ public class AreaController {
     @CrossOrigin(origins = "*", maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "根据省编码获取名称查询 省下面的市或者辖区、以及辖区下面的地域")
     @GetMapping(value = "/getAreas")
-    public ResponseMessage getAreaByProvince(@RequestParam(name = "省编码或者名称") String codeOrName) {
+    public ResponseMessage getAreaByProvince(@ApiParam(name = "codeOrName", value = "省编码或者名称", required = true) @RequestParam String codeOrName) {
         Province province = provinceService.getProvinceByCodeOrName(codeOrName);
         List<City> cityList = areaService.getAreaByProvince(province.getCode());
         return ResponseMessage.success(cityList);
