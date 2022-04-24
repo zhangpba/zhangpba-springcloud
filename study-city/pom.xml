@@ -43,7 +43,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.3</version>
+            <version>1.2.78</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -75,11 +75,12 @@
         </dependency>
 
         <!--为swagger加密 2022-04-18-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <version>2.2.6.RELEASE</version>
-        </dependency>
+        <!--解决跨域问题 如果加密 一直有跨域问题 2022-04-24-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-security</artifactId>-->
+<!--            <version>2.2.6.RELEASE</version>-->
+<!--        </dependency>-->
 
         <!--去掉eureka依赖 增加cloud依赖 2022-04-22-->
         <dependency>

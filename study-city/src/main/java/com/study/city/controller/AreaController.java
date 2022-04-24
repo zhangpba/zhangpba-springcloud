@@ -12,7 +12,6 @@ import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -84,7 +83,6 @@ public class AreaController {
      *
      * @return
      */
-    @CrossOrigin(origins = "*", maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "查询所有的省及其下属部门信息")
     @GetMapping(value = "/allProvince")
     public ResponseMessage getAllProvince() {
@@ -98,7 +96,6 @@ public class AreaController {
      * @param codeOrName 省编码或者名称
      * @return
      */
-    @CrossOrigin(origins = "*", maxAge = 3600) // 解决跨域问题
     @ApiOperation(value = "根据省编码获取名称查询 省下面的市或者辖区、以及辖区下面的地域")
     @GetMapping(value = "/getAreas")
     public ResponseMessage getAreaByProvince(@ApiParam(name = "codeOrName", value = "省编码或者名称", required = true) @RequestParam String codeOrName) {

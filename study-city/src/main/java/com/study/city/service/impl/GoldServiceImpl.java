@@ -231,7 +231,7 @@ public class GoldServiceImpl implements IGoldService {
     @Override
     public Map<String, List<Gold>> getHistoryGolds() {
         List<Gold> golds = goldMapper.getGolds();
-        Map<String, List<Gold>> goldList = golds.stream().collect(Collectors.groupingBy(Gold::getTypename, Collectors.toList()));
+        Map<String, List<Gold>> goldList = golds.stream().collect(Collectors.groupingBy(Gold::getExchangeType, Collectors.toList()));
         return goldList;
     }
 
