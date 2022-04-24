@@ -120,7 +120,7 @@ public class ResponseMessage<T> {
     public static ResponseMessage error(String message) {
         ResponseMessage responseMessage = new ResponseMessage();
         responseMessage.setErrCode(-1);
-        responseMessage.setErrMsg("失败");
+        responseMessage.setErrMsg(message);
         return responseMessage;
     }
 

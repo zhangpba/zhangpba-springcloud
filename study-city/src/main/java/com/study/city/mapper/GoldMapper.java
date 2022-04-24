@@ -1,6 +1,6 @@
 package com.study.city.mapper;
 
-import com.study.city.entity.Gold;
+import com.study.city.entity.gold.Gold;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -22,4 +22,6 @@ public interface GoldMapper {
     List<Gold> getGolds();
 
     List<Gold> getGoldByTypeAndDate(Map map);
+
+    List<Gold> getGoldHistory(Map map);
 }

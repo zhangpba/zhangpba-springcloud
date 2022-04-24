@@ -1,6 +1,7 @@
 package com.study.city.service;
 
-import com.study.city.entity.Gold;
+import com.study.city.entity.gold.Gold;
+import com.study.city.entity.gold.GoldBase;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ public interface IGoldService {
      *
      * @return
      */
-    List<Gold> getTodayGolds();
+    List<Gold> getTodayGolds(String exchangeType);
 
     /**
      * 获取并保存所有黄金数据
@@ -32,7 +33,7 @@ public interface IGoldService {
      *
      * @return
      */
-    Map<String,List<Gold>> getHistoryGolds();
+    Map<String, List<Gold>> getHistoryGolds();
 
     /**
      * 批量增加黄金数据
@@ -49,4 +50,34 @@ public interface IGoldService {
      * @return
      */
     List<Gold> getGoldByTypeAndDate(String type, String date);
+
+
+    /**
+     * 按条件查询历史黄金数据
+     *
+     * @param exchangeType 交易所类型
+     * @param startDate    开始时间
+     * @param endDate      结束时间
+     * @param type         黄金类型
+     * @return 历史黄金数据
+     */
+    List<Gold> getGoldHistory(String exchangeType, String startDate, String endDate, String type);
+
+    /**
+     * 转化为各类黄金模型集合
+     *
+     * @param golds        查询出来的集合数据
+     * @param exchangeType 交易所类型
+     * @return
+     */
+    List<GoldBase> toGoldList(List<Gold> golds, String exchangeType);
+
+    /**
+     * 转化为各类黄金模型
+     *
+     * @param gold         查询出来的数据
+     * @param exchangeType 交易所类型
+     * @return
+     */
+    GoldBase toGoldInstance(Gold gold, String exchangeType);
 }

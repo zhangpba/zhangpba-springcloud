@@ -100,7 +100,6 @@ public class WeatherServiceImpl implements IWeatherService {
             for (int i = 0; i < forecast.size(); i++) {
                 calendar.add(Calendar.DATE, i);
                 Date timestamp = calendar.getTime();
-                logger.info("timestamp:{}", timestamp);
                 calendar.add(Calendar.DATE, -i);
                 JSONObject weatherJson = (JSONObject) forecast.get(i);
 

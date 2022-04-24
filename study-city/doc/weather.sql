@@ -14,3 +14,6 @@ CREATE TABLE `study`.`weather`  (
                                      `update_by` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '修改人',
                                      PRIMARY KEY (`wt_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 72 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
+
+ALTER TABLE study.weather ADD INDEX weather_city_index (city);
+ALTER TABLE study.weather ADD INDEX weather_date_index (date);

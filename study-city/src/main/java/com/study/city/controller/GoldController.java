@@ -1,10 +1,13 @@
 package com.study.city.controller;
 
-import com.study.city.entity.Gold;
+import com.study.city.entity.gold.Gold;
+import com.study.city.entity.gold.GoldBase;
+import com.study.city.enums.GoldEnum;
 import com.study.city.service.IGoldService;
 import com.study.starter.vo.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -34,10 +38,19 @@ public class GoldController {
     @Autowired
     private IGoldService goldService;
 
+    /**
+     * 查询当日黄金
+     *
+     * @param exchangeType 黄金枚举类
+     * @return
+     */
     @ApiOperation(value = "查询当日黄金")
     @GetMapping(value = "/getTodayGolds")
-    public ResponseMessage getTodayGolds() {
-        List<Gold> golds = goldService.getTodayGolds();
+    public ResponseMessage getTodayGolds(@ApiParam(name = "exchangeType", value = "交易机构", required = true) @RequestParam String exchangeType) {
+        if (!GoldEnum.contains(exchangeType)) {
+            return ResponseMessage.error("交易机构类型不存在");
+        }
+        List<Gold> golds = goldService.getTodayGolds(exchangeType);
         return ResponseMessage.success(golds);
     }
 
@@ -69,6 +82,20 @@ public class GoldController {
         goldService.saveTodayGold();
         return ResponseMessage.success("存储当日黄金成功 ！");
     }
+
+
+    @ApiOperation(value = "查询历史黄金数据")
+    @GetMapping(value = "/queryHistory")
+    public ResponseMessage queryHistory(@ApiParam(name = "exchangeType", value = "交易机构:[shgold,hkgold,bank,london]", required = true) @RequestParam(required = true) String exchangeType,
+                                        @ApiParam(name = "startDate", value = "开始时间", required = false) @RequestParam(required = false) String startDate,
+                                        @ApiParam(name = "endDate", value = "结束时间", required = false) @RequestParam(required = false) String endDate,
+                                        @ApiParam(name = "type", value = "黄金类型", required = false) @RequestParam(required = false) String type) {
+        logger.info("查询历史黄金数据...");
+        List<Gold> list = goldService.getGoldHistory(exchangeType, startDate, endDate, type);
+        List<GoldBase> goldBases = goldService.toGoldList(list, exchangeType);
+        return ResponseMessage.success(goldBases);
+    }
+
 
     @ApiOperation(value = "定时任务存储当日黄金 cron = ${module.gold.syn-cron")
     @Scheduled(cron = "${module.gold.syn-cron}")    // 每天23点30

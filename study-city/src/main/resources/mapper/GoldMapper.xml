@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.study.city.mapper.GoldMapper">
-
-    <resultMap id="goldMap" type="com.study.city.entity.Gold">
+    <resultMap id="goldMap" type="com.study.city.entity.gold.Gold">
         <id property="type" column="type"/>
         <result property="typename" column="typename"/>
         <result property="price" column="price"/>
@@ -14,12 +13,17 @@
         <result property="tradeamount" column="tradeamount"/>
         <result property="updatetime" column="updatetime"/>
         <result property="date" column="date"/>
+        <result property="buyprice" column="buyprice"/>
+        <result property="sellprice" column="sellprice"/>
+        <result property="finalprice" column="finalprice"/>
+        <result property="closingprice" column="closingprice"/>
+        <result property="changequantity" column="changequantity"/>
+        <result property="amplitude" column="amplitude"/>
+        <result property="midprice" column="midprice"/>
+        <result property="exchangeType" column="exchange_type"/>
     </resultMap>
-    <select id="getGoldByTypeAndDate" resultMap="goldMap" parameterType="java.util.Map">
-        select * from gold a where a.type = #{type} and a.date = #{date}
-    </select>
-    <select id="getGolds" resultMap="goldMap">
-        SELECT
+
+    <sql id="selectFields">
         g.type,
         g.typename,
         g.price,
@@ -30,12 +34,24 @@
         g.lastclosingprice,
         g.tradeamount,
         g.updatetime,
-        g.date
+        g.date,
+        g.buyprice,
+        g.sellprice,
+        g.finalprice,
+        g.closingprice,
+        g.changequantity,
+        g.amplitude,
+        g.midprice,
+        g.exchange_type
+    </sql>
+    <select id="getGolds" resultMap="goldMap">
+        SELECT
+        <include refid="selectFields"></include>
         FROM
         gold g
     </select>
 
-    <insert id="addGold" parameterType="com.study.city.entity.Weather">
+    <insert id="addGold" parameterType="com.study.city.entity.gold.Gold">
         insert into gold (
         type,
         typename,
@@ -49,13 +65,27 @@
         updatetime,
         date,
         create_date,
-        create_by
+        create_by,
+        buyprice,
+        sellprice,
+        finalprice,
+        closingprice,
+        changequantity,
+        amplitude,
+        midprice,
+        exchange_type
         )
         values
-        (#{type},#{typename},#{price},#{openingprice},#{maxprice},#{minprice},#{changepercent},#{lastclosingprice},#{tradeamount},#{updatetime},#{date},#{createDate},#{createBy})
+        (
+        #{type},#{typename},#{price},#{openingprice},#{maxprice},
+        #{minprice},#{changepercent},#{lastclosingprice},#{tradeamount},#{updatetime},
+        #{date},#{createDate},#{createBy},#{buyprice}, #{sellprice},
+        #{finalprice}, #{closingprice}, #{changequantity}, #{amplitude}, #{midprice},
+        #{exchangeType}
+        )
     </insert>
 
-    <update id="updateGlod" parameterType="com.study.city.entity.Gold">
+    <update id="updateGlod" parameterType="com.study.city.entity.gold.Gold">
         update gold
         <set>
             <if test="type != null">
@@ -97,7 +127,64 @@
             <if test="updateBy != null">
                 update_by = #{updateBy,jdbcType=VARCHAR},
             </if>
+            <if test="buyprice != null">
+                buyprice = #{buyprice,jdbcType=VARCHAR},
+            </if>
+            <if test="sellprice != null">
+                sellprice = #{sellprice,jdbcType=VARCHAR},
+            </if>
+            <if test="finalprice != null">
+                finalprice = #{finalprice,jdbcType=VARCHAR},
+            </if>
+            <if test="closingprice != null">
+                closingprice = #{closingprice,jdbcType=VARCHAR},
+            </if>
+            <if test="changequantity != null">
+                changequantity = #{changequantity,jdbcType=VARCHAR},
+            </if>
+            <if test="amplitude != null">
+                amplitude = #{amplitude,jdbcType=VARCHAR},
+            </if>
+            <if test="midprice != null">
+                midprice = #{midprice,jdbcType=VARCHAR},
+            </if>
+            <if test="exchangeType != null">
+                exchange_type = #{exchangeType,jdbcType=VARCHAR},
+            </if>
         </set>
         where type = #{type,jdbcType=VARCHAR} and date = #{date,jdbcType=VARCHAR}
     </update>
+
+    <select id="getGoldByTypeAndDate" resultMap="goldMap" parameterType="java.util.Map">
+        select * from gold a where a.type = #{type} and a.date = #{date}
+    </select>
+
+    <select id="getGoldHistory" resultMap="goldMap" parameterType="java.util.Map">
+        select
+        <include refid="selectFields"></include>
+        from gold g
+        where
+        1 = 1
+        <if test="startDate!=null and startDate!=''">
+            and g.date &gt; #{startDate}
+        </if>
+        <if test="endDate!=null and endDate!=''">
+            and g.date &lt; #{endDate}
+        </if>
+        <if test="exchangeType!=null and exchangeType!=''">
+            and g.exchange_type = #{exchangeType}
+        </if>
+        <if test="type!=null and type!=''">
+            and g.type = #{type}
+        </if>
+    </select>
+    <!--
+        xml特殊符号转义写法
+            &lt; <
+            &gt; >
+            &lt;&gt; <>
+            &amp; &
+            &apos; '
+            &quot; "
+        -->
 </mapper>

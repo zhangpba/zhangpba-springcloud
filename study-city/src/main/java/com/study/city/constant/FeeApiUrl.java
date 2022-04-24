@@ -27,5 +27,5 @@ public class FeeApiUrl {
      *      使用需要注册，并生成自己的appkey，
      *      详细的链接是：https://www.binstd.com/debug/gold/
      */
-    public static final String GOLD_URL = "https://api.binstd.com/gold/shgold?appkey=";
+    public static final String GOLD_URL = "https://api.binstd.com/gold/%s?appkey=";
 }
