@@ -15,7 +15,7 @@ eureka:
     registry-fetch-interval-seconds: 30   #表示eureka client间隔多久去拉取服务器注册信息,默认为30秒
     service-url:
       defaultZone: http://127.0.0.1:8815/eureka/
-#      defaultZone: http://192.168.182.128:8815/eureka/   #客户端和服务器端进行交互的地址
+  #      defaultZone: http://192.168.182.128:8815/eureka/   #客户端和服务器端进行交互的地址
 
 
   instance:
@@ -26,11 +26,20 @@ eureka:
 zuul:
   prefix: /api                                        # 配置请求路径前缀，所有基于此前缀的请求都由zuul网关提供代理
   routes:
-    study-user-service.path: /user/**                  # 使用路径方式匹配路由规则
+    study-user-service.path: /user/**                  # 使用路径方式匹配路由规则 http://192.168.182.129:8888/api/user/client/getFile?name=测试zuul
     study-user-service.serviceId: study-user           # 使用服务名称匹配
 
-    study-file-service.path: /file/**                  # 使用路径方式匹配路由规则
+    study-file-service.path: /file/**                  # 使用路径方式匹配路由规则 http://192.168.182.129:8888/api/file/client/getFile?name=测试zuul
     study-file-service.serviceId: study-file           # 使用服务名称匹配
+
+    study-zuul-service.path: /zuul/**                  # 使用路径方式匹配路由规则
+    study-zuul-service.serviceId: study-zuul           # 使用服务名称匹配
+
+    study-redis-service.path: /redis/**                # 使用路径方式匹配路由规则 http://127.0.0.1:8888/api/redis/get/name
+    study-redis-service.serviceId: study-redis         # 使用服务名称匹配
+
+    study-city-service.path: /city/**                # 使用路径方式匹配路由规则 http://127.0.0.1:8888/api/city/
+    study-city-service.serviceId: study-city         # 使用服务名称匹配
 
 #    study-zuul-service.url: http://127.0.0.1:8888/    # 2.URL路径匹配
 

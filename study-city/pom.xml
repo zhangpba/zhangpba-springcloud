@@ -24,10 +24,10 @@
     <dependencies>
         <!--升级springboot和springcloud 2021-08-12，增加下面依赖，删掉依赖spring-cloud-starter-eureka-server-->
         <!--去掉eureka依赖 增加cloud依赖 2022-04-22-->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
         <!--升级后启动报错，加入此依赖，可以正常启动 2021-08-12-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
