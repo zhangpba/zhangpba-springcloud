@@ -59,9 +59,10 @@ public interface IGoldService {
      * @param startDate    开始时间
      * @param endDate      结束时间
      * @param type         黄金类型
+     * @param typename     类型名称
      * @return 历史黄金数据
      */
-    List<Gold> getGoldHistory(String exchangeType, String startDate, String endDate, String type);
+    List<Gold> getGoldHistory(String exchangeType, String startDate, String endDate, String type, String typename);
 
     /**
      * 转化为各类黄金模型集合

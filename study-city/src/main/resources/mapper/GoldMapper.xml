@@ -177,6 +177,10 @@
         <if test="type!=null and type!=''">
             and g.type = #{type}
         </if>
+        <if test="typename!=null and typename!=''">
+            and g.typename = #{typename}
+        </if>
+        order by g.create_date
     </select>
     <!--
         xml特殊符号转义写法

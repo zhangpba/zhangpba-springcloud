@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -191,8 +192,6 @@ public class GoldServiceImpl implements IGoldService {
                     gold.setUpdateBy("syn-admin");
                     golds.add(gold);
                 }
-                // 存入redis
-                redisUtils.hmSet("gold", DateUtils.format(new Date(), DateUtils.YYYY_MM_DD), body);
             }
             return golds;
 
@@ -269,13 +268,28 @@ public class GoldServiceImpl implements IGoldService {
     }
 
     @Override
-    public List<Gold> getGoldHistory(String exchangeType, String startDate, String endDate, String type) {
+    public List<Gold> getGoldHistory(String exchangeType, String startDate, String endDate, String type, String typename) {
         Map<String, String> map = new HashMap<>();
         map.put("exchangeType", exchangeType);
         map.put("startDate", startDate);
         map.put("endDate", endDate);
         map.put("type", type);
-        return goldMapper.getGoldHistory(map);
+        map.put("typename", typename);
+        List<Gold> golds = new ArrayList<>();
+        //  先从redis中去取，如果缓存中没有，再查数据库
+        String key = exchangeType + "_" + type;
+        Boolean exists = redisUtils.exists(key);
+        if (exists) {
+            logger.info("从redis缓存中获取数据...");
+            golds = (List<Gold>) redisUtils.get(key);
+        } else {
+            logger.info("从数据库中获取数据...");
+            golds = goldMapper.getGoldHistory(map);
+            if (golds != null && !golds.isEmpty()) {
+                redisUtils.set(key, golds, 1L, TimeUnit.MINUTES);
+            }
+        }
+        return golds;
     }
 
     /**
