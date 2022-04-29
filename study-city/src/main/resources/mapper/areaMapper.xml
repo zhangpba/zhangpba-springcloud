@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.city.mapper.AreaMapper">
+
+    <resultMap id="areaResultMap" type="com.study.city.entity.Area">
+        <id property="code" column="code"/>
+        <result property="city" column="city"/>
+        <result property="province" column="province"/>
+        <result property="area" column="area"/>
+        <result property="parCode" column="par_code"/>
+    </resultMap>
+
+    <resultMap id="cityResultMap" type="com.study.city.entity.City">
+        <id property="code" column="code"/>
+        <result property="city" column="city"/>
+    </resultMap>
+
+    <insert id="addArea" parameterType="com.study.city.entity.Area">
+        insert into area
+        (code,city,province,area,par_code)
+        values
+        (#{code},#{city},#{province},#{area},#{parCode})
+    </insert>
+
+    <!--用code查询区-->
+    <select id="getAreaByCode" resultMap="areaResultMap" parameterType="java.lang.String">
+        select code,city,province,area,par_code from area where code=#{code}
+    </select>
+
+    <!--所有的区域-->
+    <select id="getAllArea" resultMap="areaResultMap">
+        select code,city,province,area from area
+    </select>
+
+    <!--去重后的城市名-->
+    <select id="eveCityNames" resultType="java.lang.String">
+        select DISTINCT(a.city) from area a;
+    </select>
+
+    <!--去重后的区县名-->
+    <select id="eveAreaNames" resultType="java.lang.String">
+        select DISTINCT(a.area) from area a;
+    </select>
+
+
+    <!--根据省编码查询 省下面的市或者辖区-->
+    <select id="getCityListByCode" resultMap="cityResultMap" parameterType="java.lang.String">
+        select a.code,a.city from area a where a.par_code = #{provinceCode};
+    </select>
+
+    <!--查询 省下面的市、辖区 所关联的区域-->
+    <select id="getAreaListByCode" resultMap="areaResultMap" parameterType="java.lang.String">
+        select a.code, a.city, a.province, a.area, a.par_code from area a where a.par_code = #{provinceCode};
+    </select>
+
+</mapper>

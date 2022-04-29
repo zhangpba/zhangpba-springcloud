@@ -1,0 +1,43 @@
+server:
+  port: 8820
+
+spring:
+  application:
+    name: study-email
+  cloud:
+    config:
+      enabled: false
+
+  #邮件 2021-09-24
+  mail:
+    host: smtp.qq.com           # 配置SMTP服务地址
+    username: zhangpba@qq.com   # 发送者邮箱
+    password: fhjpibgkvndmdhhf       # 配置密码，注意不是真正的密码，而是刚刚申请到的授权码
+    port: 587                   # 端口号465或587
+    default-encoding: UTF-8     # 默认的邮件编码为UTF-8
+    properties:
+      mail:
+        stmp:
+          socketFactoryClass: javax.net.ssl.SSLSocketFactory
+        debug: true             # 表示开启 DEBUG 模式，这样，邮件发送过程的日志会在控制台打印出来，方便排查错误
+
+eureka:
+  client:
+    register-with-eureka: true            #是否从注册中心中获取注册信息，默认值true
+    fetch-registry: true                  #是否从注册中心获取注册消息
+    registry-fetch-interval-seconds: 30   #表示eureka client间隔多久去拉取服务器注册信息,默认为30秒
+    service-url:
+      defaultZone: http://127.0.0.1:8815/eureka/
+#      defaultZone: http://192.168.182.128:8815/eureka/   #客户端和服务器端进行交互的地址
+
+
+  instance:
+    prefer-ip-address: true
+    lease-expiration-duration-in-seconds: 1
+    lease-renewal-interval-in-seconds: 2
+
+
+logging:
+  level:
+    root: INFO                    #默认的日志级别
+  file: log/study-email.log  #生成日志文件的位置 e:/study-email.log

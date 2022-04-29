@@ -1,0 +1,16 @@
+[Unit]
+Description=study-zuul
+After=network.target
+After=syslog.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=30s
+WorkingDirectory=/data/server/study-zuul
+ExecStart=/usr/local/software/jdk1.8.0_131/bin/java -Xms1024m -Xmx1024m -Dloader.path=/data/server/study-zuul/lib -jar /data/server/study-zuul/study-zuul.jar
+ExecStop=/usr/bin/kill -15 $MAINPID
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-zuul.target

@@ -1,0 +1,66 @@
+环境
+安装jdk
+
+一 打包
+    选择release打.tar.gz包
+
+二 打好的 .tar.gz包上传服务器解压到路径/opt/zhangpb/
+    tar -zxvf study-user.tar.gz -C /opt/zhangpb/
+
+三 执行脚本
+    ./opt/zhangpb/study-config-client/install.sh
+    ./opt/zhangpb/study-config-client/start.sh
+
+
+四 测试
+    http://127.0.0.1:9004/foo
+
+五 开发步骤
+    5.1 增加依赖
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-config-server</artifactId>
+            </dependency>
+
+    5.2 在配置中心表中插入两条配置信息：
+        INSERT INTO `springcloud`.`config_info`(`id`, `key`, `value`, `application`, `profile`, `label`, `create_date`) VALUES (3, 'server.port', '9004', 'study-config-client', 'dev', 'master', '2021-08-24 00:55:26');
+        INSERT INTO `springcloud`.`config_info`(`id`, `key`, `value`, `application`, `profile`, `label`, `create_date`) VALUES (4, 'foo', 'hello world', 'study-config-client', 'dev', 'master', '2021-08-24 00:56:02');
+
+    5.3 配置文件中增加config的配置信息
+       spring:
+         application:
+           name: study-config-client
+         cloud:
+           config:
+             uri: http://127.0.0.1:9001
+             fail-fast: true
+             discovery:
+               enabled: true
+               service-id: study-config-server
+             name: ${spring.application.name}
+             profile: dev
+             label: master
+             override-system-properties: false
+         profiles:
+           active: dev
+
+    5.4 配置信息对应表中的数据
+                字段                      配置文件中对应的key                             数据库中对应的字段
+                study-config-server       spring.cloud.config.discovery.service-id      application字段
+                dev                       spring.cloud.config.profile                   profile字段
+                master                    spring.cloud.config.label                     label字段
+
+    5.5 在controller层，用@Value("${foo}")方式获取数据库中的信息
+
+    5.6 测试
+        5.6.1 启动客户端（study-config-client）的时候发现，启动服务的端口不再是配置文件中的9002，而是数据库中配置的9004
+        5.6.2 访问客户端服务：http://127.0.0.1:9004/foo，能后返回数据库中配置的信息 hello world
+        * 以上两点都可以证明，数据库中配置的信息覆盖了application.yml的信息
+
+    5.7 参考文档：
+        使用数据库存储配置信息
+        https://blog.csdn.net/likun557/article/details/90241397
+        https://blog.csdn.net/tian6318/article/details/79091372
+
+        SpringCloud-Config实现DataSource热部署：
+        https://blog.csdn.net/weixin_40623736/article/details/97959852

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.config.mapper.ConfigSeverMapper">
+
+    <resultMap id="ConfigInfoResultMap" type="com.study.config.model.ConfigInfo">
+        <id property="id" column="id"/>
+        <result property="key" column="key"/>
+        <result property="value" column="value"/>
+        <result property="application" column="application"/>
+        <result property="profile" column="profile"/>
+        <result property="lable" column="lable"/>
+        <result property="createDate" column="create_date"/>
+    </resultMap>
+
+    <select id="getConfigInfo" resultMap="ConfigInfoResultMap" parameterType="com.study.config.model.ConfigInfo">
+        select
+        ci.id,
+        ci.key ,
+        ci.value,
+        ci.application,
+        ci.profile,
+        ci.lable,
+        ci.create_date
+        from config_info ci
+        where 1 = 1
+        <if test="id != null and id !=''">
+            and id = #{id}
+        </if>
+        <if test="key != null and key !=''">
+            and key = #{key}
+        </if>
+        <if test="value != null and value !=''">
+            and value = #{value}
+        </if>
+        <if test="application != null and application !=''">
+            and application = #{application}
+        </if>
+        <if test="profile != null and profile !=''">
+            and profile = #{profile}
+        </if>
+        <if test="lable != null and lable !=''">
+            and lable = #{lable}
+        </if>
+    </select>
+
+    <insert id="addConfigInfo" parameterType="com.study.config.model.ConfigInfo">
+        insert into config_info
+        (
+        <if test="id != null and id !=''">
+            id,
+        </if>
+        <if test="key != null and key !=''">
+            key,
+        </if>
+        <if test="value != null and value !=''">
+            value,
+        </if>
+        <if test="application != null and application !=''">
+            application,
+        </if>
+        <if test="profile != null and profile !=''">
+            profile,
+        </if>
+        <if test="lable != null and lable !=''">
+            lable,
+        </if>
+        create_date)
+        values
+        (
+        <if test="id != null and id !=''">
+            #{id},
+        </if>
+        <if test="key != null and key !=''">
+            #{key},
+        </if>
+        <if test="value != null and value !=''">
+            #{value},
+        </if>
+        <if test="application != null and application !=''">
+            #{application},
+        </if>
+        <if test="profile != null and profile !=''">
+            #{profile},
+        </if>
+        <if test="lable != null and lable !=''">
+            #{lable},
+        </if>
+        #{createDate})
+    </insert>
+</mapper>

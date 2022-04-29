@@ -5,8 +5,8 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <!--<version>2.0.6.RELEASE</version>-->
-        <version>1.5.9.RELEASE</version>
+        <version>2.2.6.RELEASE</version>
+        <!--<version>1.5.9.RELEASE</version>-->
         <relativePath/>
     </parent>
     <groupId>study-eureka</groupId>
@@ -23,16 +23,29 @@
 
     <!--2021-01-04 在dependencyManagement进行申明版本后，就无需在dependencies再次申明版本，但是需要申明依赖-->
     <dependencies>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-eureka-server</artifactId>-->
+        <!--</dependency>-->
+
+        <!--服务端:升级eureka版本，升级后不需要再引入spring-cloud-starter-eureka-server  2021-08-12 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka-server</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>xstream</artifactId>
+                    <groupId>com.thoughtworks.xstream</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
-
-        <!--2021-01-05 安全保护：加密-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-security</artifactId>-->
-        <!--</dependency>-->
+        <!-- https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream
+        处理xstream漏洞 2022-04-25-->
+        <dependency>
+            <groupId>com.thoughtworks.xstream</groupId>
+            <artifactId>xstream</artifactId>
+            <version>1.4.19</version>
+        </dependency>
     </dependencies>
 
     <!--2021-01-04 eureka-->
@@ -41,7 +54,8 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>Dalston.SR5</version>
+                <!--<version>Dalston.SR5</version>-->
+                <version>Hoxton.SR3</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

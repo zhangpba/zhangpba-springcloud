@@ -1,0 +1,60 @@
+server:
+  port: 8821
+
+spring:
+  application:
+    name: study-stream
+  cloud:
+    config:
+      enabled: false
+
+    stream:
+      bindings:
+        myInput:
+          #指定输入通道对应的主题名
+          destination: minestream
+
+          #指定该应用实例属于 stream 消费组
+          group: stream
+
+          consumer:
+            #通过该参数开启消费者分区功能
+            partitioned: true
+        myOutput:
+          #指定输出通道对应的主题名
+          destination: minestream
+
+          producer:
+            #通过该参数指定了分区键的表达式规则，可以根据实际的输出消息规则配置 SpEL 来生成合适的分区键
+            partitionKeyExpression: payload
+            partitionCount: 2
+      #该参数指定了当前消费者的总实例数量
+      instance-count: 2
+      #该参数设置了当前实例的索引号，从 0 开始，最大值为 spring.cloud.stream.instance-count 参数 - 1
+      instance-index: 0
+
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+
+eureka:
+  client:
+    register-with-eureka: true            #是否从注册中心中获取注册信息，默认值true
+    fetch-registry: true                  #是否从注册中心获取注册消息
+    registry-fetch-interval-seconds: 30   #表示eureka client间隔多久去拉取服务器注册信息,默认为30秒
+    service-url:
+      defaultZone: http://127.0.0.1:8815/eureka/
+#      defaultZone: http://192.168.182.128:8815/eureka/   #客户端和服务器端进行交互的地址
+
+  instance:
+    prefer-ip-address: true
+    lease-expiration-duration-in-seconds: 1
+    lease-renewal-interval-in-seconds: 2
+
+
+logging:
+  level:
+    root: INFO                    #默认的日志级别
+  file: log/study-stream.log  #生成日志文件的位置 e:/study-stream.log

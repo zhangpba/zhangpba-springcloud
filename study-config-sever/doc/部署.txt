@@ -1,0 +1,77 @@
+环境
+安装jdk
+
+一 打包
+    选择release打.tar.gz包
+
+二 打好的 .tar.gz包上传服务器解压到路径/opt/zhangpb/
+    tar -zxvf study-user.tar.gz -C /opt/zhangpb/
+
+三 执行脚本
+    ./opt/zhangpb/study-config-sever/install.sh
+    ./opt/zhangpb/study-config-sever/start.sh
+
+四 开发步骤
+    4.1 增加依赖
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-config-server</artifactId>
+            </dependency>
+    4.2 配置文件中增加config的配置信息
+       spring:
+         application:
+           name: study-config-server
+         profiles:
+           active: jdbc
+         cloud:
+           config:
+             enabled: true
+             label: master
+             server:
+               jdbc: true
+
+       spring.cloud.config.server.jdbc.sql: select `KEY`, `VALUE` from config_info where application = ? and profile = ? and label = ?
+
+    4.3 启动类中增加注解：@EnableConfigServer
+    4.4 创建配置中心表并插入两条配置信息：
+        4.4.1 创建表
+        CREATE TABLE `springcloud`.`config_info`  (
+          `id` bigint(255) NOT NULL AUTO_INCREMENT,
+          `key` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+          `value` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+          `application` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+          `profile` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+          `label` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
+          `create_date` datetime NULL DEFAULT NULL,
+          PRIMARY KEY (`id`) USING BTREE
+        ) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Compact;
+        4.4.2 数据库中插入：
+        INSERT INTO `springcloud`.`config_info`(`id`, `key`, `value`, `application`, `profile`, `label`, `create_date`) VALUES (1, 'foo', 'this is foo', 'study-config-server', 'dev', 'master', '2021-08-24 23:39:26');
+        INSERT INTO `springcloud`.`config_info`(`id`, `key`, `value`, `application`, `profile`, `label`, `create_date`) VALUES (2, 'server.port', '9003', 'study-config-server', 'dev', 'master', '2021-08-24 00:19:05');
+
+    4.5 执行：http://localhost:9001/study-config-server/dev/master
+        4.5.1 url中参数对应关系：
+            字段                      配置文件中对应的key             数据库中对应的字段
+            study-config-server       spring.application.name        application字段
+            dev                       无                             profile字段
+            master                    cloud.config.label             label字段
+
+        4.5.2 返回数据库中配置信息如下，其中返回信息中的propertySources.source就是数据库中的配置数据，以json格式返回
+        {
+            "name": "study-config-server",
+            "profiles": [
+                "dev"
+            ],
+            "label": "master",
+            "version": null,
+            "state": null,
+            "propertySources": [
+                {
+                    "name": "study-config-server-dev",
+                    "source": {
+                        "foo": "this is foo",
+                        "server.port": "9003"
+                    }
+                }
+            ]
+        }

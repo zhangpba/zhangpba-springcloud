@@ -9,9 +9,16 @@ spring:
       enabled: false
 
 eureka:
-  client:
-    register-with-eureka: false #服務器不用注冊到其他服務器
-    fetch-registry: false # 服務器不用去抓取注冊信息
+  client: #eureka客户端配置
+    register-with-eureka: false   # 服務器不用注冊到其他服務器
+    fetch-registry: false         # 服務器不用去抓取注冊信息
+    service-url:                  # 指定服务注册中心的地址
+      defaultZone: http://localhost:8815/eureka/  # 2021-08-12
+  instance: # eureka服务端配置
+    hostname: euraka-01
+  server:
+    enable-self-preservation: false     # 测试时关闭自我保护机制，保证不可用服务及时踢出 2021-08-12
+    eviction-interval-timer-in-ms: 5000 # 清理间隔（单位毫秒，默认是60*1000） 2021-08-12
 
 logging:
   level:
