@@ -4,7 +4,9 @@ import com.github.pagehelper.PageInfo;
 import com.study.city.entity.Weather;
 import com.study.city.entity.WeatherResult;
 import com.study.city.service.IWeatherService;
+import com.study.city.utils.PathUtils;
 import com.study.city.utils.RedisUtils;
+import com.study.starter.utils.DateUtils;
 import com.study.starter.vo.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -18,9 +20,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -73,9 +78,10 @@ public class WeatherController {
     @GetMapping(value = "/getWeatherByPage")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer"),
-            @ApiImplicitParam(name = "pageSize", value = "页面大小", dataType = "Integer")})
-    public ResponseMessage getWeatherByPage(Integer pageNum, Integer pageSize) {
-        PageInfo result = weatherService.getWeatherByPage(pageNum, pageSize);
+            @ApiImplicitParam(name = "pageSize", value = "页面大小", dataType = "Integer"),
+            @ApiImplicitParam(name = "cityName", value = "城市名称", dataType = "String")})
+    public ResponseMessage getWeatherByPage(Integer pageNum, Integer pageSize, String cityName) {
+        PageInfo result = weatherService.getWeatherByPage(pageNum, pageSize, null, null, cityName);
         return ResponseMessage.success(result);
     }
 
@@ -93,5 +99,41 @@ public class WeatherController {
         logger.info("定时任务调度-天气预报数据入库 start...");
         allCityWeathers();
         logger.info("定时任务调度-天气预报数据入库 end...");
+    }
+
+    /**
+     * 利用模版生成word文档
+     *
+     * @param filePath
+     * @return
+     */
+    @ApiOperation(value = "利用模版生成word文档")
+    @RequestMapping(value = "/word", method = RequestMethod.GET)
+    public ResponseMessage word(@ApiParam(name = "filePath", value = "生成文件路径（例：/opt/）", required = true) @RequestParam String filePath,
+                                @ApiParam(name = "cityName", value = "城市名称", required = true) @RequestParam String cityName) {
+        logger.info("生成{}天气预报的word文档的路径: {}", cityName, filePath);
+        // 模板路径
+        String tempPath = PathUtils.getSpecific("word") + "weather.doc";
+        String date = DateUtils.format(new Date(), DateUtils.YYYY_MM_DD_HH_MM_SS);
+        // 生成文件路径+名称
+        String targetPath = filePath + cityName + "天气预报" + date + ".doc";
+        // 根据模板将数据写入word
+        weatherService.createWord(cityName, tempPath, targetPath);
+        return ResponseMessage.success(targetPath);
+    }
+
+    /**
+     * 生成excle文档
+     *
+     * @param response
+     * @return
+     */
+    @ApiOperation(value = "生成excle文档，直接在浏览器中请求可以下载生成的文档")
+    @GetMapping("/export")
+    public void export(@ApiParam(name = "cityName", value = "城市名称", required = false) @RequestParam String cityName,
+                       @ApiParam(name = "startDate", value = "开始时间", required = false) @RequestParam String startDate,
+                       @ApiParam(name = "endDate", value = "结束时间", required = false) @RequestParam String endDate,
+                       HttpServletResponse response) {
+        weatherService.export(response, cityName, startDate, endDate);
     }
 }

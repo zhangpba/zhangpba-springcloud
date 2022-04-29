@@ -12,7 +12,7 @@ public interface WeatherMapper {
 
     void updateWeather(Weather weather);
 
-    List<Weather> getWeather();
+    List<Weather> getWeather(Map map);
 
     List<Weather> getWeatherByCityAndDate(Map map);
 }

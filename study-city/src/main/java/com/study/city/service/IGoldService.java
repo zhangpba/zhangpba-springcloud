@@ -3,6 +3,7 @@ package com.study.city.service;
 import com.study.city.entity.gold.Gold;
 import com.study.city.entity.gold.GoldBase;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -81,4 +82,14 @@ public interface IGoldService {
      * @return
      */
     GoldBase toGoldInstance(Gold gold, String exchangeType);
+
+    /**
+     * execle导出黄金信息
+     *
+     * @param response     返回请求
+     * @param exchangeType 城市名称
+     * @param startDate    开始时间
+     * @param endDate      结束时间
+     */
+    void export(HttpServletResponse response, String exchangeType, String startDate, String endDate);
 }

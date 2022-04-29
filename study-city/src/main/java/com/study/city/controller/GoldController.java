@@ -1,7 +1,6 @@
 package com.study.city.controller;
 
 import com.study.city.entity.gold.Gold;
-import com.study.city.entity.gold.GoldBase;
 import com.study.city.enums.GoldEnum;
 import com.study.city.service.IGoldService;
 import com.study.starter.vo.web.ResponseMessage;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +45,7 @@ public class GoldController {
      */
     @ApiOperation(value = "查询当日黄金")
     @GetMapping(value = "/getTodayGolds")
-    public ResponseMessage getTodayGolds(@ApiParam(name = "exchangeType", value = "交易机构", required = true) @RequestParam String exchangeType) {
+    public ResponseMessage getTodayGolds(@ApiParam(name = "exchangeType", value = "交易机构:[shgold,hkgold,bank,london]", required = true) @RequestParam String exchangeType) {
         if (!GoldEnum.contains(exchangeType)) {
             return ResponseMessage.error("交易机构类型不存在");
         }
@@ -90,8 +90,7 @@ public class GoldController {
                                         @ApiParam(name = "type", value = "黄金类型", required = false) @RequestParam(required = false) String type) {
         logger.info("查询历史黄金数据...");
         List<Gold> list = goldService.getGoldHistory(exchangeType, startDate, endDate, type, null);
-        List<GoldBase> goldBases = goldService.toGoldList(list, exchangeType);
-        return ResponseMessage.success(goldBases);
+        return ResponseMessage.success(list);
     }
 
     @ApiOperation(value = "查询历史-上海黄金")
@@ -132,5 +131,22 @@ public class GoldController {
         logger.info("定时任务调度-黄金数据入库 start...");
         saveTodayGold();
         logger.info("定时任务调度-黄金数据入库 end...");
+    }
+
+    /**
+     * 黄金数据生成excle文档:http://127.0.0.1:9101/gold/export?endDate=2022-05-01&exchangeType=shgold&startDate=2022-03-01
+     *
+     * @param response     返回请求
+     * @param exchangeType 城市名称
+     * @param startDate    开始时间
+     * @param endDate      结束时间
+     */
+    @ApiOperation(value = "黄金数据生成excle文档，直接在浏览器中请求可以下载生成的文档")
+    @GetMapping("/export")
+    public void export(@ApiParam(name = "exchangeType", value = "交易机构:[shgold,hkgold,bank,london]", required = false) @RequestParam String exchangeType,
+                       @ApiParam(name = "startDate", value = "开始时间：2022-01-01", required = false) @RequestParam String startDate,
+                       @ApiParam(name = "endDate", value = "结束时间：2022-01-01", required = false) @RequestParam String endDate,
+                       HttpServletResponse response) {
+        goldService.export(response, exchangeType, startDate, endDate);
     }
 }

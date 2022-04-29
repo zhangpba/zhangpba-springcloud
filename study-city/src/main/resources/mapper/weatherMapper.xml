@@ -1,14 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.study.city.mapper.WeatherMapper">
-
     <resultMap id="weatherEveMap" type="com.study.city.entity.Weather">
         <id property="date" column="date"/>
         <result property="high" column="high"/>
-        <result property="fengxiang" column="fengxiang"/>
+        <result property="fx" column="fengxiang"/>
         <result property="low" column="low"/>
-        <result property="fengli" column="fengli"/>
+        <result property="fl" column="fengli"/>
+        <result property="type" column="type"/>
+        <result property="city" column="city"/>
+        <result property="warn" column="warn"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateDate" column="update_date"/>
     </resultMap>
+
+    <sql id="selectWeatherFields">
+        w.wt_id,
+        w.date,
+        w.high,
+        w.fx,
+        w.low,
+        w.fl,
+        w.type,
+        w.city,
+        w.warn,
+        w.create_by,
+        w.create_date,
+        w.update_by,
+        w.update_date
+    </sql>
 
 
     <!--    <delete id="deleteByWeatherId" parameterType="java.lang.Long">-->
@@ -27,33 +49,29 @@
             &apos; '
             &quot; "
     -->
-    <!--    <select id="getWeather" parameterType="java.util.Date" resultMap="weatherResultMap">-->
-    <!--        SELECT-->
-    <!--        a.date,-->
-    <!--        a.high,-->
-    <!--        a.fengxiang,-->
-    <!--        a.low,-->
-    <!--        a.fengli,-->
-    <!--        a.type-->
-    <!--        FROM-->
-    <!--        weather a where date(create_date) &lt; #{date}-->
-    <!--    </select>-->
-
-
     <select id="getWeatherByCityAndDate" resultMap="weatherEveMap" parameterType="java.util.Map">
-        select * from weather a where a.city = #{city} and a.date = #{date}
+        select
+        <include refid="selectWeatherFields"></include>
+        from weather a where a.city = #{city} and a.date = #{date}
     </select>
 
-    <select id="getWeather" resultMap="weatherEveMap">
+    <select id="getWeather" resultMap="weatherEveMap" parameterType="java.util.Map">
         SELECT
-        a.date,
-        a.high,
-        a.fx,
-        a.low,
-        a.fl,
-        a.type
+        <include refid="selectWeatherFields">
+        </include>
         FROM
-        weather a
+        weather w
+        where 1=1
+        <if test="startDate!=null and startDate!=''">
+            and w.date &gt; #{startDate}
+        </if>
+        <if test="endDate!=null and endDate!=''">
+            and w.date &lt; #{endDate}
+        </if>
+        <if test="city!=null and city!=''">
+            and w.city = #{city}
+        </if>
+        order by w.city, w.date
     </select>
 
     <insert id="addWeather" parameterType="com.study.city.entity.Weather">

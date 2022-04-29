@@ -14,6 +14,7 @@ import com.study.city.enums.GoldEnum;
 import com.study.city.mapper.GoldMapper;
 import com.study.city.service.IGoldService;
 import com.study.city.utils.RedisUtils;
+import com.study.city.utils.excle.ExcleUtils;
 import com.study.starter.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,8 +24,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -267,6 +270,16 @@ public class GoldServiceImpl implements IGoldService {
         }
     }
 
+    /**
+     * 按条件查询历史黄金数据
+     *
+     * @param exchangeType 交易所类型
+     * @param startDate    开始时间
+     * @param endDate      结束时间
+     * @param type         黄金类型
+     * @param typename     类型名称
+     * @return 历史黄金数据
+     */
     @Override
     public List<Gold> getGoldHistory(String exchangeType, String startDate, String endDate, String type, String typename) {
         Map<String, String> map = new HashMap<>();
@@ -385,5 +398,77 @@ public class GoldServiceImpl implements IGoldService {
         goldInstance.setCreateBy(gold.getCreateBy());
         goldInstance.setUpdateBy(gold.getUpdateBy());
         return goldInstance;
+    }
+
+    /**
+     * execle导出黄金信息
+     *
+     * @param response     返回请求
+     * @param exchangeType 交易机构类型
+     * @param startDate    开始时间
+     * @param endDate      结束时间
+     */
+    @Override
+    public void export(HttpServletResponse response, String exchangeType, String startDate, String endDate) {
+        List<List<Object>> sheetDataList = new ArrayList<>();
+        // 表头数据
+        List<Object> head = Arrays.asList("品种代号", "开盘价", "最高价", "最低价", "更新时间",
+                "当天时间", "机构代号", "昨收盘价", "买入价", "买出价",
+                "涨跌量", "中间价", "品种名称", "最新价", "涨跌幅",
+                "总成交量", "成交价", "收市价", "振幅");
+        sheetDataList.add(head);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("startDate", startDate);
+        map.put("endDate", endDate);
+        map.put("exchangeType", exchangeType);
+        List<Gold> goldList = goldMapper.getGoldHistory(map);
+        for (Gold gold : goldList) {
+            List<Object> goldObject = new ArrayList<>();
+            // 品种代号
+            goldObject.add(gold.getType());
+            // 开盘价
+            goldObject.add(gold.getOpeningprice());
+            // 最高价
+            goldObject.add(gold.getMaxprice());
+            // 最低价
+            goldObject.add(gold.getMinprice());
+            // 更新时间
+            goldObject.add(gold.getUpdatetime());
+            // 当天时间
+            goldObject.add(gold.getDate());
+            // 品种代号
+            goldObject.add(gold.getExchangeType());
+            // 昨收盘价
+            goldObject.add(gold.getLastclosingprice());
+            // 买入价
+            goldObject.add(gold.getBuyprice());
+            // 买出价
+            goldObject.add(gold.getSellprice());
+            // 涨跌量
+            goldObject.add(gold.getChangequantity());
+            // 中间价
+            goldObject.add(gold.getMidprice());
+            // 品种名称
+            goldObject.add(gold.getTypename());
+            // 最新价
+            goldObject.add(gold.getPrice());
+            // 涨跌幅
+            goldObject.add(gold.getClosingprice());
+            // 总成交量
+            goldObject.add(gold.getTradeamount());
+            // 成交价
+            goldObject.add(gold.getFinalprice());
+            // 收市价
+            goldObject.add(gold.getClosingprice());
+            // 振幅
+            goldObject.add(gold.getAmplitude());
+            sheetDataList.add(goldObject);
+        }
+        if (exchangeType == null || exchangeType.isEmpty()) {
+            exchangeType = "全部";
+        }
+        // 导出数据
+        ExcleUtils.export(response, exchangeType + "黄金数据", sheetDataList);
     }
 }

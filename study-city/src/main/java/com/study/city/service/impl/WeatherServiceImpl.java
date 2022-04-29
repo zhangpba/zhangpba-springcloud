@@ -10,7 +10,10 @@ import com.study.city.entity.WeatherResult;
 import com.study.city.mapper.WeatherMapper;
 import com.study.city.service.IAreaService;
 import com.study.city.service.IWeatherService;
+import com.study.city.utils.excle.ExcleUtils;
 import com.study.starter.utils.DateUtils;
+import org.apache.poi.hwpf.HWPFDocument;
+import org.apache.poi.hwpf.usermodel.Range;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +22,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,15 +45,15 @@ public class WeatherServiceImpl implements IWeatherService {
     private RestTemplate restTemplate;
 
     @Autowired
-    private WeatherMapper weatherEveDayMapper;
+    private WeatherMapper weatherMapper;
 
     @Autowired
     private IAreaService areaService;
 
     /**
-     * 解析天气预报
+     * 解析原始天气预报
      *
-     * @param cityName
+     * @param cityName 城市名称
      * @return
      */
     public WeatherResult getWheatherResult(String cityName) {
@@ -135,6 +146,12 @@ public class WeatherServiceImpl implements IWeatherService {
         return weatherResult;
     }
 
+    /**
+     * 根据城市名称查询天气预报明细
+     *
+     * @param cityName 城市名称
+     * @return
+     */
     @Override
     public List<Weather> getWheatherByCity(String cityName) {
         WeatherResult weatherResult = getWheatherResult(cityName);
@@ -148,21 +165,42 @@ public class WeatherServiceImpl implements IWeatherService {
         }
     }
 
+    /**
+     * 分页查询
+     *
+     * @param pageNum   页码
+     * @param pageSize  页面大小
+     * @param startDate 开始时间
+     * @param endDate   结束时间
+     * @param cityName  城市名称
+     * @return
+     */
     @Override
-    public PageInfo getWeatherByPage(int pageNUm, int pageSize) {
-        PageHelper.startPage(pageNUm,pageSize);
-        List<Weather> weatherList = weatherEveDayMapper.getWeather();
+    public PageInfo getWeatherByPage(int pageNum, int pageSize, String startDate, String endDate, String cityName) {
+        PageHelper.startPage(pageNum, pageSize);
+        Map<String, String> map = new HashMap<>();
+        map.put("startDate", startDate);
+        map.put("endDate", endDate);
+        map.put("city", cityName);
+        List<Weather> weatherList = weatherMapper.getWeather(map);
         PageInfo<Weather> pageInfo = new PageInfo<>(weatherList);
         return pageInfo;
     }
 
 
+    /**
+     * 根据日期和城市名查询
+     *
+     * @param cityName 城市名称
+     * @param date     日期
+     * @return
+     */
     @Override
     public List<Weather> getWeatherByCityAndDate(String cityName, String date) {
         Map<String, String> map = new HashMap<>();
         map.put("city", cityName);
         map.put("date", date);
-        List<Weather> weatherList = weatherEveDayMapper.getWeatherByCityAndDate(map);
+        List<Weather> weatherList = weatherMapper.getWeatherByCityAndDate(map);
         return weatherList;
     }
 
@@ -223,12 +261,94 @@ public class WeatherServiceImpl implements IWeatherService {
                 List<Weather> list = getWeatherByCityAndDate(weather.getCity(), weather.getDate());
                 if (list == null || list.isEmpty()) {
                     // 新增
-                    weatherEveDayMapper.addWeather(weather);
+                    weatherMapper.addWeather(weather);
                 } else {
                     // 修改
-                    weatherEveDayMapper.updateWeather(weather);
+                    weatherMapper.updateWeather(weather);
                 }
             }
         }
+    }
+
+    @Override
+    public String createWord(String cityName, String tempPath, String targetPath) {
+        List<Weather> weathers = getWheatherByCity(cityName);
+        Weather weather = weathers.get(1);
+        InputStream is = null;
+        OutputStream os = null;
+        try {
+            is = new FileInputStream(tempPath);
+            HWPFDocument doc = new HWPFDocument(is);
+            Range range = doc.getRange();
+            // 把range范围内的${reportDate}替换为当前的日期
+            range.replaceText("${reportDate}", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+            range.replaceText("${high}", weather.getHigh());
+            range.replaceText("${low}", weather.getLow());
+            range.replaceText("${type}", weather.getType());
+            range.replaceText("${city}", weather.getCity());
+            range.replaceText("${warn}", weather.getWarn());
+            os = new FileOutputStream(targetPath);
+            // 把doc输出到输出流中
+            doc.write(os);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            // 关闭输入流
+            if (is != null) {
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            // 关闭输出流
+            if (os != null) {
+                try {
+                    os.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return targetPath;
+    }
+
+    /**
+     * execle导出天气预报
+     *
+     * @param response  返回请求
+     * @param cityName  城市名称
+     * @param startDate 开始时间
+     * @param endDate   结束时间
+     */
+    @Override
+    public void export(HttpServletResponse response, String cityName, String startDate, String endDate) {
+        List<List<Object>> sheetDataList = new ArrayList<>();
+        // 表头数据
+        List<Object> head = Arrays.asList("城市", "日期", "温馨提示", "天气类型", "最高温度", "最低温度", "风向", "风力");
+        sheetDataList.add(head);
+
+        Map<String, String> map = new HashMap<>();
+        map.put("startDate", startDate);
+        map.put("endDate", endDate);
+        map.put("city", cityName);
+        List<Weather> weathers = weatherMapper.getWeather(map);
+        for (Weather weather : weathers) {
+            List<Object> weatherObject = new ArrayList<>();
+            weatherObject.add(weather.getCity());
+            weatherObject.add(weather.getDate());
+            weatherObject.add(weather.getWarn());
+            weatherObject.add(weather.getType());
+            weatherObject.add(weather.getHigh());
+            weatherObject.add(weather.getLow());
+            weatherObject.add(weather.getFx());
+            weatherObject.add(weather.getFl());
+            sheetDataList.add(weatherObject);
+        }
+        if (cityName == null || cityName.isEmpty()) {
+            cityName = "全国";
+        }
+        // 导出数据
+        ExcleUtils.export(response, cityName + "天气预报", sheetDataList);
     }
 }
