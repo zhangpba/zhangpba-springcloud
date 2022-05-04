@@ -1,6 +1,6 @@
 package com.study.city.mapper;
 
-import com.github.pagehelper.PageInfo;
+import com.study.city.entity.GroupBy;
 import com.study.city.entity.Weather;
 
 import java.util.List;
@@ -15,4 +15,6 @@ public interface WeatherMapper {
     List<Weather> getWeather(Map map);
 
     List<Weather> getWeatherByCityAndDate(Map map);
+
+    List<GroupBy> getGroupByType(Map map);
 }

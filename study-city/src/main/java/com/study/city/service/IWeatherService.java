@@ -1,6 +1,7 @@
 package com.study.city.service;
 
 import com.github.pagehelper.PageInfo;
+import com.study.city.entity.GroupBy;
 import com.study.city.entity.Weather;
 import com.study.city.entity.WeatherResult;
 
@@ -38,6 +39,13 @@ public interface IWeatherService {
      * @return
      */
     String saveAllCityWeathers();
+
+    /**
+     * 天气预报所需要的城市名称集合
+     *
+     * @return
+     */
+    List<String> getAllCityForWeather();
 
     /**
      * 分页查询
@@ -79,4 +87,13 @@ public interface IWeatherService {
      * @param endDate   结束时间
      */
     void export(HttpServletResponse response, String cityName, String startDate, String endDate);
+
+    /**
+     * 查询在某段时间内城市的天气类型分组数据
+     *
+     * @param cityName  城市名称
+     * @param startDate 开始时间
+     * @param endDate   结束时间
+     */
+    List<GroupBy> getGroupByType(String cityName, String startDate, String endDate);
 }

@@ -4,9 +4,9 @@
     <resultMap id="weatherEveMap" type="com.study.city.entity.Weather">
         <id property="date" column="date"/>
         <result property="high" column="high"/>
-        <result property="fx" column="fengxiang"/>
+        <result property="fx" column="fx"/>
         <result property="low" column="low"/>
-        <result property="fl" column="fengli"/>
+        <result property="fl" column="fl"/>
         <result property="type" column="type"/>
         <result property="city" column="city"/>
         <result property="warn" column="warn"/>
@@ -17,7 +17,6 @@
     </resultMap>
 
     <sql id="selectWeatherFields">
-        w.wt_id,
         w.date,
         w.high,
         w.fx,
@@ -52,7 +51,7 @@
     <select id="getWeatherByCityAndDate" resultMap="weatherEveMap" parameterType="java.util.Map">
         select
         <include refid="selectWeatherFields"></include>
-        from weather a where a.city = #{city} and a.date = #{date}
+        from weather w where w.city = #{city} and w.date = #{date}
     </select>
 
     <select id="getWeather" resultMap="weatherEveMap" parameterType="java.util.Map">
@@ -127,4 +126,8 @@
         </set>
         where city = #{city,jdbcType=VARCHAR} and date = #{date,jdbcType=VARCHAR}
     </update>
+
+    <select id="getGroupByType" resultType="com.study.city.entity.GroupBy" parameterType="java.util.Map">
+        select w.type name ,count(*) value from weather w where w.city = #{city} GROUP BY w.type;
+    </select>
 </mapper>

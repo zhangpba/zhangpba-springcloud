@@ -1,6 +1,7 @@
 package com.study.city.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.study.city.entity.GroupBy;
 import com.study.city.entity.Weather;
 import com.study.city.entity.WeatherResult;
 import com.study.city.service.IWeatherService;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 天气预报控制类
@@ -93,6 +95,14 @@ public class WeatherController {
         return ResponseMessage.success(result);
     }
 
+    @ApiOperation(value = "天气预报所需要的城市名称集合")
+    @GetMapping(value = "/getAllCityForWeather")
+    public ResponseMessage getAllCityForWeather() {
+        logger.info("天气预报所需要的城市名称集合 start...");
+        List<String> citys = weatherService.getAllCityForWeather();
+        return ResponseMessage.success(citys);
+    }
+
     //    @Scheduled(cron = "*/5 * * * * *")  // 每隔5秒执行一次
     @Scheduled(cron = "${module.weather.syn-cron}")    // 每天21点01
     public void synWeathers() {
@@ -135,5 +145,23 @@ public class WeatherController {
                        @ApiParam(name = "endDate", value = "结束时间", required = false) @RequestParam String endDate,
                        HttpServletResponse response) {
         weatherService.export(response, cityName, startDate, endDate);
+    }
+
+    /**
+     * 扇形统计图
+     *
+     * @param cityName
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    @ApiOperation(value = "根据城市的天气类型分组，查询在某段时间内数据")
+    @GetMapping(value = "/getGroupByType")
+    public ResponseMessage getGroupByType(@ApiParam(name = "cityName", value = "城市名称", required = false) @RequestParam String cityName,
+                                          @ApiParam(name = "startDate", value = "开始时间", required = false) @RequestParam String startDate,
+                                          @ApiParam(name = "endDate", value = "结束时间", required = false) @RequestParam String endDate) {
+
+        List<GroupBy> maps = weatherService.getGroupByType(cityName, startDate, endDate);
+        return ResponseMessage.success(maps);
     }
 }

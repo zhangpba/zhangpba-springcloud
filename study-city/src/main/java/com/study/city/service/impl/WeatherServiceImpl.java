@@ -5,8 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.study.city.constant.FeeApiUrl;
+import com.study.city.entity.GroupBy;
+import com.study.city.entity.Province;
 import com.study.city.entity.Weather;
 import com.study.city.entity.WeatherResult;
+import com.study.city.mapper.ProvinceMapper;
 import com.study.city.mapper.WeatherMapper;
 import com.study.city.service.IAreaService;
 import com.study.city.service.IWeatherService;
@@ -50,6 +53,9 @@ public class WeatherServiceImpl implements IWeatherService {
     @Autowired
     private IAreaService areaService;
 
+    @Autowired
+    private ProvinceMapper provinceMapper;
+
     /**
      * 解析原始天气预报
      *
@@ -91,7 +97,11 @@ public class WeatherServiceImpl implements IWeatherService {
 
             // 昨天天气
             Weather yesterdayWeather = new Weather();
-            yesterdayWeather.setFl(yesterday.getString("fl"));
+            String fl = yesterday.getString("fl");
+            if (fl != null && fl.contains("<![CDATA[") && fl.contains("]]>")) {
+                fl = fl.replace("<![CDATA[", "").replace("]]>", "");
+            }
+            yesterdayWeather.setFl(fl);
             yesterdayWeather.setHigh(yesterday.getString("high"));
             yesterdayWeather.setFx(yesterday.getString("fx"));
             yesterdayWeather.setLow(yesterday.getString("low"));
@@ -115,6 +125,9 @@ public class WeatherServiceImpl implements IWeatherService {
                 JSONObject weatherJson = (JSONObject) forecast.get(i);
 
                 String fengli = weatherJson.getString("fengli");
+                if (fengli != null && fengli.contains("<![CDATA[") && fengli.contains("]]>")) {
+                    fengli = fengli.replace("<![CDATA[", "").replace("]]>", "");
+                }
                 String fengxiang = weatherJson.getString("fengxiang");
                 String high = weatherJson.getString("high");
                 String low = weatherJson.getString("low");
@@ -217,7 +230,9 @@ public class WeatherServiceImpl implements IWeatherService {
         StringBuffer successList = new StringBuffer();
         StringBuffer failList = new StringBuffer();
 
-        List<String> cityNameList = areaService.eveCityNames();
+        // 所有天气预报需要的城市
+        List<String> cityNameList = this.getAllCityForWeather();
+
         for (String name : cityNameList) {
             // 如果城市名称为空不进行请求
             if (name == null || name.isEmpty()) {
@@ -246,6 +261,29 @@ public class WeatherServiceImpl implements IWeatherService {
         return "所有城市天气预报！成功：" + success
                 + "条，失败：" + fail + "条,总共："
                 + (success + fail) + "条！" + ">>>> 失败城市名称:" + failList;
+    }
+
+    /**
+     * 获取所有天气预报所需的城市名称
+     *
+     * @return 城市名称
+     */
+    @Override
+    public List<String> getAllCityForWeather() {
+        List<String> cityNameList = areaService.eveCityNames();
+        List<Province> provinces = provinceMapper.getAllProvincelist();
+        for (Province p : provinces) {
+            String cityName = null;
+            if (p.getName().contains("省")) {
+                continue;
+            } else if (p.getName().contains("市")) {
+                cityName = p.getName().replace("市", "");
+            } else {
+                cityName = p.getName();
+            }
+            cityNameList.add(cityName);
+        }
+        return cityNameList;
     }
 
 
@@ -351,4 +389,20 @@ public class WeatherServiceImpl implements IWeatherService {
         // 导出数据
         ExcleUtils.export(response, cityName + "天气预报", sheetDataList);
     }
+
+    /**
+     * 查询在某段时间内城市的天气类型分组数据
+     *
+     * @param cityName  城市名称
+     * @param startDate 开始时间
+     * @param endDate   结束时间
+     */
+    public List<GroupBy> getGroupByType(String cityName, String startDate, String endDate) {
+        Map<String, String> map = new HashMap<>();
+        map.put("startDate", startDate);
+        map.put("endDate", endDate);
+        map.put("city", cityName);
+        return weatherMapper.getGroupByType(map);
+    }
+
 }
