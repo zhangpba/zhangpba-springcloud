@@ -98,7 +98,8 @@ public class GoldController {
     public ResponseMessage getHistoryShGoldsList() {
         logger.info("查询历史-上海黄金 start...");
         List<Gold> list = goldService.getGoldHistory(GoldEnum.SHGOLD.getExchangeType(), null, null, "Au(T+D)", null);
-        return ResponseMessage.success(list);
+        List<Object> result = goldService.toGoldList(list,GoldEnum.SHGOLD.getExchangeType());
+        return ResponseMessage.success(result);
     }
 
     @ApiOperation(value = "查询历史-伦敦黄金")
@@ -106,7 +107,8 @@ public class GoldController {
     public ResponseMessage getHistoryLdGoldsList() {
         logger.info("查询历史-伦敦黄金 start...");
         List<Gold> list = goldService.getGoldHistory(GoldEnum.LONDON.getExchangeType(), null, null, "伦敦金", null);
-        return ResponseMessage.success(list);
+        List<Object> result = goldService.toGoldList(list,GoldEnum.LONDON.getExchangeType());
+        return ResponseMessage.success(result);
     }
 
     @ApiOperation(value = "查询历史-香港黄金")
@@ -114,7 +116,8 @@ public class GoldController {
     public ResponseMessage getHistoryHkGoldsList() {
         logger.info("查询历史-香港黄金 start...");
         List<Gold> list = goldService.getGoldHistory(GoldEnum.HKGOLD.getExchangeType(), null, null, "公斤条", null);
-        return ResponseMessage.success(list);
+        List<Object> result = goldService.toGoldList(list,GoldEnum.HKGOLD.getExchangeType());
+        return ResponseMessage.success(result);
     }
 
     @ApiOperation(value = "查询历史-银行黄金")
@@ -122,7 +125,8 @@ public class GoldController {
     public ResponseMessage getHistoryBankGoldsList() {
         logger.info("查询历史-银行黄金 start...");
         List<Gold> list = goldService.getGoldHistory(GoldEnum.BANK.getExchangeType(), null, null, null, "人民币黄金");
-        return ResponseMessage.success(list);
+        List<Object> result = goldService.toGoldList(list,GoldEnum.BANK.getExchangeType());
+        return ResponseMessage.success(result);
     }
 
     @ApiOperation(value = "定时任务存储当日黄金 cron = ${module.gold.syn-cron")

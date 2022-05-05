@@ -19,9 +19,6 @@ import java.util.Date;
 @Setter
 @ApiModel(description = "黄金数据")
 public class GoldBase extends BaseEntity {
-    // 品种代号
-    @ApiModelProperty(name = "品种代号")
-    private String type;
     // 开盘价
     @ApiModelProperty(name = "开盘价")
     private BigDecimal openingprice;

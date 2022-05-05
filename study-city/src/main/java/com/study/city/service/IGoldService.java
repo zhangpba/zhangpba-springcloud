@@ -1,7 +1,6 @@
 package com.study.city.service;
 
 import com.study.city.entity.gold.Gold;
-import com.study.city.entity.gold.GoldBase;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -72,7 +71,7 @@ public interface IGoldService {
      * @param exchangeType 交易所类型
      * @return
      */
-    List<GoldBase> toGoldList(List<Gold> golds, String exchangeType);
+    List<Object> toGoldList(List<Gold> golds, String exchangeType);
 
     /**
      * 转化为各类黄金模型
@@ -81,7 +80,7 @@ public interface IGoldService {
      * @param exchangeType 交易所类型
      * @return
      */
-    GoldBase toGoldInstance(Gold gold, String exchangeType);
+    Object toGoldInstance(Gold gold, String exchangeType);
 
     /**
      * execle导出黄金信息

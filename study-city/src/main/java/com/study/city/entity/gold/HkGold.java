@@ -17,6 +17,9 @@ import java.math.BigDecimal;
 @Setter
 @ApiModel(description = "黄金数据")
 public class HkGold extends GoldBase {
+    // 品种代号
+    @ApiModelProperty(name = "品种代号")
+    private String type;
     // 买入价
     @ApiModelProperty(name = "买入价")
     private BigDecimal buyprice;

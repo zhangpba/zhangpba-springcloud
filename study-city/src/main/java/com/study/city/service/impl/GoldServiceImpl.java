@@ -313,11 +313,11 @@ public class GoldServiceImpl implements IGoldService {
      * @return
      */
     @Override
-    public List<GoldBase> toGoldList(List<Gold> golds, String exchangeType) {
-        List<GoldBase> goldBaseList = new ArrayList<>();
+    public List<Object> toGoldList(List<Gold> golds, String exchangeType) {
+        List<Object> goldBaseList = new ArrayList<>();
         if (golds != null && !golds.isEmpty()) {
             for (Gold gold : golds) {
-                GoldBase goldBase = toGoldInstance(gold, exchangeType);
+                Object goldBase = toGoldInstance(gold, exchangeType);
                 goldBaseList.add(goldBase);
             }
         }
@@ -332,7 +332,7 @@ public class GoldServiceImpl implements IGoldService {
      * @return
      */
     @Override
-    public GoldBase toGoldInstance(Gold gold, String exchangeType) {
+    public Object toGoldInstance(Gold gold, String exchangeType) {
         if (GoldEnum.BANK.getExchangeType().equals(exchangeType)) {
             BankGold bankGold = new BankGold();
             this.setBase(bankGold, gold);
@@ -346,6 +346,7 @@ public class GoldServiceImpl implements IGoldService {
         if (GoldEnum.HKGOLD.getExchangeType().equals(exchangeType)) {
             HkGold hkGold = new HkGold();
             this.setBase(hkGold, gold);
+            hkGold.setType(gold.getType());
             hkGold.setBuyprice(gold.getBuyprice());
             hkGold.setClosingprice(gold.getClosingprice());
             hkGold.setFinalprice(gold.getFinalprice());
@@ -355,6 +356,7 @@ public class GoldServiceImpl implements IGoldService {
         if (GoldEnum.SHGOLD.getExchangeType().equals(exchangeType)) {
             ShGold shGold = new ShGold();
             this.setBase(shGold, gold);
+            shGold.setType(gold.getType());
             shGold.setChangepercent(gold.getChangepercent());
             shGold.setPrice(gold.getPrice());
             shGold.setLastclosingprice(gold.getLastclosingprice());
@@ -365,6 +367,7 @@ public class GoldServiceImpl implements IGoldService {
         if (GoldEnum.LONDON.getExchangeType().equals(exchangeType)) {
             LdGold ldGold = new LdGold();
             this.setBase(ldGold, gold);
+            ldGold.setType(gold.getType());
             ldGold.setAmplitude(gold.getAmplitude());
             ldGold.setBuyprice(gold.getBuyprice());
             ldGold.setChangepercent(gold.getChangepercent());
@@ -377,7 +380,6 @@ public class GoldServiceImpl implements IGoldService {
         return null;
     }
 
-
     /**
      * 设置共有的黄金属性
      *
@@ -386,7 +388,6 @@ public class GoldServiceImpl implements IGoldService {
      * @return
      */
     private GoldBase setBase(GoldBase goldInstance, Gold gold) {
-        goldInstance.setType(gold.getType());
         goldInstance.setDate(gold.getDate());
         goldInstance.setMaxprice(gold.getMaxprice());
         goldInstance.setMinprice(gold.getMinprice());

@@ -21,6 +21,10 @@
         <result property="amplitude" column="amplitude"/>
         <result property="midprice" column="midprice"/>
         <result property="exchangeType" column="exchange_type"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateDate" column="update_date"/>
     </resultMap>
 
     <sql id="selectFields">
@@ -42,7 +46,11 @@
         g.changequantity,
         g.amplitude,
         g.midprice,
-        g.exchange_type
+        g.exchange_type,
+        g.create_by,
+        g.create_date,
+        g.update_by,
+        g.update_date
     </sql>
     <select id="getGolds" resultMap="goldMap">
         SELECT
