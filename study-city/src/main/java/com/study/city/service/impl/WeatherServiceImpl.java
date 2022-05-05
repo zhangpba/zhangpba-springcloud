@@ -37,8 +37,13 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 @Service
 public class WeatherServiceImpl implements IWeatherService {
@@ -99,7 +104,7 @@ public class WeatherServiceImpl implements IWeatherService {
             Weather yesterdayWeather = new Weather();
             String fl = yesterday.getString("fl");
             if (fl != null && fl.contains("<![CDATA[") && fl.contains("]]>")) {
-                fl = fl.replace("<![CDATA[", "").replace("]]>", "");
+                fl = this.matcher(fl);
             }
             yesterdayWeather.setFl(fl);
             yesterdayWeather.setHigh(yesterday.getString("high"));
@@ -126,7 +131,7 @@ public class WeatherServiceImpl implements IWeatherService {
 
                 String fengli = weatherJson.getString("fengli");
                 if (fengli != null && fengli.contains("<![CDATA[") && fengli.contains("]]>")) {
-                    fengli = fengli.replace("<![CDATA[", "").replace("]]>", "");
+                    fengli = this.matcher(fengli);
                 }
                 String fengxiang = weatherJson.getString("fengxiang");
                 String high = weatherJson.getString("high");
@@ -157,6 +162,34 @@ public class WeatherServiceImpl implements IWeatherService {
             return null;
         }
         return weatherResult;
+    }
+
+    /**
+     * 利用正则表达式提取风力字符串
+     *
+     * @param str 原始数据：<![CDATA[1级]]>
+     * @return 提取后的数据：[1级]
+     * @auther zhangpba
+     * @date 2022-05-05
+     */
+    private String matcher(String str) {
+        String fl = null;
+        try {
+            Pattern ptn = Pattern.compile("(^<!\\[CDATA)?(\\[[1-9][^\\x00-\\xff]\\])?(.*)");
+            Matcher matcher = ptn.matcher(str);
+            if (matcher.matches()) {
+                // <![CDATA
+                String prefix = matcher.group(1);
+                // [1级]
+                fl = matcher.group(2);
+                // ]>
+                String suffix = matcher.group(3);
+            }
+        } catch (PatternSyntaxException e) {
+            logger.error("提取风力数据异常：{}", e.getMessage());
+        } finally {
+            return fl;
+        }
     }
 
     /**
@@ -231,7 +264,7 @@ public class WeatherServiceImpl implements IWeatherService {
         StringBuffer failList = new StringBuffer();
 
         // 所有天气预报需要的城市
-        List<String> cityNameList = this.getAllCityForWeather();
+        Set<String> cityNameList = this.getAllCityForWeather();
 
         for (String name : cityNameList) {
             // 如果城市名称为空不进行请求
@@ -257,10 +290,18 @@ public class WeatherServiceImpl implements IWeatherService {
             }
         }
         logger.info("成功城市名称：{}", successList);
-        logger.info("失败城市名称：{}", failList);
-        return "所有城市天气预报！成功：" + success
+
+        String massage = "同步城市天气预报！成功：" + success
                 + "条，失败：" + fail + "条,总共："
-                + (success + fail) + "条！" + ">>>> 失败城市名称:" + failList;
+                + (success + fail) + "条！";
+        if (!failList.toString().isEmpty()) {
+            logger.info("失败城市名称：{}", failList);
+            massage = massage + ">>>> 失败城市名称:" + failList;
+        } else {
+            massage = massage + "全部同步成功，没有同步失败的城市！";
+            logger.info(massage);
+        }
+        return massage;
     }
 
     /**
@@ -269,21 +310,31 @@ public class WeatherServiceImpl implements IWeatherService {
      * @return 城市名称
      */
     @Override
-    public List<String> getAllCityForWeather() {
+    public Set<String> getAllCityForWeather() {
+        Set<String> cityNames = new HashSet<>();
+        // 市名称
         List<String> cityNameList = areaService.eveCityNames();
+        for (String cityName : cityNameList) {
+            cityNames.add(cityName);
+        }
+        // 直辖市的名称
+        List<String> crowncityNameList = areaService.eveAreaNames();
+        for (String crownCityName : crowncityNameList) {
+            if (crownCityName != null && crownCityName.isEmpty() && crownCityName.contains("市")) {
+                cityNames.add(crownCityName);
+            }
+        }
+        // 直辖省名称
         List<Province> provinces = provinceMapper.getAllProvincelist();
         for (Province p : provinces) {
-            String cityName = null;
-            if (p.getName().contains("省")) {
-                continue;
-            } else if (p.getName().contains("市")) {
-                cityName = p.getName().replace("市", "");
+            if (p.getName().contains("市")) {
+                String cityName = p.getName().replace("市", "");
+                cityNameList.add(cityName);
             } else {
-                cityName = p.getName();
+                continue;
             }
-            cityNameList.add(cityName);
         }
-        return cityNameList;
+        return cityNames;
     }
 
 

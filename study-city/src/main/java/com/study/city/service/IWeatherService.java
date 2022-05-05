@@ -7,6 +7,7 @@ import com.study.city.entity.WeatherResult;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.Set;
 
 public interface IWeatherService {
 
@@ -45,7 +46,7 @@ public interface IWeatherService {
      *
      * @return
      */
-    List<String> getAllCityForWeather();
+    Set<String> getAllCityForWeather();
 
     /**
      * 分页查询

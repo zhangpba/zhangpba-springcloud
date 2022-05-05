@@ -57,7 +57,10 @@ public class AreaServiceImpl implements IAreaService {
     // 去重后的所有城市名
     @Override
     public List<String> eveCityNames(){
-        return areaMapper.eveCityNames();
+        List<String> cityNames = areaMapper.eveCityNames();
+        cityNames.remove("省直辖县级行政区划");
+        cityNames.remove("自治区直辖县级行政区划");
+        return cityNames;
     }
 
     // 去重后的所有区县名

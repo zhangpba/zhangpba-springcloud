@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * 天气预报控制类
@@ -99,7 +99,7 @@ public class WeatherController {
     @GetMapping(value = "/getAllCityForWeather")
     public ResponseMessage getAllCityForWeather() {
         logger.info("天气预报所需要的城市名称集合 start...");
-        List<String> citys = weatherService.getAllCityForWeather();
+        Set<String> citys = weatherService.getAllCityForWeather();
         return ResponseMessage.success(citys);
     }
 
