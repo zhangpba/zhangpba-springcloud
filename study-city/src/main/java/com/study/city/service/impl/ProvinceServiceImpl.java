@@ -1,7 +1,7 @@
 package com.study.city.service.impl;
 
-import com.study.city.entity.City;
-import com.study.city.entity.Province;
+import com.study.city.entity.area.City;
+import com.study.city.entity.area.Province;
 import com.study.city.mapper.ProvinceMapper;
 import com.study.city.service.IAreaService;
 import com.study.city.service.IProvinceService;

@@ -1,7 +1,7 @@
 package com.study.city.service.impl;
 
-import com.study.city.entity.Area;
-import com.study.city.entity.City;
+import com.study.city.entity.area.Area;
+import com.study.city.entity.area.City;
 import com.study.city.mapper.AreaMapper;
 import com.study.city.service.IAreaService;
 import org.slf4j.Logger;

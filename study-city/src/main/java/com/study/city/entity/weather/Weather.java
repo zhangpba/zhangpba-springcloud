@@ -1,5 +1,6 @@
-package com.study.city.entity;
+package com.study.city.entity.weather;
 
+import com.study.city.entity.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,7 +1,7 @@
 package com.study.city.service;
 
-import com.study.city.entity.Area;
-import com.study.city.entity.City;
+import com.study.city.entity.area.Area;
+import com.study.city.entity.area.City;
 
 import java.util.List;
 

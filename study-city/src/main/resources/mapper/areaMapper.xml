@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.study.city.mapper.AreaMapper">
 
-    <resultMap id="areaResultMap" type="com.study.city.entity.Area">
+    <resultMap id="areaResultMap" type="com.study.city.entity.area.Area">
         <id property="code" column="code"/>
         <result property="city" column="city"/>
         <result property="province" column="province"/>
@@ -10,12 +10,12 @@
         <result property="parCode" column="par_code"/>
     </resultMap>
 
-    <resultMap id="cityResultMap" type="com.study.city.entity.City">
+    <resultMap id="cityResultMap" type="com.study.city.entity.area.City">
         <id property="code" column="code"/>
         <result property="city" column="city"/>
     </resultMap>
 
-    <insert id="addArea" parameterType="com.study.city.entity.Area">
+    <insert id="addArea" parameterType="com.study.city.entity.area.Area">
         insert into area
         (code,city,province,area,par_code)
         values

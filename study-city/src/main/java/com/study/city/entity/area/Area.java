@@ -1,4 +1,4 @@
-package com.study.city.entity;
+package com.study.city.entity.area;
 
 import lombok.Getter;
 import lombok.Setter;

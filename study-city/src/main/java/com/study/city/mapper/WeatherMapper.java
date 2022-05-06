@@ -1,7 +1,7 @@
 package com.study.city.mapper;
 
 import com.study.city.entity.GroupBy;
-import com.study.city.entity.Weather;
+import com.study.city.entity.weather.Weather;
 
 import java.util.List;
 import java.util.Map;

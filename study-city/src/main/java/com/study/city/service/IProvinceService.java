@@ -1,7 +1,6 @@
 package com.study.city.service;
 
-import com.study.city.entity.Province;
-import com.study.city.entity.Weather;
+import com.study.city.entity.area.Province;
 
 import java.util.List;
 

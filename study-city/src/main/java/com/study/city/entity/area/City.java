@@ -1,5 +1,6 @@
-package com.study.city.entity;
+package com.study.city.entity.area;
 
+import com.study.city.entity.area.Area;
 import lombok.Getter;
 import lombok.Setter;
 

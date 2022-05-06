@@ -2,8 +2,8 @@ package com.study.city.service;
 
 import com.github.pagehelper.PageInfo;
 import com.study.city.entity.GroupBy;
-import com.study.city.entity.Weather;
-import com.study.city.entity.WeatherResult;
+import com.study.city.entity.weather.Weather;
+import com.study.city.entity.weather.WeatherResult;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;

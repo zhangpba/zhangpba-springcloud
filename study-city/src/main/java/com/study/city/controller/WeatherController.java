@@ -2,8 +2,8 @@ package com.study.city.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.study.city.entity.GroupBy;
-import com.study.city.entity.Weather;
-import com.study.city.entity.WeatherResult;
+import com.study.city.entity.weather.Weather;
+import com.study.city.entity.weather.WeatherResult;
 import com.study.city.service.IWeatherService;
 import com.study.city.utils.PathUtils;
 import com.study.city.utils.RedisUtils;

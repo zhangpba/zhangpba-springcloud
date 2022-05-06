@@ -79,6 +79,9 @@ module:
   gold:
     appkey: a09971b7353c6d08
     syn-cron: 0 30 23 * * * # 每天23：30执行一次
+  character:
+    key: b45e887eea69923ba8b7a4dcca0ef295
+    syn-cron: 0 30 1 * * * # 每天1：30执行一次
 
 logging:
   level:
