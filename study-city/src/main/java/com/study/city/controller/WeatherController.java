@@ -3,6 +3,7 @@ package com.study.city.controller;
 import com.github.pagehelper.PageInfo;
 import com.study.city.entity.GroupBy;
 import com.study.city.entity.weather.Weather;
+import com.study.city.entity.weather.WeatherRequest;
 import com.study.city.entity.weather.WeatherResult;
 import com.study.city.service.IWeatherService;
 import com.study.city.utils.PathUtils;
@@ -10,8 +11,6 @@ import com.study.city.utils.RedisUtils;
 import com.study.starter.utils.DateUtils;
 import com.study.starter.vo.web.ResponseMessage;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
@@ -20,6 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -77,13 +78,18 @@ public class WeatherController {
     }
 
     @ApiOperation(value = "分页获取天气预报")
-    @GetMapping(value = "/getWeatherByPage")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "pageNum", value = "页码", dataType = "Integer"),
-            @ApiImplicitParam(name = "pageSize", value = "页面大小", dataType = "Integer"),
-            @ApiImplicitParam(name = "cityName", value = "城市名称", dataType = "String")})
-    public ResponseMessage getWeatherByPage(Integer pageNum, Integer pageSize, String cityName) {
-        PageInfo result = weatherService.getWeatherByPage(pageNum, pageSize, null, null, cityName);
+    @PostMapping(value = "/getWeatherByPage")
+    public ResponseMessage getWeatherByPage(@RequestBody WeatherRequest weatherRequest) {
+        logger.info("pageNum:{}; pageSize:{},startDate,{}", weatherRequest.getPageNum(), weatherRequest.getPageSize(), weatherRequest.getStartDate());
+        String startDate = null;
+        String endDate = null;
+        if (weatherRequest.getStartDate() != null) {
+            startDate = DateUtils.format(weatherRequest.getStartDate(), DateUtils.YYYY_MM_DD);
+        }
+        if (weatherRequest.getEndDate() != null) {
+            endDate = DateUtils.format(weatherRequest.getEndDate(), DateUtils.YYYY_MM_DD);
+        }
+        PageInfo result = weatherService.getWeatherByPage(weatherRequest.getPageNum(), weatherRequest.getPageSize(), startDate, endDate, weatherRequest.getCityName());
         return ResponseMessage.success(result);
     }
 

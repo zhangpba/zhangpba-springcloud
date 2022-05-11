@@ -33,38 +33,47 @@ public class CharactersServiceImpl implements ICharactersService {
     private String key;
 
     public List<Characters> getCharacters(String month, String day) {
+        List<Characters> charactersList = new ArrayList<>();
         String url = String.format(FeeApiUrl.CHARACTERS_URL, key, month, day);
-        logger.info("请求lurl：{}", url);
-        ResponseEntity responseEntity = restTemplate.getForEntity(url, String.class);
-        String body = (String) responseEntity.getBody();
-        JSONObject bodyJson = (JSONObject) JSON.parse(body);
-        logger.info("请求返回：{}", bodyJson);
-
+        // 生日格式为：01-01
         if (month.length() == 1) {
             month = "0" + month;
         }
         if (day.length() == 1) {
             day = "0" + day;
         }
-        String borthday = month + day;
+        String birthday = month + day;
 
-        String msg = bodyJson.getString("msg");
-        Integer code = bodyJson.getInteger("code");
-        JSONArray newslist = bodyJson.getJSONArray("newslist");
-        List<Characters> charactersList = new ArrayList<>();
-        if ("success".equals(msg)) {
-            for (Object obj : newslist) {
-                JSONObject newsJson = (JSONObject) obj;
-                String title = newsJson.getString("title");
-                String content = newsJson.getString("content");
-                Characters characters = new Characters();
-                characters.setTitle(title);
-                characters.setContent(content);
-                characters.setBrithday(borthday);
-                charactersList.add(characters);
+        // 如果已经同步过，就从数据库中直接获取
+        Characters c = charactersMapper.getCharacters(birthday);
+        if (c != null) {
+            logger.info("{} 的性格数据已经同步过，不需要再次同步！", birthday);
+            charactersList.add(c);
+            return charactersList;
+        } else {
+            // 如果没有同步过，那么就请求API
+            logger.info("同步{}的性格请求 url：{}", birthday, url);
+            ResponseEntity responseEntity = restTemplate.getForEntity(url, String.class);
+            String body = (String) responseEntity.getBody();
+            JSONObject bodyJson = (JSONObject) JSON.parse(body);
+            logger.info("请求返回：{}", bodyJson);
+            String msg = bodyJson.getString("msg");
+            Integer code = bodyJson.getInteger("code");
+            JSONArray newslist = bodyJson.getJSONArray("newslist");
+            if ("success".equals(msg)) {
+                for (Object obj : newslist) {
+                    JSONObject newsJson = (JSONObject) obj;
+                    String title = newsJson.getString("title");
+                    String content = newsJson.getString("content");
+                    Characters characters = new Characters();
+                    characters.setTitle(title);
+                    characters.setContent(content);
+                    characters.setBrithday(birthday);
+                    charactersList.add(characters);
+                }
             }
+            return charactersList;
         }
-        return charactersList;
     }
 
     // 批量插入

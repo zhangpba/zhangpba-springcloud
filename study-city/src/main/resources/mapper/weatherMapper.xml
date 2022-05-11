@@ -70,7 +70,7 @@
         <if test="city!=null and city!=''">
             and w.city = #{city}
         </if>
-        order by w.city, w.date
+        order by w.city, w.date desc
     </select>
 
     <insert id="addWeather" parameterType="com.study.city.entity.weather.Weather">

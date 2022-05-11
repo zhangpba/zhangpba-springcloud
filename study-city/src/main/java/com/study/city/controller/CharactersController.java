@@ -79,11 +79,11 @@ public class CharactersController {
         if (charactersList == null) {
             charactersList = new ArrayList<>();
         }
-        if (charactersList.size() >= 356) {
+        if (charactersList.size() >= 365) {
             logger.info("一年366天，每一天的性格全部已经同步过！");
             return;
         }
-        for (int i = charactersList.size(); i < charactersList.size() + 100; i++) {
+        for (int i = 0; i < 365; i++) {
             String date = DateUtils.getDay(new Date(), i);
             String[] dataArray = date.split("-");
             String month = dataArray[1];
