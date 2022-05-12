@@ -34,6 +34,22 @@ spring:
       name: admin
       password: 123456
 
+  # 邮件 2021-09-24
+  mail:
+    host: smtp.qq.com           # 配置SMTP服务地址
+    username: zhangpba@qq.com   # 发送者邮箱
+    password: fhjpibgkvndmdhhf       # 配置密码，注意不是真正的密码，而是刚刚申请到的授权码
+    port: 587                   # 端口号465或587
+    default-encoding: UTF-8     # 默认的邮件编码为UTF-8
+    properties:
+      mail:
+        stmp:
+          socketFactoryClass: javax.net.ssl.SSLSocketFactory
+        debug: true             # 表示开启 DEBUG 模式，这样，邮件发送过程的日志会在控制台打印出来，方便排查错误
+    # 邮件需要发送的人
+    send:
+      users: 2539971333@qq.com,123456@qq.cpm
+
 management:
   security:
     enabled: false
@@ -81,7 +97,10 @@ module:
     syn-cron: 0 30 23 * * * # 每天23：30执行一次
   character:
     key: b45e887eea69923ba8b7a4dcca0ef295
-    syn-cron: 0 30 1 * * * # 每天1：30执行一次
+    syn-cron: 0 57 20 * * * # 每天1：30执行一次
+  pyq:
+    key: b45e887eea69923ba8b7a4dcca0ef295
+    syn-cron: 0 0 06 * * * # 每天6：00执行一次
 
 logging:
   level:

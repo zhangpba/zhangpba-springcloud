@@ -12,10 +12,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -29,12 +36,25 @@ public class CharactersServiceImpl implements ICharactersService {
     @Autowired
     private CharactersMapper charactersMapper;
 
+    @Autowired
+    private JavaMailSender sender;
+
+    @Autowired
+    private TemplateEngine templateEngine;
+
     @Value("${module.character.key}")
     private String key;
 
+    @Value("${spring.mail.username}")
+    private String from;
+
+    // 默认发送的的人
+    @Value("${spring.mail.send.users}")
+    private String users;
+
     public List<Characters> getCharacters(String month, String day) {
         List<Characters> charactersList = new ArrayList<>();
-        String url = String.format(FeeApiUrl.CHARACTERS_URL, key, month, day);
+        String url = String.format(FeeApiUrl.TIANXING_CHARACTERS_URL, key, month, day);
         // 生日格式为：01-01
         if (month.length() == 1) {
             month = "0" + month;
@@ -103,5 +123,109 @@ public class CharactersServiceImpl implements ICharactersService {
     @Override
     public Characters getCharacters(String brithday) {
         return charactersMapper.getCharacters(brithday);
+    }
+
+    /**
+     * Thymeleaf模板邮件
+     */
+    @Override
+    public void sendThymeleafMail(String birthday, String toUsers) throws MessagingException {
+        MimeMessage mimeMessage = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        helper.setSubject("根据您的生日，对您的性格估计如下");
+        helper.setFrom(from);
+        // 设置邮件接收者，可以有多个接收者，中间用逗号隔开，以下类似
+        String[] userList = getToUser(toUsers);
+        helper.setTo(userList);
+        helper.setSentDate(new Date());
+        // 这里引入的是Template的Context
+        Context context = new Context();
+        // 设置模板中的变量
+        context.setVariable("username", "程序员");
+        context.setVariable("num", "8888");
+        context.setVariable("salary", "100000000000");
+        Characters characters = charactersMapper.getCharacters(birthday);
+
+        // 格式化内容
+        String[] charactersList = prase(characters.getContent());
+
+        context.setVariable("characters", charactersList);
+        logger.info("characters.getContent(): {}", characters.getContent());
+        // 第一个参数为模板的名称
+        String process = templateEngine.process("生日性格.html", context);
+        // 第二个参数true表示这是一个html文本
+        helper.setText(process, true);
+        sender.send(mimeMessage);
+    }
+
+    /**
+     * 获取发送的人
+     *
+     * @param toUsersStr 传入的收件人
+     * @return
+     */
+    private String[] getToUser(String toUsersStr) {
+        List<String> userlist = new ArrayList<>();
+
+        // 传入的收件人
+        if (toUsersStr.contains(",")) {
+            String[] toUsers = toUsersStr.split(",");
+            for (String u : toUsers) {
+                userlist.add(u);
+            }
+        } else {
+            userlist.add(toUsersStr);
+        }
+        // 默认收件人
+        String[] userDefault = users.split(",");
+        for (String u : userDefault) {
+            userlist.add(u);
+        }
+        return userlist.toArray(new String[userlist.size()]);
+    }
+
+
+    /**
+     * 格式化性格内容
+     *
+     * @param content 性格内容
+     * @return
+     */
+    private String[] prase(String content) {
+        List<String> result = new ArrayList();
+        String[] pList = content.replaceAll("</p>", "")
+                .replaceAll("<br><br>", "")
+                .replace("<P>", "")
+                .replaceAll("</strong>", "")
+                .split("<p>");
+        for (int i = 0; i < pList.length; i++) {
+            String pStr = pList[i].replace("<P>", "");
+
+            if (pStr.contains("<strong>")) {
+                String[] strongs = pStr.split("<strong>");
+                for (int j = 0; j < strongs.length; j++) {
+                    setResult(result, strongs[j]);
+                }
+            } else {
+                setResult(result, pStr);
+            }
+        }
+        return result.toArray(new String[result.size()]);
+    }
+
+    private void setResult(List<String> result, String hang) {
+        // 如果<br>在尾部，那么用空格替代；
+        if (hang.endsWith("<br>")) {
+            String str = hang.replace("<br>", "");
+            if (str != null && !str.isEmpty()) {
+                result.add(str);
+            }
+        } else {
+            // 如果不在尾部，用：代替
+            String str = hang.replace("<br>", "：");
+            if (str != null && !str.isEmpty()) {
+                result.add(str);
+            }
+        }
     }
 }

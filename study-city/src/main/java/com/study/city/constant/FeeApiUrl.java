@@ -40,5 +40,10 @@ public class FeeApiUrl {
      *      使用需要注册，并生成自己的key
      *      详细的链接是：https://www.tianapi.com/apiview/27
      */
-    public static final String CHARACTERS_URL = "http://api.tianapi.com/dob/index?key=%s&m=%s&d=%s" ;
+    public static final String TIANXING_CHARACTERS_URL = "http://api.tianapi.com/dob/index?key=%s&m=%s&d=%s" ;
+
+    /**
+     * 朋友圈文案(天行数据）
+     */
+    public static final String TIANXING_PYQWENAN_URL = "http://api.tianapi.com/pyqwenan/index?key=%s" ;
 }

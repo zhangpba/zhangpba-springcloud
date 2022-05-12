@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -48,14 +49,7 @@ public class CharactersController {
     public ResponseMessage getCharacterByBrithday(@ApiParam(name = "month", value = "生日-月", required = true) @RequestParam String month,
                                                   @ApiParam(name = "day", value = "生日-日", required = true) @RequestParam String day) {
 
-        if (month.length() == 1) {
-            month = "0" + month;
-        }
-        if (day.length() == 1) {
-            day = "0" + day;
-        }
-        String birthday = month + day;
-
+        String birthday = getBithhday(month, day);
         List<Characters> charactersList = new ArrayList<>();
         // 查询数据库中的
         Characters characters = charactersService.getCharacters(birthday);
@@ -88,8 +82,60 @@ public class CharactersController {
             String[] dataArray = date.split("-");
             String month = dataArray[1];
             String day = dataArray[2];
+            try {
+                // 处理 API调用频率超限的问题
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             List<Characters> characterses = charactersService.getCharacters(month, day);
             charactersService.batchAddcharacters(characterses);
         }
+    }
+
+
+    /**
+     * 手动触发同步性格定时任务
+     *
+     * @return
+     */
+    @ApiOperation(value = "手动触发同步性格定时任务")
+    @GetMapping(value = "/send")
+    public ResponseMessage send() {
+        logger.info("手动触发同步性格定时任务 start！");
+        synData();
+        return ResponseMessage.success("发送成功");
+    }
+
+    /**
+     * 发送带Thymeleaf模板邮件
+     *
+     * @return
+     */
+    @ApiOperation(value = "发送带Thymeleaf模板邮件")
+    @GetMapping(value = "/sendThymeleafMail")
+    public ResponseMessage sendThymeleafMail(@ApiParam(name = "month", value = "生日-月", required = true) @RequestParam String month,
+                                             @ApiParam(name = "day", value = "生日-日", required = true) @RequestParam String day,
+                                             @ApiParam(name = "toUsers", value = "邮箱,多个邮箱需要用英文','连接", required = true) @RequestParam String toUsers) {
+        logger.info("发送带Thymeleaf模板邮件案 start...");
+        try {
+            String birthday = getBithhday(month, day);
+            charactersService.sendThymeleafMail(birthday, toUsers);
+        } catch (MessagingException e) {
+            logger.error("发送带Thymeleaf模板邮件失败：{}", e.getMessage());
+            return ResponseMessage.success("发送带Thymeleaf模板邮件失败：" + e.getMessage());
+        }
+        return ResponseMessage.success("发送带Thymeleaf模板邮件！");
+    }
+
+    private String getBithhday(String month, String day) {
+        if (month.length() == 1) {
+            month = "0" + month;
+        }
+        if (day.length() == 1) {
+            day = "0" + day;
+        }
+        String birthday = month + day;
+        return birthday;
     }
 }

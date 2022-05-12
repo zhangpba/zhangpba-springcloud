@@ -2,6 +2,7 @@ package com.study.city.service;
 
 import com.study.city.entity.characters.Characters;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 public interface ICharactersService {
@@ -19,6 +20,9 @@ public interface ICharactersService {
 
     // 根据生日查询
     Characters getCharacters(String brithday);
+
+    // 发送带Thymeleaf模板邮件
+    void sendThymeleafMail(String birthday,String toUsers) throws MessagingException;
 }
 
 
