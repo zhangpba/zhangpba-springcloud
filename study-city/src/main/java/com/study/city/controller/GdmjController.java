@@ -19,13 +19,13 @@ import java.util.Map;
  * 朋友圈文案
  *
  * @author zhangpba
- * @date 2022-05-11
+ * @date 2022-05-13
  */
-@Api(value = "朋友圈文案", tags = "朋友圈文案")
+@Api(value = "古典名句", tags = "古典名句")
 @RestController
-@RequestMapping("/pyq")
-public class PyqController {
-    private static final Logger logger = LoggerFactory.getLogger(PyqController.class);
+@RequestMapping("/gdmj")
+public class GdmjController {
+    private static final Logger logger = LoggerFactory.getLogger(GdmjController.class);
 
     @Autowired
     private IPyqService pyqService;
@@ -35,32 +35,33 @@ public class PyqController {
      *
      * @return
      */
-    @ApiOperation(value = "获取朋友圈文案")
-    @GetMapping(value = "/getPyqWenan")
-    public ResponseMessage getPyqWenan() {
-        Map<String, String> map = pyqService.getPyqWenan();
+    @ApiOperation(value = "获取古典名句")
+    @GetMapping(value = "/getGdmj")
+    public ResponseMessage getGdmj() {
+        Map<String, String> map = pyqService.getGdmj();
         return ResponseMessage.success(map);
     }
 
     /**
-     * 发送朋友圈文案
+     * 发送古典名句邮件
      *
      * @return
      */
-    @ApiOperation(value = "发送朋友圈文案")
+    @ApiOperation(value = "发送古典名句邮件")
     @GetMapping(value = "/send")
     public ResponseMessage send() {
-        pyqService.sendPyqEmail();
+        pyqService.sendGdmjEmail();
         return ResponseMessage.success("发送成功");
     }
 
-
-    // 每天清晨六点发送朋友圈信息
-    @ApiOperation(value = "定时发送朋友圈文案 cron = ${module.pyq.syn-cron")
-    @Scheduled(cron = "${module.pyq.syn-cron}")    // 每天清晨六点
-    public void synWeathers() {
-        logger.info("定时发送朋友圈文案 start...");
+    /**
+     * 每天清晨九点发送朋友圈信息
+     */
+    @ApiOperation(value = "定时发送古典名句 cron = ${module.gdmj.syn-cron")
+    @Scheduled(cron = "${module.gdmj.syn-cron}")
+    public void synGdmj() {
+        logger.info("定时发送古典名句 start...");
         send();
-        logger.info("定时发送朋友圈文案 end...");
+        logger.info("定时发送古典名句 end...");
     }
 }

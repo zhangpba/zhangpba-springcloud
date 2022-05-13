@@ -16,51 +16,51 @@ import java.util.Map;
 
 
 /**
- * 朋友圈文案
+ * 土味情话
  *
  * @author zhangpba
- * @date 2022-05-11
+ * @date 2022-05-13
  */
-@Api(value = "朋友圈文案", tags = "朋友圈文案")
+@Api(value = "土味情话", tags = "土味情话")
 @RestController
-@RequestMapping("/pyq")
-public class PyqController {
-    private static final Logger logger = LoggerFactory.getLogger(PyqController.class);
+@RequestMapping("/saylove")
+public class SayLoveController {
+    private static final Logger logger = LoggerFactory.getLogger(SayLoveController.class);
 
     @Autowired
     private IPyqService pyqService;
 
     /**
-     * 获取朋友圈文案
+     * 获取土味情话
      *
      * @return
      */
-    @ApiOperation(value = "获取朋友圈文案")
+    @ApiOperation(value = "获取土味情话")
     @GetMapping(value = "/getPyqWenan")
     public ResponseMessage getPyqWenan() {
-        Map<String, String> map = pyqService.getPyqWenan();
+        Map<String, String> map = pyqService.getSayLove();
         return ResponseMessage.success(map);
     }
 
     /**
-     * 发送朋友圈文案
+     * 发送土味情话邮件成功
      *
      * @return
      */
-    @ApiOperation(value = "发送朋友圈文案")
+    @ApiOperation(value = "发送土味情话邮件成功")
     @GetMapping(value = "/send")
     public ResponseMessage send() {
-        pyqService.sendPyqEmail();
-        return ResponseMessage.success("发送成功");
+        pyqService.sendSayLoveEmail();
+        return ResponseMessage.success("发送土味情话邮件成功");
     }
 
 
-    // 每天清晨六点发送朋友圈信息
-    @ApiOperation(value = "定时发送朋友圈文案 cron = ${module.pyq.syn-cron")
-    @Scheduled(cron = "${module.pyq.syn-cron}")    // 每天清晨六点
-    public void synWeathers() {
-        logger.info("定时发送朋友圈文案 start...");
+    // 每天清晨六点发送土味情话
+    @ApiOperation(value = "发送土味情话邮件 cron = ${module.say-love.syn-cron")
+    @Scheduled(cron = "${module.say-love.syn-cron}")    // 每天清晨六点
+    public void synSayLove() {
+        logger.info("定时发送土味情话邮件 start...");
         send();
-        logger.info("定时发送朋友圈文案 end...");
+        logger.info("定时发送土味情话邮件 end...");
     }
 }

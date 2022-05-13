@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p>亲，今日黄历如下：</p>
+<table border="1">
+    <tr>
+        <td>公历日期</td>
+        <td th:text="${gregoriandate}"></td>
+    </tr>
+    <tr>
+        <td>农历日期</td>
+        <td th:text="${lunardate}"></td>
+    </tr>
+    <tr>
+        <td>农历节日</td>
+        <td th:text="${lunar_festival}"></td>
+    </tr>
+    <tr>
+        <td>公历节日</td>
+        <td th:text="${festival}"></td>
+    </tr>
+    <tr>
+        <td>适宜</td>
+        <td th:text="${fitness}"></td>
+    </tr>
+    <tr>
+        <td>不宜</td>
+        <td th:text="${taboo}"></td>
+    </tr>
+    <tr>
+        <td>神位</td>
+        <td th:text="${shenwei}"></td>
+    </tr>
+    <tr>
+        <td>胎神</td>
+        <td th:text="${taishen}"></td>
+    </tr>
+    <tr>
+        <td>冲煞</td>
+        <td th:text="${chongsha}"></td>
+    </tr>
+    <tr>
+        <td>岁煞</td>
+        <td th:text="${suisha}"></td>
+    </tr>
+    <tr>
+        <td>五行甲子</td>
+        <td th:text="${wuxingjiazi}"></td>
+    </tr>
+    <tr>
+        <td>五行年</td>
+        <td th:text="${wuxingnayear}"></td>
+    </tr>
+    <tr>
+        <td>五行月</td>
+        <td th:text="${wuxingnamonth}"></td>
+    </tr>
+    <tr>
+        <td>星宿</td>
+        <td th:text="${xingsu}"></td>
+    </tr>
+    <tr>
+        <td>彭祖</td>
+        <td th:text="${pengzu}"></td>
+    </tr>
+    <tr>
+        <td>见神</td>
+        <td th:text="${jianshen}"></td>
+    </tr>
+    <tr>
+        <td>天干地支年</td>
+        <td th:text="${tiangandizhiyear}"></td>
+    </tr>
+    <tr>
+        <td>天干地支月</td>
+        <td th:text="${tiangandizhimonth}"></td>
+    </tr>
+    <tr>
+        <td>天干地支日</td>
+        <td th:text="${tiangandizhiday}"></td>
+    </tr>
+    <tr>
+        <td>季节</td>
+        <td th:text="${lmonthname}"></td>
+    </tr>
+    <tr>
+        <td>生肖</td>
+        <td th:text="${shengxiao}"></td>
+    </tr>
+    <tr>
+        <td>农历月</td>
+        <td th:text="${lubarmonth}"></td>
+    </tr>
+    <tr>
+        <td>农历日</td>
+        <td th:text="${lunarday}"></td>
+    </tr>
+    <tr>
+        <td>节气</td>
+        <td th:text="${jieqi}"></td>
+    </tr>
+</table>
+<!--<div style="color: #0effdb" th:text="${characters}"></div>-->
+<div style="color: #8bff0e"></div>
+</body>
+</html>

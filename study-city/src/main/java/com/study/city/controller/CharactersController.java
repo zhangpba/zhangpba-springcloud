@@ -35,7 +35,7 @@ public class CharactersController {
     private static final Logger logger = LoggerFactory.getLogger(CharactersController.class);
 
     @Autowired
-    ICharactersService charactersService;
+    private ICharactersService charactersService;
 
     /**
      * 根据生日查询人的性格
@@ -48,8 +48,8 @@ public class CharactersController {
     @GetMapping(value = "/getCharacterByBrithday")
     public ResponseMessage getCharacterByBrithday(@ApiParam(name = "month", value = "生日-月", required = true) @RequestParam String month,
                                                   @ApiParam(name = "day", value = "生日-日", required = true) @RequestParam String day) {
-
         String birthday = getBithhday(month, day);
+        logger.info("根据生日查询人的性格 生日:{}", birthday);
         List<Characters> charactersList = new ArrayList<>();
         // 查询数据库中的
         Characters characters = charactersService.getCharacters(birthday);

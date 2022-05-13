@@ -43,7 +43,22 @@ public class FeeApiUrl {
     public static final String TIANXING_CHARACTERS_URL = "http://api.tianapi.com/dob/index?key=%s&m=%s&d=%s" ;
 
     /**
-     * 朋友圈文案(天行数据）
+     * 朋友圈文案(天行数据）http://api.tianapi.com/gjmj/index?key=自己的key
      */
     public static final String TIANXING_PYQWENAN_URL = "http://api.tianapi.com/pyqwenan/index?key=%s" ;
+
+    /**
+     * 古籍名句(天行数据）http://api.tianapi.com/gjmj/index?key=自己的key
+     */
+    public static final String TIANXING_GDMJ_URL = "http://api.tianapi.com/gjmj/index?key=%s" ;
+
+    /**
+     * 土味情话(天行数据）http://api.tianapi.com/saylove/index?key=自己的key
+     */
+    public static final String TIANXING_SAYLOVE_URL = "http://api.tianapi.com/saylove/index?key=%s" ;
+
+    /**
+     * 老黄历(天行数据）http://api.tianapi.com/lunar/index?key=自己的key&date=2022-05-13
+     */
+    public static final String TIANXING_LUNAR_URL = "http://api.tianapi.com/lunar/index?key=%s&date=%s" ;
 }

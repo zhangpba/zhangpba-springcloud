@@ -48,7 +48,18 @@ spring:
         debug: true             # 表示开启 DEBUG 模式，这样，邮件发送过程的日志会在控制台打印出来，方便排查错误
     # 邮件需要发送的人
     send:
-      users: 2539971333@qq.com,123456@qq.cpm
+      default: # 默认邮件接收人，所有额邮件都会接收的邮箱
+        users: 123456@qq.com,2539971333@qq.com
+      character:
+        users: 123456@qq.com
+      pyq:
+        users: 123456@qq.com
+      gdmj:
+        users: 123456@qq.com
+      say-love: # 土味情话
+        users: 123456@qq.com
+      lunar:    # 老黄历
+        users: 123456@qq.com
 
 management:
   security:
@@ -89,18 +100,27 @@ black-list:
   ip: 127.0.0.2,127.0.0.3
 
 module:
-  weather:
+  weather: # 天气预报
     syn-cron: 0 30 21 * * * # 每天21：30执行一次
   #  syn-cron: "*/5 * * * * *"  #每五秒执行一次
-  gold:
+  gold: # 黄金
     appkey: a09971b7353c6d08
     syn-cron: 0 30 23 * * * # 每天23：30执行一次
-  character:
+  character: # 生日性格
     key: b45e887eea69923ba8b7a4dcca0ef295
     syn-cron: 0 57 20 * * * # 每天1：30执行一次
-  pyq:
+  pyq: # 朋友圈文案
     key: b45e887eea69923ba8b7a4dcca0ef295
     syn-cron: 0 0 06 * * * # 每天6：00执行一次
+  gdmj: #古典名句
+    key: b45e887eea69923ba8b7a4dcca0ef295
+    syn-cron: 0 0 09 * * * # 每天9：00执行一次
+  say-love: #土味情话
+    key: b45e887eea69923ba8b7a4dcca0ef295
+    syn-cron: 0 14 23 * * * # 每天6：30执行一次
+  lunar: # 老黄历
+    key: b45e887eea69923ba8b7a4dcca0ef295
+    syn-cron: 0 10 0 * * * # 每天凌晨00：10执行一次
 
 logging:
   level:
