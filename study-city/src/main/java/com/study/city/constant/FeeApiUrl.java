@@ -61,4 +61,9 @@ public class FeeApiUrl {
      * 老黄历(天行数据）http://api.tianapi.com/lunar/index?key=自己的key&date=2022-05-13
      */
     public static final String TIANXING_LUNAR_URL = "http://api.tianapi.com/lunar/index?key=%s&date=%s" ;
+
+    /**
+     * 每日一小句(天行数据）http://api.tianapi.com/one/index?key=自己的key&date=2022-05-15
+     */
+    public static final String TIANXING_ONE_URL = "http://api.tianapi.com/one/index?key=%s&date=%s" ;
 }

@@ -5,10 +5,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -29,6 +34,10 @@ public class EmailServiceImpl implements IEmailService {
     // 默认邮件接收人
     @Value("${spring.mail.send.default.users}")
     private String users;
+
+    // 默认隐秘抄送人
+    @Value("${spring.mail.send.default.bcc}")
+    private String bccUsers;
 
     /**
      * 发送普通邮件
@@ -52,9 +61,40 @@ public class EmailServiceImpl implements IEmailService {
         // 设置邮件发送日期
         message.setSentDate(new Date());
         // 设置邮件的正文
-        message.setText(resultMap.get("content"));
+        StringBuffer contentBuffer = new StringBuffer(resultMap.get("content"));
+        String source = resultMap.get("source");
+        if (source != null && !source.isEmpty()) {
+            int size = contentBuffer.toString().length();
+            contentBuffer.append(System.getProperty("line.separator"));
+            for (int i = 0; i < size * 3; i++) {
+                contentBuffer.append(" ");
+            }
+
+            contentBuffer.append("———");
+            contentBuffer.append(source);
+        }
+        message.setText(contentBuffer.toString());
         // 发送邮件
         sender.send(message);
+    }
+
+    /**
+     * 发送带正文带图片的邮件 demo
+     */
+    @Override
+    public void sendImgResMail(Map<String, Object> resultMap, String toUsers) throws MessagingException {
+        MimeMessage mimeMessage = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        helper.setSubject("这是一封测试图片的邮件");
+        helper.setFrom(from);
+        helper.setTo(toUsers);
+        helper.setSentDate(new Date());
+        // src='cid:p01' 占位符写法 ，第二个参数true表示这是一个html文本
+        helper.setText("<p>hello 大家好，这是一封测试邮件，这封邮件包含两种图片，分别如下</p><p>第一张图片：</p><img src='cid:p01'/><p>第二张图片：</p><img src='cid:p02'/>", true);
+        // 第一个参数指的是html中占位符的名字，第二个参数就是文件的位置
+        helper.addInline("p01", new FileSystemResource(new File("E:\\study\\图片1.jpg")));
+        helper.addInline("p02", new FileSystemResource(new File("E:\\study\\图片2.jpg")));
+        sender.send(mimeMessage);
     }
 
 
@@ -66,6 +106,22 @@ public class EmailServiceImpl implements IEmailService {
      */
     @Override
     public String[] getToUser(String toUsersStr) {
+        return getBase(toUsersStr, users);
+    }
+
+    /**
+     * 隐秘抄送人
+     *
+     * @param toUsersStr 隐秘抄送人
+     * @return
+     */
+    @Override
+    public String[] getBccUser(String toUsersStr) {
+        return getBase(toUsersStr, bccUsers);
+    }
+
+    // 如果是接口传进来的，都视为收件人；配置文件中的均为隐秘抄送人
+    public String[] getBase(String toUsersStr, String users) {
         List<String> userlist = new ArrayList<>();
         // 传入的收件人
         if (toUsersStr != null && toUsersStr.contains(",")) {
@@ -74,7 +130,7 @@ public class EmailServiceImpl implements IEmailService {
                 userlist.add(u);
             }
         } else {
-            if (toUsersStr != null || !toUsersStr.isEmpty()) {
+            if (toUsersStr != null && !toUsersStr.isEmpty()) {
                 userlist.add(toUsersStr);
             }
         }

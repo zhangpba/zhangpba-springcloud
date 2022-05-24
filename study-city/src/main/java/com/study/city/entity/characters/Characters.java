@@ -15,4 +15,6 @@ public class Characters {
     private String title;
     // 内容
     private String content;
+
+    private String url;
 }

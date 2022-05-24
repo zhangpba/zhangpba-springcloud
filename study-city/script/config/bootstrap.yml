@@ -11,12 +11,12 @@ spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/study?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
     username: root
-    password: sf.123!@#
+    password: 123456
     driver-class-name: com.mysql.jdbc.Driver #5.0版本的数据库驱动配置
   #    driver-class-name: com.mysql.cj.jdbc.Driver #8.0高版本得数据库驱动配置
   redis:
     host: 127.0.0.1
-    port: 6380
+    port: 6379
     password: 123456
     pool:
       max-active: 8
@@ -34,6 +34,41 @@ spring:
       name: admin
       password: 123456
 
+  # 邮件 2021-09-24
+  mail:
+    host: smtp.qq.com           # 配置SMTP服务地址
+    username: zhangpba@qq.com   # 发送者邮箱
+    password: fhjpibgkvndmdhhf       # 配置密码，注意不是真正的密码，而是刚刚申请到的授权码
+    port: 587                   # 端口号465或587
+    default-encoding: UTF-8     # 默认的邮件编码为UTF-8
+    properties:
+      mail:
+        stmp:
+          socketFactoryClass: javax.net.ssl.SSLSocketFactory
+        debug: true             # 表示开启 DEBUG 模式，这样，邮件发送过程的日志会在控制台打印出来，方便排查错误
+    # 默认邮件需要发送的人
+    send:
+      default: # 默认邮件接收人，所有额邮件都会接收的邮箱 123@qq.com,456@qq.com
+        users: 123456@tencent.com
+        bcc: 2539971333@qq.com # 隐秘抄送人
+      # 配置文件中的都为隐秘抄送人
+      character:
+        users: 2539971333@tencent.com
+      pyq:
+        users: 453436862@qq.com
+      gdmj:
+        users: 123456@tencent.com
+      say-love: # 土味情话
+        users: 453436862@qq.com
+      lunar:    # 老黄历
+        users: 2539971333@qq.com
+      one-day:
+        users: 453436862@qq.com,123456@tencent.com
+
+management:
+  security:
+    enabled: false
+
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml # 由于'classpath:mapper/*.xml'扫描不到还款计划明细下面的mapper，所以做修改2021-08-12
   configuration:
@@ -48,11 +83,25 @@ eureka:
       defaultZone: http://127.0.0.1:8815/eureka/
   #      defaultZone: http://192.168.182.128:8815/eureka/   #客户端和服务器端进行交互的地址
 
-
   instance:
     prefer-ip-address: true
     lease-expiration-duration-in-seconds: 1
     lease-renewal-interval-in-seconds: 2
+
+#pagehelper 分页插件
+pagehelper:
+  helperDialect: mysql
+  #开启优化，如果开启优化，在分页页码结果没有数据的时候,会显示有数据的页码数据
+  reasonable: true
+  #是否支持接口参数来传递分页参数，默认false
+  supportMethodsArguments: true
+  #pageSize=0 返回所有
+  pageSizeZero: false
+  params: count=countSql
+
+# ip黑名单
+black-list:
+  ip: 127.0.0.2,127.0.0.3
 
 module:
   weather:
@@ -63,7 +112,22 @@ module:
     syn-cron: 0 30 23 * * * # 每天23：30执行一次
   character:
     key: b45e887eea69923ba8b7a4dcca0ef295
-    syn-cron: 0 30 1 * * * # 每天1：30执行一次
+    syn-cron: 0 57 20 * * * # 每天1：30执行一次
+  pyq: # 朋友圈文案
+    key: b45e887eea69923ba8b7a4dcca0ef295
+    syn-cron: 0 0 06 * * * # 每天6：00执行一次
+  gdmj: #古典名句
+    key: b45e887eea69923ba8b7a4dcca0ef295
+    syn-cron: 0 0 09 * * * # 每天9：00执行一次
+  say-love: #土味情话
+    key: b45e887eea69923ba8b7a4dcca0ef295
+    syn-cron: 0 14 23 * * * # 每天6：30执行一次
+  lunar: # 老黄历
+    key: b45e887eea69923ba8b7a4dcca0ef295
+    syn-cron: 0 10 0 * * * # 每天凌晨00：10执行一次
+  one-day: # 每日一小句
+    key: b45e887eea69923ba8b7a4dcca0ef295
+    syn-cron: 0 05 09 * * * # 每天凌晨09：05执行一次
 
 logging:
   level:

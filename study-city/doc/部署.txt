@@ -11,6 +11,10 @@
     ./opt/zhangpb/study-city/install.sh
     ./opt/zhangpb/study-city/start.sh
 
+四.执行数据库脚本，进行初始化
+
+五.在本项目路径下面建一个文件夹 image
+
 
 行政区划代码（adcode）规则说明
     代码共6位，前两位代表省（一级）、中间两位为市/地区（二级），最后两位为区县（三级）

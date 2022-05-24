@@ -126,7 +126,7 @@ public class CharactersServiceImpl implements ICharactersService {
     }
 
     /**
-     * Thymeleaf模板邮件
+     * TODO 暂时不用了：Thymeleaf模板邮件
      */
     @Override
     public void sendThymeleafMail(String birthday, String toUsers) throws MessagingException {
@@ -153,6 +153,30 @@ public class CharactersServiceImpl implements ICharactersService {
         helper.setText(process, true);
         sender.send(mimeMessage);
     }
+
+    /**
+     * 带图片的邮件
+     */
+    @Override
+    public void sendEmail(String birthday, String toUsers) throws MessagingException {
+        MimeMessage mimeMessage = sender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        helper.setSubject("根据您的生日，对您的性格估计如下");
+        helper.setFrom(from);
+        // 设置邮件接收者，可以有多个接收者，中间用逗号隔开，以下类似
+        String[] userList = emailService.getToUser(toUsers);
+        logger.info("接收邮件的人：{}", userList);
+        helper.setTo(userList);
+        helper.setSentDate(new Date());
+        // 获取数据
+        Characters characters = charactersMapper.getCharacters(birthday);
+        String content = characters.getContent();
+        // src='cid:p01' 占位符写法 ，第二个参数true表示这是一个html文本
+        // 因为这个邮件中没有图片，所以删掉部分代码
+        helper.setText(content, true);
+        sender.send(mimeMessage);
+    }
+
 
     /**
      * 格式化性格内容

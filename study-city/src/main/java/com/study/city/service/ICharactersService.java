@@ -21,8 +21,11 @@ public interface ICharactersService {
     // 根据生日查询
     Characters getCharacters(String brithday);
 
-    // 发送带Thymeleaf模板邮件
-    void sendThymeleafMail(String birthday,String toUsers) throws MessagingException;
+    // TODO 暂时不用了：Thymeleaf模板邮件
+    void sendThymeleafMail(String birthday, String toUsers) throws MessagingException;
+
+    // 带图片的邮件
+    void sendEmail(String birthday, String toUsers) throws MessagingException;
 }
 
 

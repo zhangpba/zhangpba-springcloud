@@ -112,20 +112,20 @@ public class CharactersController {
      *
      * @return
      */
-    @ApiOperation(value = "发送带Thymeleaf模板邮件")
+    @ApiOperation(value = "发送生日性格邮件")
     @GetMapping(value = "/sendThymeleafMail")
     public ResponseMessage sendThymeleafMail(@ApiParam(name = "month", value = "生日-月", required = true) @RequestParam String month,
                                              @ApiParam(name = "day", value = "生日-日", required = true) @RequestParam String day,
                                              @ApiParam(name = "toUsers", value = "邮箱,多个邮箱需要用英文','连接", required = true) @RequestParam String toUsers) {
-        logger.info("发送带Thymeleaf模板邮件案 start...");
+        logger.info("发送生日性格邮件 start...");
         try {
             String birthday = getBithhday(month, day);
-            charactersService.sendThymeleafMail(birthday, toUsers);
+            charactersService.sendEmail(birthday, toUsers);
         } catch (MessagingException e) {
-            logger.error("发送带Thymeleaf模板邮件失败：{}", e.getMessage());
-            return ResponseMessage.success("发送带Thymeleaf模板邮件失败：" + e.getMessage());
+            logger.error("发送生日性格邮件失败：{}", e.getMessage());
+            return ResponseMessage.success("发送生日性格邮件失败：" + e.getMessage());
         }
-        return ResponseMessage.success("发送带Thymeleaf模板邮件！");
+        return ResponseMessage.success("成功发送生日性格邮件！");
     }
 
     private String getBithhday(String month, String day) {
