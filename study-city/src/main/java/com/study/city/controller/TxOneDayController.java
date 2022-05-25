@@ -1,7 +1,7 @@
 package com.study.city.controller;
 
 import com.study.city.entity.tianxing.OneDay;
-import com.study.city.service.IOneDayService;
+import com.study.city.service.ITxOneDayService;
 import com.study.starter.vo.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -23,11 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "每日一小句", tags = "每日一小句")
 @RestController
 @RequestMapping("/one-day")
-public class OneDayController {
-    private static final Logger logger = LoggerFactory.getLogger(OneDayController.class);
+public class TxOneDayController {
+    private static final Logger logger = LoggerFactory.getLogger(TxOneDayController.class);
 
     @Autowired
-    private IOneDayService oneDayService;
+    private ITxOneDayService oneDayService;
 
     /**
      * 获取每日一小句

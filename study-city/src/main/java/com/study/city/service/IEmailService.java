@@ -19,6 +19,9 @@ public interface IEmailService {
 
     // 隐秘抄送人
     String[] getBccUser(String toUsersStr);
+
+    // 打印邮件接受人、隐秘抄送人日志
+    void usersLogs(String[] toUser, String title);
 }
 
 

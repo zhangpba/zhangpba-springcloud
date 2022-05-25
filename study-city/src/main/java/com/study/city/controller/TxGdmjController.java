@@ -1,6 +1,6 @@
 package com.study.city.controller;
 
-import com.study.city.service.IPyqService;
+import com.study.city.service.ITxPyqService;
 import com.study.starter.vo.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,11 +24,11 @@ import java.util.Map;
 @Api(value = "古典名句", tags = "古典名句")
 @RestController
 @RequestMapping("/gdmj")
-public class GdmjController {
-    private static final Logger logger = LoggerFactory.getLogger(GdmjController.class);
+public class TxGdmjController {
+    private static final Logger logger = LoggerFactory.getLogger(TxGdmjController.class);
 
     @Autowired
-    private IPyqService pyqService;
+    private ITxPyqService pyqService;
 
     /**
      * 获取朋友圈文案

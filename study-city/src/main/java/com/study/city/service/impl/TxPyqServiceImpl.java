@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.study.city.constant.FeeApiUrl;
 import com.study.city.service.IEmailService;
-import com.study.city.service.IPyqService;
+import com.study.city.service.ITxPyqService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class PyqServiceImpl implements IPyqService {
-    private static final Logger logger = LoggerFactory.getLogger(PyqServiceImpl.class);
+public class TxPyqServiceImpl implements ITxPyqService {
+    private static final Logger logger = LoggerFactory.getLogger(TxPyqServiceImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;

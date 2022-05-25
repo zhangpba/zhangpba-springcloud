@@ -1,11 +1,11 @@
 package com.study.city.service;
 
-import com.study.city.entity.characters.Characters;
+import com.study.city.entity.tianxing.Characters;
 
 import javax.mail.MessagingException;
 import java.util.List;
 
-public interface ICharactersService {
+public interface ITxCharactersService {
     // 从天行数据获取生日性格数据
     List<Characters> getCharacters(String month, String day);
 

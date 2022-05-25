@@ -56,7 +56,7 @@ public class EmailServiceImpl implements IEmailService {
         message.setFrom(from);
         // 设置邮件接收者，可以有多个接收者，中间用逗号隔开，以下类似
         String[] userList = getToUser(toUsers);
-        logger.info("邮箱接收人：{}", userList);
+        this.usersLogs(userList, "邮箱接收人:");
         message.setTo(userList);
         // 设置邮件发送日期
         message.setSentDate(new Date());
@@ -140,5 +140,26 @@ public class EmailServiceImpl implements IEmailService {
             userlist.add(u);
         }
         return userlist.toArray(new String[userlist.size()]);
+    }
+
+
+    /**
+     * 打印邮件接受人、隐秘抄送人日志
+     *
+     * @param toUser 邮箱数组
+     * @param title  描述
+     */
+    @Override
+    public void usersLogs(String[] toUser, String title) {
+        if (toUser != null && toUser.length != 0) {
+            StringBuffer toUserBuffer = new StringBuffer(title);
+            for (int i = 0; i < toUser.length; i++) {
+                toUserBuffer.append(toUser[i]);
+                if (i != toUser.length - 1) {
+                    toUserBuffer.append(",");
+                }
+            }
+            logger.info(toUserBuffer.toString());
+        }
     }
 }

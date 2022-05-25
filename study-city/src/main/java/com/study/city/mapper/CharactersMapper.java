@@ -1,6 +1,6 @@
 package com.study.city.mapper;
 
-import com.study.city.entity.characters.Characters;
+import com.study.city.entity.tianxing.Characters;
 import org.mapstruct.Mapper;
 
 import java.util.List;

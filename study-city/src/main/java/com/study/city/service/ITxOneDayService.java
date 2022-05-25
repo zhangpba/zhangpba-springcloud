@@ -2,7 +2,7 @@ package com.study.city.service;
 
 import com.study.city.entity.tianxing.OneDay;
 
-public interface IOneDayService {
+public interface ITxOneDayService {
     // 获取每日一小句
     OneDay getOneDay();
 

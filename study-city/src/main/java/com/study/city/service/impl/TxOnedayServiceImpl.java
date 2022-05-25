@@ -6,8 +6,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.study.city.constant.FeeApiUrl;
 import com.study.city.entity.tianxing.OneDay;
 import com.study.city.service.IEmailService;
-import com.study.city.service.IOneDayService;
-import com.study.city.service.IPyqService;
+import com.study.city.service.ITxOneDayService;
+import com.study.city.service.ITxPyqService;
 import com.study.starter.utils.DateUtils;
 import com.study.starter.utils.ImageUtils;
 import org.slf4j.Logger;
@@ -28,8 +28,8 @@ import java.util.Date;
 import java.util.Map;
 
 @Service
-public class OnedayServiceImpl implements IOneDayService {
-    private static final Logger logger = LoggerFactory.getLogger(OnedayServiceImpl.class);
+public class TxOnedayServiceImpl implements ITxOneDayService {
+    private static final Logger logger = LoggerFactory.getLogger(TxOnedayServiceImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;
@@ -38,7 +38,7 @@ public class OnedayServiceImpl implements IOneDayService {
     private JavaMailSender sender;
 
     @Autowired
-    private IPyqService pyqService;
+    private ITxPyqService pyqService;
 
     @Autowired
     private IEmailService emailService;
@@ -141,11 +141,11 @@ public class OnedayServiceImpl implements IOneDayService {
         helper.setFrom(from);
         // 设置邮件接收者，可以有多个接收者，中间用逗号隔开，以下类似
         String[] toUser = emailService.getToUser(null);
-        this.extracted(toUser, "邮件接收者: ");
+        emailService.usersLogs(toUser, "邮件接收者: ");
         helper.setTo(toUser);
         // 设置隐秘抄送人，可以有多个
         String[] bccUser = emailService.getBccUser(bccUsers);
-        this.extracted(bccUser, "邮件隐秘抄送人: ");
+        emailService.usersLogs(bccUser, "邮件隐秘抄送人: ");
         helper.setBcc(bccUser);
         helper.setSentDate(new Date());
         // src='cid:p01' 占位符写法 ，第二个参数true表示这是一个html文本
@@ -154,26 +154,7 @@ public class OnedayServiceImpl implements IOneDayService {
         // 第一个参数指的是html中占位符的名字，第二个参数就是文件的位置
         logger.info("图片路径：{}", oneDay.getImgPath());
         helper.addInline("p01", new FileSystemResource(new File(oneDay.getImgPath())));
-//        sender.send(mimeMessage);
-    }
-
-    /**
-     * 打印邮件接受人、隐秘抄送人日志
-     *
-     * @param toUser 邮箱数组
-     * @param title  描述
-     */
-    private void extracted(String[] toUser, String title) {
-        if (toUser != null && toUser.length != 0) {
-            StringBuffer toUserBuffer = new StringBuffer(title);
-            for (int i = 0; i < toUser.length; i++) {
-                toUserBuffer.append(toUser[i]);
-                if (i != toUser.length - 1) {
-                    toUserBuffer.append(",");
-                }
-            }
-            logger.info(toUserBuffer.toString());
-        }
+        sender.send(mimeMessage);
     }
 
     // 邮件内容

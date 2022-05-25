@@ -1,13 +1,12 @@
 package com.study.city.controller;
 
-import com.study.city.service.IPyqService;
+import com.study.city.service.ITxPyqService;
 import com.study.starter.vo.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,11 +23,11 @@ import java.util.Map;
 @Api(value = "朋友圈文案", tags = "朋友圈文案")
 @RestController
 @RequestMapping("/pyq")
-public class PyqController {
-    private static final Logger logger = LoggerFactory.getLogger(PyqController.class);
+public class TxPyqController {
+    private static final Logger logger = LoggerFactory.getLogger(TxPyqController.class);
 
     @Autowired
-    private IPyqService pyqService;
+    private ITxPyqService pyqService;
 
     /**
      * 获取朋友圈文案
@@ -57,7 +56,7 @@ public class PyqController {
 
     // 每天清晨六点发送朋友圈信息
     @ApiOperation(value = "定时发送朋友圈文案 cron = ${module.pyq.syn-cron")
-    @Scheduled(cron = "${module.pyq.syn-cron}")    // 每天清晨六点
+//    @Scheduled(cron = "${module.pyq.syn-cron}")    // 每天清晨六点
     public void synWeathers() {
         logger.info("定时发送朋友圈文案 start...");
         send();

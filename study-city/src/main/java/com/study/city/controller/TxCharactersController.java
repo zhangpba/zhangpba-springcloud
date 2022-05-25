@@ -1,7 +1,7 @@
 package com.study.city.controller;
 
-import com.study.city.entity.characters.Characters;
-import com.study.city.service.ICharactersService;
+import com.study.city.entity.tianxing.Characters;
+import com.study.city.service.ITxCharactersService;
 import com.study.starter.utils.DateUtils;
 import com.study.starter.vo.web.ResponseMessage;
 import io.swagger.annotations.Api;
@@ -31,11 +31,11 @@ import java.util.List;
 @Api(value = "生日性格", tags = "生日性格")
 @RestController
 @RequestMapping("/character")
-public class CharactersController {
-    private static final Logger logger = LoggerFactory.getLogger(CharactersController.class);
+public class TxCharactersController {
+    private static final Logger logger = LoggerFactory.getLogger(TxCharactersController.class);
 
     @Autowired
-    private ICharactersService charactersService;
+    private ITxCharactersService charactersService;
 
     /**
      * 根据生日查询人的性格

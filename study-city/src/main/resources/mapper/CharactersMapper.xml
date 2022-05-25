@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.study.city.mapper.CharactersMapper">
 
-    <resultMap id="charactersResultMap" type="com.study.city.entity.characters.Characters">
+    <resultMap id="charactersResultMap" type="com.study.city.entity.tianxing.Characters">
         <id property="brithday" column="brithday"/>
         <result property="title" column="title"/>
         <result property="content" column="content"/>
     </resultMap>
 
-    <insert id="addCharacters" parameterType="com.study.city.entity.characters.Characters">
+    <insert id="addCharacters" parameterType="com.study.city.entity.tianxing.Characters">
         insert into characters
         (brithday,title,content)
         values

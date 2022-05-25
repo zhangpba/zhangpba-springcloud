@@ -1,4 +1,4 @@
-package com.study.city.entity.characters;
+package com.study.city.entity.tianxing;
 
 import lombok.Getter;
 import lombok.Setter;

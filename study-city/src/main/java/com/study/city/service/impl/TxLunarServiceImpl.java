@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.study.city.constant.FeeApiUrl;
 import com.study.city.service.IEmailService;
-import com.study.city.service.ILunarService;
+import com.study.city.service.ITxLunarService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class LunarServiceImpl implements ILunarService {
+public class TxLunarServiceImpl implements ITxLunarService {
 
-    private static final Logger logger = LoggerFactory.getLogger(LunarServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(TxLunarServiceImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;
@@ -104,7 +104,7 @@ public class LunarServiceImpl implements ILunarService {
         helper.setFrom(from);
         // 设置邮件接收者，可以有多个接收者，中间用逗号隔开，以下类似
         String[] userList = emailService.getToUser(toUsers);
-        logger.info("接收邮件的人：{}", userList);
+        emailService.usersLogs(userList, "接收邮件的人:");
         helper.setTo(userList);
         helper.setSentDate(new Date());
         // 这里引入的是Template的Context

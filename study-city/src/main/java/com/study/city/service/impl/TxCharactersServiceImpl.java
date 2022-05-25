@@ -4,9 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.study.city.constant.FeeApiUrl;
-import com.study.city.entity.characters.Characters;
+import com.study.city.entity.tianxing.Characters;
 import com.study.city.mapper.CharactersMapper;
-import com.study.city.service.ICharactersService;
+import com.study.city.service.ITxCharactersService;
 import com.study.city.service.IEmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +27,9 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class CharactersServiceImpl implements ICharactersService {
+public class TxCharactersServiceImpl implements ITxCharactersService {
 
-    private static final Logger logger = LoggerFactory.getLogger(CharactersServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(TxCharactersServiceImpl.class);
 
     @Autowired
     private RestTemplate restTemplate;

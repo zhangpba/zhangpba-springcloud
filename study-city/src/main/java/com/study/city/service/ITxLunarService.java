@@ -4,7 +4,7 @@ import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Map;
 
-public interface ILunarService {
+public interface ITxLunarService {
     // 从天行数据获取老黄历数据
     public List<Map<String, Object>> getLunar(String day);
 

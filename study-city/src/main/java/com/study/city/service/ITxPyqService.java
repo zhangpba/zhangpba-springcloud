@@ -2,7 +2,7 @@ package com.study.city.service;
 
 import java.util.Map;
 
-public interface IPyqService {
+public interface ITxPyqService {
     // 获取朋友圈文案
     Map<String, String> getPyqWenan();
 

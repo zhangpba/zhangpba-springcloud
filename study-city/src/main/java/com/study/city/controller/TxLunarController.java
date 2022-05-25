@@ -1,6 +1,6 @@
 package com.study.city.controller;
 
-import com.study.city.service.ILunarService;
+import com.study.city.service.ITxLunarService;
 import com.study.starter.utils.DateUtils;
 import com.study.starter.vo.web.ResponseMessage;
 import io.swagger.annotations.Api;
@@ -31,11 +31,11 @@ import java.util.Map;
 @Api(value = "中国老黄历", tags = "中国老黄历")
 @RestController
 @RequestMapping("/lunar")
-public class LunarController {
-    private static final Logger logger = LoggerFactory.getLogger(LunarController.class);
+public class TxLunarController {
+    private static final Logger logger = LoggerFactory.getLogger(TxLunarController.class);
 
     @Autowired
-    private ILunarService lunarService;
+    private ITxLunarService lunarService;
 
     // 老黄历需要接收的人
     @Value("${spring.mail.send.lunar.users}")
