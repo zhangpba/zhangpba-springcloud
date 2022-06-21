@@ -7,7 +7,7 @@ import java.util.Date;
 
 /**
  * @author zhangpba
- * @description TODO
+ * @description 配置中心-配置信息模型
  * @date 2022/6/18
  */
 @Getter

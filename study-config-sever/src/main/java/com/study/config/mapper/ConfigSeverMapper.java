@@ -1,6 +1,6 @@
 package com.study.config.mapper;
 
-import com.study.config.model.ConfigInfo;
+import com.study.starter.vo.config.ConfigInfo;
 //import org.apache.ibatis.annotations.Mapper;
 
 //@Mapper

@@ -1,7 +1,7 @@
 package com.study.config.controller;
 
 import com.study.config.mapper.ConfigSeverMapper;
-import com.study.config.model.ConfigInfo;
+import com.study.starter.vo.config.ConfigInfo;
 import com.study.starter.vo.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -61,7 +61,7 @@ public class ConfigSeverController {
                                   @ApiParam(name = "value", value = "value", required = true) @RequestParam String value,
                                   @ApiParam(name = "application", value = "application", required = true) @RequestParam String application,
                                   @ApiParam(name = "profile", value = "profile", required = true) @RequestParam String profile,
-                                  @ApiParam(name = "lable", value = "lable", required = true) @RequestParam String lable
+                                  @ApiParam(name = "label", value = "label", required = true) @RequestParam String lable
     ) {
         ConfigInfo configInfo = new ConfigInfo();
         configInfo.setApplication(application);
