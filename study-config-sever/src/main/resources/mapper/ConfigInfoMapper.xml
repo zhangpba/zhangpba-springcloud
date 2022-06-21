@@ -46,14 +46,11 @@
     <insert id="addConfigInfo" parameterType="com.study.config.model.ConfigInfo">
         insert into config_info
         (
-        <if test="id != null and id !=''">
-            id,
-        </if>
         <if test="key != null and key !=''">
-            key,
+            `key`,
         </if>
         <if test="value != null and value !=''">
-            value,
+            `value`,
         </if>
         <if test="application != null and application !=''">
             application,
@@ -62,14 +59,11 @@
             profile,
         </if>
         <if test="lable != null and lable !=''">
-            lable,
+            `lable`,
         </if>
         create_date)
         values
         (
-        <if test="id != null and id !=''">
-            #{id},
-        </if>
         <if test="key != null and key !=''">
             #{key},
         </if>

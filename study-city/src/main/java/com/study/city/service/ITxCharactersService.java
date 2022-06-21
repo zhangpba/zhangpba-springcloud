@@ -15,7 +15,7 @@ public interface ITxCharactersService {
     // 插入
     int addCharacters(Characters characters);
 
-    // 查询所有的城市
+    // 查询366天所有的性格
     List<Characters> getAllCharacters();
 
     // 根据生日查询
@@ -24,7 +24,7 @@ public interface ITxCharactersService {
     // TODO 暂时不用了：Thymeleaf模板邮件
     void sendThymeleafMail(String birthday, String toUsers) throws MessagingException;
 
-    // 带图片的邮件
+    // 发送普通邮件
     void sendEmail(String birthday, String toUsers) throws MessagingException;
 }
 

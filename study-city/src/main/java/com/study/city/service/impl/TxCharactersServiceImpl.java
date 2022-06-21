@@ -4,10 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.study.city.constant.FeeApiUrl;
+import com.study.city.entity.email.EmailLog;
 import com.study.city.entity.tianxing.Characters;
 import com.study.city.mapper.CharactersMapper;
-import com.study.city.service.ITxCharactersService;
+import com.study.city.service.IEmailLogService;
 import com.study.city.service.IEmailService;
+import com.study.city.service.ITxCharactersService;
+import com.study.starter.utils.ArraysUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +48,9 @@ public class TxCharactersServiceImpl implements ITxCharactersService {
 
     @Autowired
     private IEmailService emailService;
+
+    @Autowired
+    private IEmailLogService emailLogService;
 
     @Value("${module.character.key}")
     private String key;
@@ -115,11 +121,19 @@ public class TxCharactersServiceImpl implements ITxCharactersService {
         return 0;
     }
 
+    /**
+     * 查询366天所有的性格
+     *
+     * @return 366天所有的性格
+     */
     @Override
     public List<Characters> getAllCharacters() {
         return charactersMapper.getAllCharacters();
     }
 
+    /**
+     * 根据生日查询性格
+     */
     @Override
     public Characters getCharacters(String brithday) {
         return charactersMapper.getCharacters(brithday);
@@ -155,7 +169,7 @@ public class TxCharactersServiceImpl implements ITxCharactersService {
     }
 
     /**
-     * 带图片的邮件
+     * 发送普通邮件
      */
     @Override
     public void sendEmail(String birthday, String toUsers) throws MessagingException {
@@ -175,6 +189,19 @@ public class TxCharactersServiceImpl implements ITxCharactersService {
         // 因为这个邮件中没有图片，所以删掉部分代码
         helper.setText(content, true);
         sender.send(mimeMessage);
+
+
+        // 增加日志
+        EmailLog emailLog = new EmailLog();
+        emailLog.setTitle(null);
+        emailLog.setContext(content);
+        emailLog.setReceiveBcc(null);
+        emailLog.setReceive(ArraysUtils.toString(userList));
+        emailLog.setSendUsers(from);
+        emailLog.setCount(1);
+        emailLog.setSendTime(new Date());
+        emailLog.setCreateDate(new Date());
+        emailLogService.addEmailLog(emailLog);
     }
 
 

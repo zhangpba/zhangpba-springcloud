@@ -13,7 +13,7 @@ public interface CharactersMapper {
     // 插入
     int addCharacters(Characters area);
 
-    // 查询所有的城市
+    // 查询366天所有的性格
     List<Characters> getAllCharacters();
 
     // 根据生日查询

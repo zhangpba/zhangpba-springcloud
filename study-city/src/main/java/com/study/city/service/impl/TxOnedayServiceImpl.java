@@ -4,10 +4,13 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.study.city.constant.FeeApiUrl;
+import com.study.city.entity.email.EmailLog;
 import com.study.city.entity.tianxing.OneDay;
+import com.study.city.service.IEmailLogService;
 import com.study.city.service.IEmailService;
 import com.study.city.service.ITxOneDayService;
 import com.study.city.service.ITxPyqService;
+import com.study.starter.utils.ArraysUtils;
 import com.study.starter.utils.DateUtils;
 import com.study.starter.utils.ImageUtils;
 import org.slf4j.Logger;
@@ -42,6 +45,9 @@ public class TxOnedayServiceImpl implements ITxOneDayService {
 
     @Autowired
     private IEmailService emailService;
+
+    @Autowired
+    private IEmailLogService emailLogService;
 
     // 邮件发送人
     @Value("${spring.mail.username}")
@@ -137,6 +143,7 @@ public class TxOnedayServiceImpl implements ITxOneDayService {
     private void sendImgResMail(OneDay oneDay, String bccUsers) throws MessagingException {
         MimeMessage mimeMessage = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        String title = "每日一小句";
         helper.setSubject("每日一小句");
         helper.setFrom(from);
         // 设置邮件接收者，可以有多个接收者，中间用逗号隔开，以下类似
@@ -155,6 +162,19 @@ public class TxOnedayServiceImpl implements ITxOneDayService {
         logger.info("图片路径：{}", oneDay.getImgPath());
         helper.addInline("p01", new FileSystemResource(new File(oneDay.getImgPath())));
         sender.send(mimeMessage);
+
+
+        // 增加日志
+        EmailLog emailLog = new EmailLog();
+        emailLog.setTitle(title);
+        emailLog.setContext(content);
+        emailLog.setReceiveBcc(ArraysUtils.toString(bccUser));
+        emailLog.setReceive(ArraysUtils.toString(toUser));
+        emailLog.setSendUsers(from);
+        emailLog.setCount(1);
+        emailLog.setSendTime(new Date());
+        emailLog.setCreateDate(new Date());
+        emailLogService.addEmailLog(emailLog);
     }
 
     // 邮件内容

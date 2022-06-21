@@ -63,8 +63,8 @@ public class RedisConfig extends CachingConfigurerSupport {
         JedisConnectionFactory factory = new JedisConnectionFactory();
         factory.setHostName(host);
         factory.setPort(port);
-        factory.setTimeout(timeout); //设置连接超时时间
-//        factory.setPassword(password);
+        factory.setTimeout(timeout); // 设置连接超时时间
+        factory.setPassword(password);
         factory.getPoolConfig().setMaxIdle(maxIdle);
         factory.getPoolConfig().setMinIdle(minIdle);
         factory.getPoolConfig().setMaxTotal(maxActive);

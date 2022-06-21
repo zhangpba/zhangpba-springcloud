@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.city.mapper.EmailLogMapper">
+    <resultMap id="emailLogResultMap" type="com.study.city.entity.email.EmailLog">
+        <id property="id" column="id"/>
+        <result property="sendUsers" column="send_users"/>
+        <result property="receive" column="receive"/>
+        <result property="receiveBcc" column="receive_bcc"/>
+        <result property="title" column="title"/>
+        <result property="context" column="context"/>
+        <result property="sendTime" column="send_time"/>
+        <result property="count" column="count"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <sql id="selectEmailLogFields">
+        c.id,
+        c.send_users ,
+        c.receive,
+        c.receive_bcc,
+        c.title,
+        c.context,
+        c.send_time,
+        c.count,
+        c.create_date,
+        c.update_date
+    </sql>
+
+    <insert id="addEmailLog" parameterType="com.study.city.entity.email.EmailLog">
+        insert into log_email
+        (
+        <if test="sendUsers != null">
+            send_users,
+        </if>
+        <if test="receive != null">
+            receive,
+        </if>
+        <if test="receiveBcc != null">
+            receive_bcc,
+        </if>
+        <if test="title != null">
+            title,
+        </if>
+        <if test="context != null">
+            context,
+        </if>
+        <if test="sendTime != null">
+            send_time,
+        </if>
+        <if test="count != null">
+            count,
+        </if>
+        <if test="updateDate != null">
+            update_date,
+        </if>
+        create_date)
+        values
+        (
+        <if test="sendUsers != null">
+            #{sendUsers},
+        </if>
+        <if test="receive != null">
+            #{receive},
+        </if>
+        <if test="receiveBcc != null">
+            #{receiveBcc},
+        </if>
+        <if test="title != null">
+            #{title},
+        </if>
+        <if test="context != null">
+            #{context},
+        </if>
+        <if test="sendTime != null">
+            #{sendTime},
+        </if>
+        <if test="count != null">
+            #{count},
+        </if>
+        <if test="updateDate != null">
+            #{updateDate},
+        </if>
+        #{createDate})
+    </insert>
+
+    <select id="queryEmailLogs" resultMap="emailLogResultMap" parameterType="com.study.city.entity.email.EmailLog">
+        select
+        <include refid="selectEmailLogFields">
+        </include>
+        from log_email c
+        where 1 = 1
+        <if test="id != null and id !=''">
+            and id = #{id}
+        </if>
+        <if test="sendUsers != null and sendUsers !=''">
+            and send_users = #{sendUsers}
+        </if>
+        <if test="receive != null and receive !=''">
+            and receive = #{receive}
+        </if>
+        <if test="receiveBcc != null and receiveBcc !=''">
+            and receive_bcc = #{receiveBcc}
+        </if>
+        <if test="title != null and title !=''">
+            and title = #{title}
+        </if>
+        <if test="sendTime != null and sendTime !=''">
+            and send_time = #{sendTime}
+        </if>
+        <if test="count != null and count !=''">
+            and count = #{count}
+        </if>
+    </select>
+</mapper>

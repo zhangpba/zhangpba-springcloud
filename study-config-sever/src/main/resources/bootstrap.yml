@@ -11,16 +11,19 @@ spring:
       enabled: true
       label: master
       server:
-        jdbc: true
+        jdbc:
+          sql: select `KEY`, `VALUE` from config_info where application = ? and profile = ? and label = ?
+    refresh:
+      enabled: true
 
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/springcloud?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/study?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
     username: root
-    password: 123456
-    driver-class-name: com.mysql.jdbc.Driver #5.0版本的数据库驱动配置
+    password: 910214bo
+#    driver-class-name: com.mysql.jdbc.Driver #5.0版本的数据库驱动配置
+    driver-class-name: com.mysql.cj.jdbc.Driver #8.0高版本得数据库驱动配置
 
-spring.cloud.config.server.jdbc.sql: select `KEY`, `VALUE` from config_info where application = ? and profile = ? and label = ?
-
+#spring.cloud.config.server.jdbc.sql: select `KEY`, `VALUE` from config_info where application = ? and profile = ? and label = ?
 eureka:
   client:
     register-with-eureka: true            #是否从注册中心中获取注册信息，默认值true

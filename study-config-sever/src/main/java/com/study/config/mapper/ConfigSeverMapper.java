@@ -13,4 +13,11 @@ public interface ConfigSeverMapper {
      * @return 配置信息
      */
     ConfigInfo getConfigInfo(ConfigInfo configInfo);
+
+
+    /**
+     * 增加配置信息
+     * @param configInfo
+     */
+    void addConfigInfo(ConfigInfo configInfo);
 }

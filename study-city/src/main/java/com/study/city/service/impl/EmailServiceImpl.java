@@ -1,6 +1,9 @@
 package com.study.city.service.impl;
 
+import com.study.city.entity.email.EmailLog;
+import com.study.city.service.IEmailLogService;
 import com.study.city.service.IEmailService;
+import com.study.starter.utils.ArraysUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +42,9 @@ public class EmailServiceImpl implements IEmailService {
     @Value("${spring.mail.send.default.bcc}")
     private String bccUsers;
 
+    @Autowired
+    private IEmailLogService emailLogService;
+
     /**
      * 发送普通邮件
      */
@@ -76,6 +82,18 @@ public class EmailServiceImpl implements IEmailService {
         message.setText(contentBuffer.toString());
         // 发送邮件
         sender.send(message);
+
+        // 增加日志
+        EmailLog emailLog = new EmailLog();
+        emailLog.setTitle(title);
+        emailLog.setContext(contentBuffer.toString());
+        emailLog.setReceiveBcc(null);
+        emailLog.setReceive(ArraysUtils.toString(userList));
+        emailLog.setSendUsers(from);
+        emailLog.setCount(1);
+        emailLog.setSendTime(new Date());
+        emailLog.setCreateDate(new Date());
+        emailLogService.addEmailLog(emailLog);
     }
 
     /**

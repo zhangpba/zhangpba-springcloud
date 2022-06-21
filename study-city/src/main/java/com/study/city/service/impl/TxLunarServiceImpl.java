@@ -4,8 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.study.city.constant.FeeApiUrl;
+import com.study.city.entity.email.EmailLog;
+import com.study.city.service.IEmailLogService;
 import com.study.city.service.IEmailService;
 import com.study.city.service.ITxLunarService;
+import com.study.starter.utils.ArraysUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,9 @@ public class TxLunarServiceImpl implements ITxLunarService {
 
     @Autowired
     private IEmailService emailService;
+
+    @Autowired
+    private IEmailLogService emailLogService;
 
     @Value("${module.character.key}")
     private String key;
@@ -100,7 +106,8 @@ public class TxLunarServiceImpl implements ITxLunarService {
     public void sendThymeleafMail(String day, String toUsers) throws MessagingException {
         MimeMessage mimeMessage = sender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-        helper.setSubject("中国老黄历");
+        String title = "中国老黄历";
+        helper.setSubject(title);
         helper.setFrom(from);
         // 设置邮件接收者，可以有多个接收者，中间用逗号隔开，以下类似
         String[] userList = emailService.getToUser(toUsers);
@@ -142,5 +149,18 @@ public class TxLunarServiceImpl implements ITxLunarService {
         // 第二个参数true表示这是一个html文本
         helper.setText(process, true);
         sender.send(mimeMessage);
+
+
+        // 增加日志
+        EmailLog emailLog = new EmailLog();
+        emailLog.setTitle(title);
+        emailLog.setContext(context.toString());
+        emailLog.setReceiveBcc(toUsers);
+        emailLog.setReceive(ArraysUtils.toString(userList));
+        emailLog.setSendUsers(from);
+        emailLog.setCount(1);
+        emailLog.setSendTime(new Date());
+        emailLog.setCreateDate(new Date());
+        emailLogService.addEmailLog(emailLog);
     }
 }
