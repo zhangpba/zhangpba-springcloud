@@ -49,7 +49,7 @@ public class TxLunarServiceImpl implements ITxLunarService {
     @Autowired
     private IEmailLogService emailLogService;
 
-    @Value("${module.character.key}")
+    @Value("${spring.mail.send.lunar.key}")
     private String key;
 
     @Value("${spring.mail.username}")

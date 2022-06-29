@@ -7,6 +7,8 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +30,10 @@ public class TxPyqController {
 
     @Autowired
     private ITxPyqService pyqService;
+
+    // 朋友圈文案需要发送的人
+    @Value("${spring.mail.send.pyq.switch}")
+    private String pyqSwitch;
 
     /**
      * 获取朋友圈文案
@@ -55,11 +61,15 @@ public class TxPyqController {
 
 
     // 每天清晨六点发送朋友圈信息
-    @ApiOperation(value = "定时发送朋友圈文案 cron = ${module.pyq.syn-cron")
-//    @Scheduled(cron = "${module.pyq.syn-cron}")    // 每天清晨六点
+    @ApiOperation(value = "定时发送朋友圈文案 cron = ${spring.mail.send.pyq.syn-cron")
+    @Scheduled(cron = "${spring.mail.send.pyq.syn-cron}")    // 每天清晨六点
     public void synWeathers() {
         logger.info("定时发送朋友圈文案 start...");
-        send();
+        if ("1".equals(pyqSwitch)) {
+            send();
+        } else {
+            logger.info("定时发送朋友圈文案 开关关闭 ...");
+        }
         logger.info("定时发送朋友圈文案 end...");
     }
 }

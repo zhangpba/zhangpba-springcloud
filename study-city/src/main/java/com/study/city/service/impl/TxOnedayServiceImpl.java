@@ -53,7 +53,7 @@ public class TxOnedayServiceImpl implements ITxOneDayService {
     @Value("${spring.mail.username}")
     private String from;
 
-    @Value("${module.one-day.key}")
+    @Value("${spring.mail.send.one-day.key}")
     private String key;
 
     // 每日一小句需要发送的人

@@ -27,7 +27,7 @@ public class TxPyqServiceImpl implements ITxPyqService {
     @Autowired
     private IEmailService emailService;
 
-    @Value("${module.pyq.key}")
+    @Value("${spring.mail.send.pyq.key}")
     private String key;
 
     // 朋友圈文案需要发送的人

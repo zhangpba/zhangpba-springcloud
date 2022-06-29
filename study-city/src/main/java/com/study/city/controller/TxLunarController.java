@@ -41,6 +41,10 @@ public class TxLunarController {
     @Value("${spring.mail.send.lunar.users}")
     private String lunarUsers;
 
+    // 老黄历需要邮件发送开关 0-不发送；1-发送
+    @Value("${spring.mail.send.lunar.switch}")
+    private String lunarSwitch;
+
     /**
      * 查询中国老黄历
      *
@@ -60,11 +64,16 @@ public class TxLunarController {
      * 获取老黄历数据，并发送邮件
      * 0 30 1 * * * # 每天01：30执行一次
      */
-    @Scheduled(cron = "${module.lunar.syn-cron}")
+    @Scheduled(cron = "${spring.mail.send.lunar.syn-cron}")
     public void synLunarData() {
         Date date = new Date();
         String dateStr = DateUtils.format(date, DateUtils.YYYY_MM_DD);
-        sendLunarMail(dateStr, lunarUsers);
+        // 开关关闭不发送邮件
+        if ("1".equals(lunarSwitch)) {
+            sendLunarMail(dateStr, lunarUsers);
+        } else {
+            logger.info("{}定时发送老黄历 开关关闭 ...", dateStr);
+        }
     }
 
     /**

@@ -7,6 +7,8 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +30,10 @@ public class TxSayLoveController {
 
     @Autowired
     private ITxPyqService pyqService;
+
+    // 土味情话需要发送的人
+    @Value("${spring.mail.send.say-love.switch}")
+    private String sayLoveSwitch;
 
     /**
      * 获取土味情话
@@ -55,11 +61,16 @@ public class TxSayLoveController {
 
 
     // 每天清晨六点发送土味情话
-    @ApiOperation(value = "发送土味情话邮件 cron = ${module.say-love.syn-cron")
-//    @Scheduled(cron = "${module.say-love.syn-cron}")    // 每天清晨六点
+    @ApiOperation(value = "发送土味情话邮件 cron = ${spring.mail.send.say-love.syn-cron")
+    @Scheduled(cron = "${spring.mail.send.say-love.syn-cron}")    // 每天清晨六点
     public void synSayLove() {
         logger.info("定时发送土味情话邮件 start...");
-        send();
+        // 开关关闭不发送邮件
+        if ("1".equals(sayLoveSwitch)) {
+            send();
+        } else {
+            logger.info("定时发送土味情话 开关关闭 ...");
+        }
         logger.info("定时发送土味情话邮件 end...");
     }
 }

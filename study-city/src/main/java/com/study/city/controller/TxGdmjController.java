@@ -7,6 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,10 @@ public class TxGdmjController {
 
     @Autowired
     private ITxPyqService pyqService;
+
+    // 古典名句需要发送的人
+    @Value("${spring.mail.send.gdmj.switch}")
+    private String gdmjSwitch;
 
     /**
      * 获取朋友圈文案
@@ -57,11 +62,16 @@ public class TxGdmjController {
     /**
      * 每天清晨九点发送朋友圈信息
      */
-    @ApiOperation(value = "定时发送古典名句 cron = ${module.gdmj.syn-cron")
-    @Scheduled(cron = "${module.gdmj.syn-cron}")
+    @ApiOperation(value = "定时发送古典名句 cron = ${spring.mail.send.gdmj.syn-cron")
+    @Scheduled(cron = "${spring.mail.send.gdmj.syn-cron}")
     public void synGdmj() {
         logger.info("定时发送古典名句 start...");
-        send();
+        // 开关关闭不发送邮件
+        if ("1".equals(gdmjSwitch)) {
+            send();
+        } else {
+            logger.info("定时发送古典名句 开关关闭 ...");
+        }
         logger.info("定时发送古典名句 end...");
     }
 }

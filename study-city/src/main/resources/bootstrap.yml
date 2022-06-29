@@ -11,9 +11,9 @@ spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/study?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
     username: root
-    password: 123456
+    password: 910214
     driver-class-name: com.mysql.jdbc.Driver #5.0版本的数据库驱动配置
-#    driver-class-name: com.mysql.cj.jdbc.Driver #8.0高版本得数据库驱动配置
+  #    driver-class-name: com.mysql.cj.jdbc.Driver #8.0高版本得数据库驱动配置
   redis:
     host: 127.0.0.1
     port: 6379
@@ -50,20 +50,35 @@ spring:
     send:
       default: # 默认邮件接收人，所有额邮件都会接收的邮箱 123@qq.com,456@qq.com
         users: 123456@tencent.com
-        bcc: 2539971333@qq.com # 隐秘抄送人
+        bcc: 123456@qq.com # 隐秘抄送人
       # 配置文件中的都为隐秘抄送人
       character:
-        users: 2539971333@tencent.com
-      pyq:
-        users: 453436862@qq.com
-      gdmj:
         users: 123456@tencent.com
+      pyq:
+        switch: 0
+        users: 123456@qq.com                # 隐秘抄送人
+        key: b45e887eea69923ba8b7a4dcca0ef295
+        syn-cron: 0 0 06 * * * # 每天6：00执行一次
+      gdmj:
+        switch: 1
+        users: 123456@tencent.com
+        key: b45e887eea69923ba8b7a4dcca0ef295
+        syn-cron: 0 0 9 * * * # 每天9：00执行一次
       say-love: # 土味情话
-        users: 453436862@qq.com
+        switch: 0
+        users: 123456@qq.com
+        key: b45e887eea69923ba8b7a4dcca0ef295
+        syn-cron: 0 30 06 * * * # 每天6：30执行一次
       lunar:    # 老黄历
-        users: 2539971333@qq.com
+        switch: 1
+        users: 123456@qq.com
+        key: b45e887eea69923ba8b7a4dcca0ef295
+        syn-cron: 0 10 0 * * * # 每天凌晨00：10执行一次
       one-day:
-        users: 453436862@qq.com,123456@tencent.com
+        switch: 1
+        users: 123456@qq.com,123456@tencent.com
+        key: b45e887eea69923ba8b7a4dcca0ef295
+        syn-cron: 0 30 10 * * * # 每天凌晨06：00执行一次
 
 management:
   security:
@@ -81,7 +96,7 @@ eureka:
     registry-fetch-interval-seconds: 30   #表示eureka client间隔多久去拉取服务器注册信息,默认为30秒
     service-url:
       defaultZone: http://127.0.0.1:8815/eureka/
-#      defaultZone: http://192.168.182.128:8815/eureka/   #客户端和服务器端进行交互的地址
+  #      defaultZone: http://192.168.182.128:8815/eureka/   #客户端和服务器端进行交互的地址
 
   instance:
     prefer-ip-address: true
@@ -105,29 +120,15 @@ black-list:
 
 module:
   weather:
-    syn-cron: 0 30 21 * * * # 每天21：30执行一次
+    syn-cron: 0 30 01 * * * # 每天1：30执行一次
   #  syn-cron: "*/5 * * * * *"  #每五秒执行一次
   gold:
     appkey: a09971b7353c6d08
     syn-cron: 0 30 23 * * * # 每天23：30执行一次
   character:
     key: b45e887eea69923ba8b7a4dcca0ef295
-    syn-cron: 0 57 20 * * * # 每天1：30执行一次
-  pyq: # 朋友圈文案
-    key: b45e887eea69923ba8b7a4dcca0ef295
-    syn-cron: 0 0 06 * * * # 每天6：00执行一次
-  gdmj: #古典名句
-    key: b45e887eea69923ba8b7a4dcca0ef295
-    syn-cron: 0 0 09 * * * # 每天9：00执行一次
-  say-love: #土味情话
-    key: b45e887eea69923ba8b7a4dcca0ef295
-    syn-cron: 0 14 23 * * * # 每天6：30执行一次
-  lunar: # 老黄历
-    key: b45e887eea69923ba8b7a4dcca0ef295
-    syn-cron: 0 10 0 * * * # 每天凌晨00：10执行一次
-  one-day: # 每日一小句
-    key: b45e887eea69923ba8b7a4dcca0ef295
-    syn-cron: 0 05 09 * * * # 每天凌晨09：05执行一次
+    syn-cron: 0 30 02 * * * # 每天1：30执行一次
+
 
 logging:
   level:
