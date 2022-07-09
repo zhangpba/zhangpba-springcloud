@@ -13,14 +13,13 @@ CREATE TABLE `study`.`gold`  (
                                      `create_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '创建者',
                                      `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '修改人',
                                      `create_date` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-                                     `update_date` datetime(0) NULL DEFAULT NULL COMMENT '修改时间'
+                                     `update_date` datetime(0) NULL DEFAULT NULL COMMENT '修改时间',
+                                     `buyprice` decimal(10, 2) NULL DEFAULT NULL COMMENT '买入价',
+                                     `sellprice` decimal(10, 2) NULL DEFAULT NULL COMMENT '买出价',
+                                     `finalprice` decimal(10, 2) NULL DEFAULT NULL COMMENT '成交价',
+                                     `closingprice` decimal(10, 2) NULL DEFAULT NULL COMMENT '收市价',
+                                     `changequantity` decimal(10, 2) NULL DEFAULT NULL COMMENT '涨跌量',
+                                     `amplitude` decimal(10, 2) NULL DEFAULT NULL COMMENT '振幅',
+                                     `midprice` decimal(10, 2) NULL DEFAULT NULL COMMENT '中间价',
+                                     `exchange_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '交易机构'
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
---增加字段脚本
-ALTER TABLE `study`.`gold` ADD `buyprice` decimal(10, 2) NULL DEFAULT NULL COMMENT '买入价';
-ALTER TABLE `study`.`gold` ADD  `sellprice` decimal(10, 2) NULL DEFAULT NULL COMMENT '买出价';
-ALTER TABLE `study`.`gold` ADD `finalprice` decimal(10, 2) NULL DEFAULT NULL COMMENT '成交价';
-ALTER TABLE `study`.`gold` ADD  `closingprice` decimal(10, 2) NULL DEFAULT NULL COMMENT '收市价';
-ALTER TABLE `study`.`gold` ADD  `changequantity` decimal(10, 2) NULL DEFAULT NULL COMMENT '涨跌量';
-ALTER TABLE `study`.`gold` ADD  `amplitude` decimal(10, 2) NULL DEFAULT NULL COMMENT '振幅';
-ALTER TABLE `study`.`gold` ADD `midprice` decimal(10, 2) NULL DEFAULT NULL COMMENT '中间价';
-ALTER TABLE `study`.`gold` ADD `exchange_type` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL COMMENT '交易机构';
