@@ -81,7 +81,7 @@ spring:
         syn-cron: 0 30 10 * * * # 每天凌晨06：00执行一次
       remind:
         switch: 1
-        users: 973098918@qq.com,answerzhang@qq.com
+        users: 123456@qq.com,123456@qq.com
         syn-cron: 0 01 10 * * * # 每天凌晨10：01执行一次
 
 management:
