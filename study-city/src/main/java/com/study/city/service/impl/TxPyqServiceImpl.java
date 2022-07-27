@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -106,19 +108,59 @@ public class TxPyqServiceImpl implements ITxPyqService {
     @Override
     public void sendPyqEmail() {
         Map<String, String> map = getPyqWenan();
-        emailService.sendEmail(map, pyqUsers);
+//        emailService.sendEmail(map, pyqUsers);
+        emailService.sendEmail(getTitle(map), getContent(map), "", pyqUsers);
     }
 
     @Override
     public void sendGdmjEmail() {
         Map<String, String> map = getGdmj();
-        emailService.sendEmail(map, gdmjUsers);
+//        emailService.sendEmail(map, gdmjUsers);
+        emailService.sendEmail(getTitle(map), getContent(map), "", gdmjUsers);
     }
 
     // 发送土味情话
     @Override
     public void sendSayLoveEmail() {
         Map<String, String> map = getSayLove();
-        emailService.sendEmail(map, sayLoveUsers);
+//        emailService.sendEmail(map, sayLoveUsers);
+        emailService.sendEmail(getTitle(map), getContent(map), "", sayLoveUsers);
+    }
+
+    /**
+     * 获取邮件标题
+     *
+     * @param map 源数据
+     * @return 邮件标题
+     */
+    private String getTitle(Map<String, String> map) {
+        // 设置邮件主题
+        SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
+        String date = format.format(new Date());
+        String title = "%s的%s";
+        title = String.format(title, date, map.get("desc"));
+        return title;
+    }
+
+    /**
+     * 设置邮件的正文
+     *
+     * @param map 源数据
+     * @return 邮件正文
+     */
+    private String getContent(Map<String, String> map) {
+        // 设置邮件的正文
+        StringBuffer contentBuffer = new StringBuffer(map.get("content"));
+        String source = map.get("source");
+        if (source != null && !source.isEmpty()) {
+            int size = contentBuffer.toString().length();
+            contentBuffer.append(System.getProperty("line.separator"));
+            for (int i = 0; i < size * 3; i++) {
+                contentBuffer.append(" ");
+            }
+            contentBuffer.append("———");
+            contentBuffer.append(source);
+        }
+        return contentBuffer.toString();
     }
 }

@@ -79,6 +79,10 @@ spring:
         users: 123456@qq.com,123456@tencent.com
         key: b45e887eea69923ba8b7a4dcca0ef295
         syn-cron: 0 30 10 * * * # 每天凌晨06：00执行一次
+      remind:
+        switch: 1
+        users: 973098918@qq.com,answerzhang@qq.com
+        syn-cron: 0 01 10 * * * # 每天凌晨10：01执行一次
 
 management:
   security:
@@ -118,6 +122,7 @@ pagehelper:
 black-list:
   ip: 127.0.0.2,127.0.0.3
 
+# 同步数据
 module:
   weather:
     syn-cron: 0 30 01 * * * # 每天1：30执行一次

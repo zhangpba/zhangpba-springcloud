@@ -8,8 +8,12 @@ import java.util.Map;
  */
 public interface IEmailService {
 
-    // 发送普通邮件
+    // 发送普通邮件 过时方法（用注解@Deprecated标记）
+    @Deprecated
     void sendEmail(Map<String, String> resultMap, String toUsers);
+
+    // 发送普通邮件
+    void sendEmail(String title, String content, String toUsers, String toBccUser);
 
     // 发送带正文带图片的邮件
     void sendImgResMail(Map<String, Object> resultMap, String toUsers) throws MessagingException;

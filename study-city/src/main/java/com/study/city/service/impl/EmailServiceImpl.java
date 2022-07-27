@@ -96,6 +96,49 @@ public class EmailServiceImpl implements IEmailService {
         emailLogService.addEmailLog(emailLog);
     }
 
+
+    /**
+     * 发送普通邮件
+     *
+     * @param title     标题
+     * @param content   邮件内容
+     * @param toUsers   接收人
+     * @param toBccUser 隐秘接收人
+     */
+    @Override
+    public void sendEmail(String title, String content, String toUsers, String toBccUser) {
+        // 构建一个邮件对象
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setSubject(title);
+        // 设置邮件发送者，这个跟application.yml中设置的要一致
+        message.setFrom(from);
+        // 设置邮件接收者，可以有多个接收者，中间用逗号隔开，以下类似
+        String[] userList = getToUser(toUsers);
+        this.usersLogs(userList, "邮箱接收人:");
+        message.setTo(userList);
+        // 隐秘抄送人
+        String[] bccUser = getBccUser(toBccUser);
+        this.usersLogs(bccUser, "隐秘接收人:");
+        message.setBcc(bccUser);
+        // 设置邮件发送日期
+        message.setSentDate(new Date());
+        // 设置邮件的正文
+        message.setText(content);
+        // 发送邮件
+        sender.send(message);
+        // 增加日志
+        EmailLog emailLog = new EmailLog();
+        emailLog.setTitle(title);
+        emailLog.setContext(content);
+        emailLog.setReceiveBcc(null);
+        emailLog.setReceive(ArraysUtils.toString(userList));
+        emailLog.setSendUsers(from);
+        emailLog.setCount(1);
+        emailLog.setSendTime(new Date());
+        emailLog.setCreateDate(new Date());
+        emailLogService.addEmailLog(emailLog);
+    }
+
     /**
      * 发送带正文带图片的邮件 demo
      */
