@@ -54,6 +54,6 @@ public class RemindController {
         } else {
             logger.info("定时发送提醒订餐邮件 开关关闭 ...");
         }
-        logger.info("定时发送朋友圈文案 end...");
+        logger.info("定时发送提醒订餐邮件 end...");
     }
 }

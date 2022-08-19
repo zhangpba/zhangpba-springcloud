@@ -1,6 +1,7 @@
 server:
   port: 9101
-
+  servlet:
+    context-path: /study-city
 spring:
   application:
     name: study-city

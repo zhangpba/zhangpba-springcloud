@@ -70,6 +70,18 @@ public class DateUtils {
     }
 
     /**
+     * 计算两个时间之间的天数
+     *
+     * @param startDate 开始时间
+     * @param endDate  结束时间
+     * @return 两天之间的天数
+     */
+    public static int betweenDays(Date startDate, Date endDate) {
+        int days = (int) ((endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000));
+        return days;
+    }
+
+    /**
      * 获取某一时间之前的每一天
      *
      * @param date 从某一时间
