@@ -4,7 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 时间帮助类
@@ -16,6 +18,9 @@ public class DateUtils {
 
     public static final String YYYY_MM_DD = "yyyy-MM-dd";
     public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+
+    public static final String WEEKS = "weeks";
+    public static final String DAYS = "days";
 
     private static SimpleDateFormat FORMAT_YYYY_MM_DD = new SimpleDateFormat(YYYY_MM_DD);
     private static SimpleDateFormat FORMAT_YYYY_MM_DD_HH_MM_SS = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
@@ -66,20 +71,54 @@ public class DateUtils {
             System.out.println("日期型字符串格式错误");
         }
         int days = (int) ((endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000));
-        return days;
+        return days - 1;
     }
 
     /**
      * 计算两个时间之间的天数
      *
      * @param startDate 开始时间
-     * @param endDate  结束时间
+     * @param endDate   结束时间
      * @return 两天之间的天数
      */
     public static int betweenDays(Date startDate, Date endDate) {
         int days = (int) ((endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000));
-        return days;
+        return days - 1;
     }
+
+    /**
+     * 计算两个时间之间的周数
+     *
+     * @param startDateStr 开始时间
+     * @param endDateStr   结束时间
+     * @return 两天之间的周数
+     * @author zhangpba
+     * @date 2022-09-21
+     */
+    public static Map<String, Integer> betweenWeeks(String startDateStr, String endDateStr) {
+        int days = betweenDays(startDateStr, endDateStr);
+        return betweenWeeks(days);
+    }
+
+    /**
+     * 天数转化为周数
+     *
+     * @param days 天数
+     * @return 周数
+     * @author zhangpba
+     * @date 2022-09-21
+     */
+    public static Map<String, Integer> betweenWeeks(Integer days) {
+        Map<String, Integer> map = new HashMap<>();
+        if (days % 7 == 0) {
+            map.put(WEEKS, days / 7);
+        } else {
+            map.put(WEEKS, days / 7);
+            map.put(DAYS, days % 7);
+        }
+        return map;
+    }
+
 
     /**
      * 获取某一时间之前的每一天

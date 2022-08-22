@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RemindServiceImpl implements IRemindService {
@@ -63,13 +64,21 @@ public class RemindServiceImpl implements IRemindService {
         String today = DateUtils.format(new Date(), DateUtils.YYYY_MM_DD);
         int alreadyDays = DateUtils.betweenDays("2022-03-15", today);
         int needDays = DateUtils.betweenDays(today, "2022-12-22");
+        // 加上周提示
+        String alreadyWeeks = getWeeks(alreadyDays);
+        String needWeeks = getWeeks(needDays);
+
         StringBuffer contentBuffer = new StringBuffer("亲，宝宝已经在你肚子里待了");
         contentBuffer.append(alreadyDays);
-        contentBuffer.append("天了,");
+        contentBuffer.append("天了(");
+        contentBuffer.append(alreadyWeeks);
+        contentBuffer.append("),");
         contentBuffer.append(System.getProperty("line.separator"));
         contentBuffer.append("还有");
         contentBuffer.append(needDays);
-        contentBuffer.append("天宝宝就要出来跟我们见面啦！");
+        contentBuffer.append("天(");
+        contentBuffer.append(needWeeks);
+        contentBuffer.append(")宝宝就要出来跟我们见面啦！");
         contentBuffer.append(System.getProperty("line.separator"));
         contentBuffer.append("要注意饮食、注意劳逸结合呦");
         contentBuffer.append(System.getProperty("line.separator"));
@@ -86,5 +95,16 @@ public class RemindServiceImpl implements IRemindService {
             contentBuffer.append(weather.getWarn());
         }
         return contentBuffer.toString();
+    }
+
+    private String getWeeks(Integer days){
+        Map<String, Integer> alreadyDaysMap = DateUtils.betweenWeeks(days);
+        String weeks = null;
+        if (alreadyDaysMap.get(DateUtils.DAYS) != null) {
+            weeks = alreadyDaysMap.get(DateUtils.WEEKS) + "周" + alreadyDaysMap.get("days") + "天";
+        } else {
+            weeks = alreadyDaysMap.get(DateUtils.WEEKS) + "周";
+        }
+        return weeks;
     }
 }
