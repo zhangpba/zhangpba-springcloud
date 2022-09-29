@@ -1,7 +1,8 @@
 package com.study.city.service.impl;
 
-import com.study.city.entity.weather.Weather;
+import com.study.city.entity.weather.JhWeather;
 import com.study.city.service.IEmailService;
+import com.study.city.service.IJhWeatherService;
 import com.study.city.service.IRemindService;
 import com.study.city.service.IWeatherService;
 import com.study.starter.utils.DateUtils;
@@ -23,6 +24,9 @@ public class RemindServiceImpl implements IRemindService {
     private IWeatherService weatherService;
 
     @Autowired
+    private IJhWeatherService jhWeatherService;
+
+    @Autowired
     private IEmailService emailService;
 
     // 朋友圈文案需要发送的人
@@ -33,34 +37,46 @@ public class RemindServiceImpl implements IRemindService {
     public void sendEmail() {
         String date = DateUtils.format(new Date(), DateUtils.YYYY_MM_DD);
         // 实时查询今天天气
-        List<Weather> weatherList = weatherService.getWheatherByCity("西安");
-        Weather weather = null;
+        // List<Weather> weatherList = weatherService.getWheatherByCity("西安");
+
+        List<JhWeather> weatherList = jhWeatherService.getWheatherByCity("西安");
+
+//        Weather weather = null;
+//        if (weatherList != null && !weatherList.isEmpty()) {
+//            for (Weather w : weatherList) {
+//                if (w.getDate().equals(date)) {
+//                    weather = w;
+//                }
+//            }
+//        }
+
+        JhWeather jhWeather = null;
         if (weatherList != null && !weatherList.isEmpty()) {
-            for (Weather w : weatherList) {
+            for (JhWeather w : weatherList) {
                 if (w.getDate().equals(date)) {
-                    weather = w;
+                    jhWeather = w;
                 }
             }
         }
 
         // 发送提醒邮件
-        sendEmail(weather);
+        sendEmail(jhWeather.getInfo());
 
     }
 
     /**
      * 发送普通邮件
      */
-    private void sendEmail(Weather weather) {
+    private void sendEmail(String weatherInfo) {
         // 邮件主题
         String title = "温馨提示";
         // 设置邮件的正文
-        String content = getContent(weather);
+        String content = getContent(weatherInfo);
         emailService.sendEmail(title, content, "", remindBccUsers);
     }
 
     // 获取邮件内容
-    private String getContent(Weather weather) {
+    private String getContent(String weatherInfo) {
         String today = DateUtils.format(new Date(), DateUtils.YYYY_MM_DD);
         int alreadyDays = DateUtils.betweenDays("2022-03-15", today);
         int needDays = DateUtils.betweenDays(today, "2022-12-22");
@@ -84,20 +100,20 @@ public class RemindServiceImpl implements IRemindService {
         contentBuffer.append(System.getProperty("line.separator"));
         contentBuffer.append(System.getProperty("line.separator"));
         // 下雨的时候
-        if (weather.getType().contains("雨")) {
+        if (weatherInfo.contains("雨")) {
             contentBuffer.append("另外，今天");
-            contentBuffer.append(weather.getType());
+            contentBuffer.append(weatherInfo);
             contentBuffer.append("，");
             contentBuffer.append("记得点餐定外卖哦！");
             // 空两行
             contentBuffer.append(System.getProperty("line.separator"));
             contentBuffer.append(System.getProperty("line.separator"));
-            contentBuffer.append(weather.getWarn());
+            // contentBuffer.append(weather.getWarn());
         }
         return contentBuffer.toString();
     }
 
-    private String getWeeks(Integer days){
+    private String getWeeks(Integer days) {
         Map<String, Integer> alreadyDaysMap = DateUtils.betweenWeeks(days);
         String weeks = null;
         if (alreadyDaysMap.get(DateUtils.DAYS) != null) {

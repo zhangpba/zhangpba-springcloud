@@ -66,4 +66,17 @@ public class FeeApiUrl {
      * 每日一小句(天行数据）http://api.tianapi.com/one/index?key=自己的key&date=2022-05-15
      */
     public static final String TIANXING_ONE_URL = "http://api.tianapi.com/one/index?key=%s&date=%s" ;
+
+
+    /**
+     * 天气预报API（天行数据）
+     *
+     * 该接口免费会员每天赠送50次调用额度: http://apis.juhe.cn/simpleWeather/query?city=西安&key=自己的appkey
+     *
+     * 此API
+     *      来自聚合数据：https://dashboard.juhe.cn/data/index/my
+     *      使用需要注册，并生成自己的appkey,需要实名制
+     *      详细的链接是：https://www.juhe.cn/docs/api/id/73
+     */
+    public static final String JUHE_WEATHER_URL = "https://apis.juhe.cn/simpleWeather/query?city=%s&key=%s" ;
 }
