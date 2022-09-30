@@ -64,7 +64,7 @@ public class JhWeatherServiceImpl implements IJhWeatherService {
             weather.setTemperature(temperature); // 温度
             weather.setWid(wid);
             weather.setAqi(aqi); // 空气质量
-            String date = DateUtils.format(new Date(), DateUtils.YYYY_MM_DD);
+            String date = DateUtils.format(new Date(), DateUtils.YYYY_MM_DD_HH_MM_SS);
             weather.setDate(date);
 
             list.add(weather);
