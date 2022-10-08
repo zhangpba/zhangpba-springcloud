@@ -8,6 +8,28 @@ spring:
     config:
       enabled: false
 
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/study?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 123456
+    #    driver-class-name: com.mysql.jdbc.Driver #5.0版本的数据库驱动配置
+    driver-class-name: com.mysql.cj.jdbc.Driver #8.0高版本得数据库驱动配置
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+    pool:
+      max-active: 8
+      max-wait: -1
+      max-idle: 8
+      min-idle: 0
+    timeout: 30000
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml # 由于'classpath:mapper/*.xml'扫描不到还款计划明细下面的mapper，所以做修改2021-08-12
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 eureka:
   client:
     register-with-eureka: true            #是否从注册中心中获取注册信息，默认值true
@@ -15,7 +37,7 @@ eureka:
     registry-fetch-interval-seconds: 30   #表示eureka client间隔多久去拉取服务器注册信息,默认为30秒
     service-url:
       defaultZone: http://127.0.0.1:8815/eureka/
-#      defaultZone: http://192.168.182.128:8815/eureka/   #客户端和服务器端进行交互的地址
+  #      defaultZone: http://192.168.182.128:8815/eureka/   #客户端和服务器端进行交互的地址
 
 
   instance:
@@ -23,8 +45,24 @@ eureka:
     lease-expiration-duration-in-seconds: 1
     lease-renewal-interval-in-seconds: 2
 
+feign:
+  hystrix:
+    enabled: true # 打开feign对hystrix的支持
+
 
 logging:
   level:
     root: INFO                    #默认的日志级别
   file: log/study-user.log  #生成日志文件的位置 e:/study-user.log
+
+# 测试starter 2022-04-11
+demo:
+  say-what: you are good!
+  to-who: zhangpba
+  isopen: true
+datasource:
+  driver: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://127.0.0.1:3306/study?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+  password: 123456
+  username: zhangpba
+  datasourceName: true
