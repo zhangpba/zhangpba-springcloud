@@ -135,6 +135,21 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+
+        <!--2021-01-16 fegin接口-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <!--升级springboot和springcloud 2021-08-12-->
+            <!--<artifactId>spring-cloud-starter-feign</artifactId>-->
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
+        <!--hystrix 断路器-调用方（降级） 2021-08-26-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+            <version>2.2.2.RELEASE</version>
+        </dependency>
     </dependencies>
 
     <!--2021-01-04 eureka-->

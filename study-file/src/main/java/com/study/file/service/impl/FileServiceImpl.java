@@ -2,7 +2,7 @@ package com.study.file.service.impl;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.study.file.service.FileService;
-import com.study.starter.vo.User;
+import com.study.starter.vo.user.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

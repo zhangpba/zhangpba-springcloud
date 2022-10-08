@@ -1,6 +1,6 @@
 package com.study.file.service;
 
-import com.study.starter.vo.User;
+import com.study.starter.vo.user.User;
 
 public interface FileService {
 

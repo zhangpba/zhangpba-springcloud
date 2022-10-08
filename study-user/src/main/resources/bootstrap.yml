@@ -8,6 +8,28 @@ spring:
     config:
       enabled: false
 
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/study?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: 910214bo
+#    driver-class-name: com.mysql.jdbc.Driver #5.0版本的数据库驱动配置
+    driver-class-name: com.mysql.cj.jdbc.Driver #8.0高版本得数据库驱动配置
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+    pool:
+      max-active: 8
+      max-wait: -1
+      max-idle: 8
+      min-idle: 0
+    timeout: 30000
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*.xml # 由于'classpath:mapper/*.xml'扫描不到还款计划明细下面的mapper，所以做修改2021-08-12
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 eureka:
   client:
     register-with-eureka: true            #是否从注册中心中获取注册信息，默认值true

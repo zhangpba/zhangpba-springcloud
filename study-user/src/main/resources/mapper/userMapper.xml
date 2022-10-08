@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.user.mapper.UserMapper">
+    <resultMap id="userMap" type="com.study.starter.vo.user.User">
+        <id property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="address" column="address"/>
+        <result property="age" column="age"/>
+        <result property="birthday" column="birthday"/>
+        <result property="sex" column="sex"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+    <sql id="selectUserFields">
+        u.username,
+        u.password,
+        u.email,
+        u.phone,
+        u.address,
+        u.age,
+        u.birthday,
+        u.sex,
+        u.create_by,
+        u.create_date,
+        u.update_by,
+        u.update_date
+    </sql>
+
+    <select id="login" resultMap="userMap" parameterType="java.util.Map">
+        select
+        <include refid="selectUserFields"></include>
+        from user u where u.username = #{username} and u.password = #{password}
+    </select>
+
+    <select id="getUser" resultMap="userMap" parameterType="com.study.starter.vo.user.User">
+        SELECT
+        <include refid="selectUserFields">
+        </include>
+        FROM
+        user u
+        where 1=1
+        <if test="username!=null and username!=''">
+            and u.username = #{username}
+        </if>
+        <if test="password!=null and password!=''">
+            and u.password = #{password}
+        </if>
+        <if test="email!=null and email!=''">
+            and u.email = #{email}
+        </if>
+        <if test="phone!=null and phone!=''">
+            and u.phone = #{phone}
+        </if>
+        <if test="address!=null and address!=''">
+            and u.address = #{address}
+        </if>
+        <if test="birthday!=null and birthday!=''">
+            and u.birthday = #{birthday}
+        </if>
+        <if test="sex!=null and sex!=''">
+            and u.sex = #{sex}
+        </if>
+        order by u.username, u.create_date desc
+    </select>
+
+    <insert id="addUser" parameterType="com.study.starter.vo.user.User">
+        insert into user (
+        username,
+        password,
+        email,
+        phone,
+        address,
+        age,
+        birthday,
+        sex,
+        create_by,
+        create_date
+        )
+        values
+        (#{username},#{password},#{email},#{phone},#{address},#{age},#{birthday},#{sex},now(),#{createBy})
+    </insert>
+
+    <update id="updateUser" parameterType="com.study.starter.vo.user.User">
+        update user
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="age != null">
+                age = #{age},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                city = #{sex},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy,jdbcType=VARCHAR},
+            </if>
+            <if test="warn != null">
+                warn = #{warn,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where 1=1
+        <if test="userId != null">
+            and user_id = #{userId},
+        </if>
+        <if test="username != null">
+            and username = #{username,jdbcType=VARCHAR},
+        </if>
+        <if test="password != null">
+            and password = #{password,jdbcType=VARCHAR},
+        </if>
+    </update>
+</mapper>
