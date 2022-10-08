@@ -28,7 +28,7 @@ import java.util.Map;
  * @author zhangpba
  * @date 2022-05-13
  */
-@Api(value = "中国老黄历", tags = "中国老黄历")
+@Api(value = "天行数据-中国老黄历", tags = "天行数据-中国老黄历")
 @RestController
 @RequestMapping("/lunar")
 public class TxLunarController {

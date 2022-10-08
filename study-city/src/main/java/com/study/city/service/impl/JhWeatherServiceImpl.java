@@ -23,9 +23,6 @@ public class JhWeatherServiceImpl implements IJhWeatherService {
     @Autowired
     private RestTemplate restTemplate;
 
-    // 接口请求Key
-    public static String API_KEY = "924fe3e5b94bff5d43c0e55cd2f99667";
-
     /**
      * 根据城市名称查询天气预报明细
      *
@@ -34,7 +31,7 @@ public class JhWeatherServiceImpl implements IJhWeatherService {
      */
     @Override
     public List<JhWeather> getWheatherByCity(String cityName) {
-        String url = String.format(FeeApiUrl.JUHE_WEATHER_URL, cityName, API_KEY);
+        String url = String.format(FeeApiUrl.JUHE_WEATHER_URL, cityName, FeeApiUrl.JUHE_WEATHER_API_KEY);
         String response = restTemplate.getForObject(url, String.class);
 
         List<JhWeather> list = new ArrayList<>();

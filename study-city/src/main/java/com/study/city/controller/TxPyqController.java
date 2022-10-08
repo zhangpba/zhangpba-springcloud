@@ -17,12 +17,12 @@ import java.util.Map;
 
 
 /**
- * 朋友圈文案
+ * 天行数据-朋友圈文案
  *
  * @author zhangpba
  * @date 2022-05-11
  */
-@Api(value = "朋友圈文案", tags = "朋友圈文案")
+@Api(value = "天行数据-朋友圈文案", tags = "天行数据-朋友圈文案")
 @RestController
 @RequestMapping("/pyq")
 public class TxPyqController {

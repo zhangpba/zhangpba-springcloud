@@ -22,7 +22,7 @@ import java.util.Map;
  * @author zhangpba
  * @date 2022-05-13
  */
-@Api(value = "古典名句", tags = "古典名句")
+@Api(value = "天行数据-古典名句", tags = "天行数据-古典名句")
 @RestController
 @RequestMapping("/gdmj")
 public class TxGdmjController {

@@ -67,6 +67,13 @@ public class FeeApiUrl {
      */
     public static final String TIANXING_ONE_URL = "http://api.tianapi.com/one/index?key=%s&date=%s" ;
 
+    /**
+     * 网络取名(天行数据) yangrqb http://api.tianapi.com/cname/index?key=APIKEY
+     */
+    public static final String TIANXING_QNAME_URL ="http://api.tianapi.com/cname/index?key=%s&num=50";
+    // yangrqb的key
+    public static final String TIANXING_QNAME_APP_KEY_YANGRQB ="0ac5d0cef1b492df43ce53561b73b9a1";
+
 
     /**
      * 天气预报API（天行数据）
@@ -79,4 +86,6 @@ public class FeeApiUrl {
      *      详细的链接是：https://www.juhe.cn/docs/api/id/73
      */
     public static final String JUHE_WEATHER_URL = "https://apis.juhe.cn/simpleWeather/query?city=%s&key=%s" ;
+    // 接口请求Key
+    public static final String JUHE_WEATHER_API_KEY = "924fe3e5b94bff5d43c0e55cd2f99667";
 }

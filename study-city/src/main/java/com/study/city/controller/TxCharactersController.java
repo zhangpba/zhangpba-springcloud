@@ -28,7 +28,7 @@ import java.util.List;
  * @author zhangpba
  * @date 2022-05-06
  */
-@Api(value = "生日性格", tags = "生日性格")
+@Api(value = "天行数据-生日性格", tags = "天行数据-生日性格")
 @RestController
 @RequestMapping("/character")
 public class TxCharactersController {

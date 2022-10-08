@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author zhangpba
  * @date 2022-05-11
  */
-@Api(value = "每日一小句", tags = "每日一小句")
+@Api(value = "天行数据-每日一小句", tags = "天行数据-每日一小句")
 @RestController
 @RequestMapping("/one-day")
 public class TxOneDayController {
