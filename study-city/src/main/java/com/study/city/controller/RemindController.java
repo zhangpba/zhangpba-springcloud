@@ -45,7 +45,7 @@ public class RemindController {
     }
 
     // 每天清晨六点发送朋友圈信息
-    @ApiOperation(value = "定时发送朋友圈文案 cron = ${spring.mail.send.remind.syn-cron")
+    @ApiOperation(value = "定时发送提醒订餐邮件 cron = ${spring.mail.send.remind.syn-cron")
     @Scheduled(cron = "${spring.mail.send.remind.syn-cron}")    // 每天清晨10点01
     public void synRemind() {
         logger.info("提醒订餐邮件的定时任务开始！");

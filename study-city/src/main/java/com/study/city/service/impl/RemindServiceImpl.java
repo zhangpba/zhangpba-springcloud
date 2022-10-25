@@ -4,7 +4,7 @@ import com.study.city.entity.weather.JhWeather;
 import com.study.city.service.IEmailService;
 import com.study.city.service.IJhWeatherService;
 import com.study.city.service.IRemindService;
-import com.study.city.service.IWeatherService;
+import com.study.city.service.ITxLunarService;
 import com.study.starter.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +21,13 @@ public class RemindServiceImpl implements IRemindService {
     private static final Logger logger = LoggerFactory.getLogger(RemindServiceImpl.class);
 
     @Autowired
-    private IWeatherService weatherService;
-
-    @Autowired
     private IJhWeatherService jhWeatherService;
 
     @Autowired
     private IEmailService emailService;
+
+    @Autowired
+    private ITxLunarService txLunarService;
 
     // 朋友圈文案需要发送的人
     @Value("${spring.mail.send.remind.users}")
@@ -37,19 +37,7 @@ public class RemindServiceImpl implements IRemindService {
     public void sendEmail() {
         String date = DateUtils.format(new Date(), DateUtils.YYYY_MM_DD);
         // 实时查询今天天气
-        // List<Weather> weatherList = weatherService.getWheatherByCity("西安");
-
         List<JhWeather> weatherList = jhWeatherService.getWheatherByCity("西安");
-
-//        Weather weather = null;
-//        if (weatherList != null && !weatherList.isEmpty()) {
-//            for (Weather w : weatherList) {
-//                if (w.getDate().equals(date)) {
-//                    weather = w;
-//                }
-//            }
-//        }
-
         JhWeather jhWeather = null;
         if (weatherList != null && !weatherList.isEmpty()) {
             for (JhWeather w : weatherList) {
@@ -61,7 +49,6 @@ public class RemindServiceImpl implements IRemindService {
 
         // 发送提醒邮件
         sendEmail(jhWeather.getInfo());
-
     }
 
     /**
@@ -99,6 +86,44 @@ public class RemindServiceImpl implements IRemindService {
         contentBuffer.append("要注意饮食、注意劳逸结合呦");
         contentBuffer.append(System.getProperty("line.separator"));
         contentBuffer.append(System.getProperty("line.separator"));
+
+        List<Map<String, Object>> lunarMap = txLunarService.getLunar(today);
+        if (lunarMap != null && !lunarMap.isEmpty()) {
+            Map<String, Object> lunar = lunarMap.get(0);
+            // 国际节日
+            if (lunar.get("festival") != null) {
+                String festival = (String) lunar.get("festival");
+                if (!"".equals(festival)) {
+                    contentBuffer.append("今天是公历节日：");
+                    contentBuffer.append(festival);
+                    contentBuffer.append(System.getProperty("line.separator"));
+                }
+
+            }
+            // 农历节日
+            if (lunar.get("lunar_festival") != null) {
+                String lunarFestival = (String) lunar.get("lunar_festival");
+                if (!"".equals(lunarFestival)) {
+                    contentBuffer.append("今天是农历节日：");
+                    contentBuffer.append(lunarFestival);
+                    contentBuffer.append(System.getProperty("line.separator"));
+                }
+            }
+            // 节气
+            if (lunar.get("jieqi") != null) {
+                String jieqi = (String) lunar.get("jieqi");
+                if (!"".equals(jieqi)) {
+                    contentBuffer.append("是24节气中的：");
+                    contentBuffer.append(jieqi);
+                    contentBuffer.append("换节气适当增减衣服！");
+                }
+            }
+
+            contentBuffer.append(System.getProperty("line.separator"));
+            contentBuffer.append(System.getProperty("line.separator"));
+        }
+
+
         // 下雨的时候
         if (weatherInfo.contains("雨")) {
             contentBuffer.append("另外，今天");
@@ -108,7 +133,6 @@ public class RemindServiceImpl implements IRemindService {
             // 空两行
             contentBuffer.append(System.getProperty("line.separator"));
             contentBuffer.append(System.getProperty("line.separator"));
-            // contentBuffer.append(weather.getWarn());
         }
         return contentBuffer.toString();
     }
