@@ -1,0 +1,7 @@
+# zookeeper的配置信息
+curator:
+  retryCount: 5
+  elapsedTimeMs: 5000
+  connectString: 9.134.236.215:2181 # zk服务连接信息
+  sessionTimeoutMs: 60000 # 会话超时时间
+  connectionTimeoutMs: 5000

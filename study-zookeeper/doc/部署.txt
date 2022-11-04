@@ -1,0 +1,26 @@
+环境
+安装jdk
+
+一 打包
+    选择release打.tar.gz包
+
+二 打好的 .tar.gz包上传服务器解压到路径/opt/zhangpb/
+    tar -zxvf study-user.tar.gz -C /opt/zhangpb/
+
+三 执行脚本
+    ./opt/zhangpb/study-user/install.sh
+    ./opt/zhangpb/study-user/start.sh
+
+
+
+
+使用断路器-降级：
+https://www.cnblogs.com/xuwenjin/p/9349737.html
+    测试：关掉study-file服务，请求下面url，  返回显示：getFileHost 进行了降级处理！
+    http://localhost:8817/client/getFile?name=zhangpba
+
+降级：
+    1.增加依赖spring-cloud-starter-netflix-hystrix
+    2.启动类增加@EnableCircuitBreaker
+    3.FileServiceFeign上增加：@FeignClient(value = "study-file", fallback = FileServiceFallBack.class)
+    4.增加FileServiceFallBack类，编写降级处理代码

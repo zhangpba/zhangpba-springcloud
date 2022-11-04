@@ -19,6 +19,8 @@ public class DateUtils {
     public static final String YYYY_MM_DD = "yyyy-MM-dd";
     public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 
+    public static final String YEARS = "years";
+    public static final String MONTHS = "months";
     public static final String WEEKS = "weeks";
     public static final String DAYS = "days";
 
@@ -117,6 +119,76 @@ public class DateUtils {
             map.put(DAYS, days % 7);
         }
         return map;
+    }
+
+    /**
+     * 根据生日计算出年龄
+     *
+     * @param birthDay 生日
+     * @return 年龄：age:{months=8, days=13, yesrs=18} 代表18岁零8个月13天
+     * @throws Exception
+     */
+    public static Map<String, Object> getAge(String birthDay) throws Exception {
+        Map<String, Object> result = new HashMap<>();
+        SimpleDateFormat sdf = new SimpleDateFormat(YYYY_MM_DD);
+        Date birthDayAge = sdf.parse(birthDay);
+        Calendar cal = Calendar.getInstance();
+        if (cal.before(birthDayAge)) { // 出生日期晚于当前时间，无法计算
+            throw new IllegalArgumentException("日期填写错误！！");
+        }
+        // 当前年份
+        int yearNow = cal.get(Calendar.YEAR);
+        // 当前月份
+        int monthNow = cal.get(Calendar.MONTH);
+        // 当前日期
+        int dayOfMonthNow = cal.get(Calendar.DAY_OF_MONTH);
+        cal.setTime(birthDayAge);
+        // 生日年份
+        int yearBirth = cal.get(Calendar.YEAR);
+        // 生日月份
+        int monthBirth = cal.get(Calendar.MONTH);
+        // 生日日期
+        int dayOfMonthBirth = cal.get(Calendar.DAY_OF_MONTH);
+
+        // 计算整岁数
+        int age = yearNow - yearBirth;
+        if (monthNow <= monthBirth) {
+            if (monthNow == monthBirth) {
+                if (dayOfMonthNow < dayOfMonthBirth) {
+                    // 当前日期在生日之前，年龄减一
+                    age--;
+                }
+            } else {
+                // 当前月份在生日之前，年龄减一
+                age--;
+            }
+        }
+        result.put(YEARS, age);
+
+        // 零几个月
+        int month = 0;
+        // 当前月份小于等于生日月份
+        if (monthNow < monthBirth) {
+            month = monthBirth - monthNow;
+            month--;
+        } else if (monthNow >= monthBirth) {
+            month = monthNow - monthBirth;
+            // 当前日期小于生日日期
+            if (dayOfMonthNow <= dayOfMonthBirth) {
+                month--;
+            }
+        }
+        result.put(MONTHS, month);
+
+        // 零几天
+        int day = 0;
+        if (dayOfMonthNow > dayOfMonthBirth) {
+            day = dayOfMonthNow - dayOfMonthBirth;
+        } else {
+            day = dayOfMonthNow;
+        }
+        result.put(DAYS, day);
+        return result;
     }
 
 
