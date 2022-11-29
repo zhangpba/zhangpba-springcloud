@@ -33,6 +33,11 @@ public class RemindServiceImpl implements IRemindService {
     @Value("${spring.mail.send.remind.users}")
     private String remindBccUsers;
 
+
+    // 朋友圈文案需要发送的人
+    @Value("${spring.mail.send.remind.birthday}")
+    private String remindBirthDay;
+
     @Override
     public void sendEmail() {
         String date = DateUtils.format(new Date(), DateUtils.YYYY_MM_DD);
@@ -64,9 +69,27 @@ public class RemindServiceImpl implements IRemindService {
 
     // 获取邮件内容
     private String getContent(String weatherInfo) {
+        // 比较生日
+        Date date = DateUtils.prase(remindBirthDay, DateUtils.YYYY_MM_DD);
+        // 要是当前日期在生日之前，是预产期
+        if (new Date().getTime() < date.getTime()) {
+            return getPreDeliveryContext(weatherInfo);
+        } else {
+            // 要是当前日期在生日之前，是生日
+            return getBirthdayContext(weatherInfo);
+        }
+    }
+
+    /**
+     * 预产期提醒内容
+     *
+     * @param weatherInfo
+     * @return
+     */
+    private String getPreDeliveryContext(String weatherInfo) {
         String today = DateUtils.format(new Date(), DateUtils.YYYY_MM_DD);
         int alreadyDays = DateUtils.betweenDays("2022-03-15", today);
-        int needDays = DateUtils.betweenDays(today, "2022-12-22");
+        int needDays = DateUtils.betweenDays(today, remindBirthDay);
         // 加上周提示
         String alreadyWeeks = getWeeks(alreadyDays);
         String needWeeks = getWeeks(needDays);
@@ -125,6 +148,82 @@ public class RemindServiceImpl implements IRemindService {
 
 
         // 下雨的时候
+        weatherContext(contentBuffer, weatherInfo);
+        return contentBuffer.toString();
+    }
+
+    /**
+     * 生日提醒内容
+     *
+     * @param weatherInfo 天气预报
+     * @return
+     */
+    private String getBirthdayContext(String weatherInfo) {
+        String today = DateUtils.format(new Date(), DateUtils.YYYY_MM_DD);
+        int alreadyDays = DateUtils.betweenDays(remindBirthDay, today);
+        // 加上周提示
+        String alreadyWeeks = getWeeks(alreadyDays);
+
+        StringBuffer contentBuffer = new StringBuffer("宝宝已经出生了");
+        contentBuffer.append(alreadyDays);
+        contentBuffer.append("天了(");
+        contentBuffer.append(alreadyWeeks);
+        contentBuffer.append(")");
+        contentBuffer.append(System.getProperty("line.separator"));
+        contentBuffer.append("照顾宝宝的同时，自己也要注意饮食、注意劳逸结合呦！");
+        contentBuffer.append(System.getProperty("line.separator"));
+        contentBuffer.append(System.getProperty("line.separator"));
+
+        List<Map<String, Object>> lunarMap = txLunarService.getLunar(today);
+        if (lunarMap != null && !lunarMap.isEmpty()) {
+            Map<String, Object> lunar = lunarMap.get(0);
+            // 国际节日
+            if (lunar.get("festival") != null) {
+                String festival = (String) lunar.get("festival");
+                if (!"".equals(festival)) {
+                    contentBuffer.append("今天是公历节日：");
+                    contentBuffer.append(festival);
+                    contentBuffer.append(System.getProperty("line.separator"));
+                }
+
+            }
+            // 农历节日
+            if (lunar.get("lunar_festival") != null) {
+                String lunarFestival = (String) lunar.get("lunar_festival");
+                if (!"".equals(lunarFestival)) {
+                    contentBuffer.append("今天是农历节日：");
+                    contentBuffer.append(lunarFestival);
+                    contentBuffer.append(System.getProperty("line.separator"));
+                }
+            }
+            // 节气
+            if (lunar.get("jieqi") != null) {
+                String jieqi = (String) lunar.get("jieqi");
+                if (!"".equals(jieqi)) {
+                    contentBuffer.append("是24节气中的：");
+                    contentBuffer.append(jieqi);
+                    contentBuffer.append("换节气适当增减衣服！");
+                }
+            }
+
+            contentBuffer.append(System.getProperty("line.separator"));
+            contentBuffer.append(System.getProperty("line.separator"));
+        }
+
+
+        // 下雨的时候
+        weatherContext(contentBuffer, weatherInfo);
+
+        return contentBuffer.toString();
+    }
+
+    /**
+     * 下雨的时候天气提示
+     *
+     * @return
+     */
+    private void weatherContext(StringBuffer contentBuffer, String weatherInfo) {
+        // 下雨的时候
         if (weatherInfo.contains("雨")) {
             contentBuffer.append("另外，今天");
             contentBuffer.append(weatherInfo);
@@ -134,8 +233,8 @@ public class RemindServiceImpl implements IRemindService {
             contentBuffer.append(System.getProperty("line.separator"));
             contentBuffer.append(System.getProperty("line.separator"));
         }
-        return contentBuffer.toString();
     }
+
 
     private String getWeeks(Integer days) {
         Map<String, Integer> alreadyDaysMap = DateUtils.betweenWeeks(days);

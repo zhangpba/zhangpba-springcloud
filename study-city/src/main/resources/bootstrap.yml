@@ -1,7 +1,7 @@
 server:
   port: 9101
-  servlet:
-    context-path: /study-city
+#  servlet:
+#    context-path: /study-city
 spring:
   application:
     name: study-city
@@ -12,7 +12,7 @@ spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/study?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
     username: root
-    password: 910214
+    password: 910214bo
     driver-class-name: com.mysql.jdbc.Driver #5.0版本的数据库驱动配置
   #    driver-class-name: com.mysql.cj.jdbc.Driver #8.0高版本得数据库驱动配置
   redis:
@@ -82,8 +82,9 @@ spring:
         syn-cron: 0 30 10 * * * # 每天凌晨06：00执行一次
       remind:
         switch: 1
-        users: 123456@qq.com,123456@qq.com
+        users: zhangpba@qq.com,123456@qq.com
         syn-cron: 0 01 10 * * * # 每天凌晨10：01执行一次
+        birthday: 2022-11-22
 
 management:
   security:
