@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.city.mapper.DictMapper">
+    <resultMap type="com.study.city.entity.Dict" id="DictMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="dictType" column="dict_type" jdbcType="VARCHAR"/>
+        <result property="dictName" column="dict_name" jdbcType="VARCHAR"/>
+        <result property="dictCode" column="dict_code" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DictMap">
+        select id,
+               dict_type,
+               dict_name,
+               dict_code,
+               description,
+               status,
+               sort
+        from dict
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="DictMap">
+        select
+        id, dict_type, dict_name, dict_code, description, status, sort
+        from dict
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="dictType != null and dictType != ''">
+                and dict_type = #{dictType}
+            </if>
+            <if test="dictName != null and dictName != ''">
+                and dict_name = #{dictName}
+            </if>
+            <if test="dictCode != null and dictCode != ''">
+                and dict_code = #{dictCode}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="sort != null">
+                and sort = #{sort}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from dict
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="dictType != null and dictType != ''">
+                and dict_type = #{dictType}
+            </if>
+            <if test="dictName != null and dictName != ''">
+                and dict_name = #{dictName}
+            </if>
+            <if test="dictCode != null and dictCode != ''">
+                and dict_code = #{dictCode}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="sort != null">
+                and sort = #{sort}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into dict(dict_type, dict_name, dict_code, description, status, sort)
+        values (#{dictType}, #{dictName}, #{dictCode}, #{description}, #{status}, #{sort})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dict(dict_type, dict_name, dict_code, description, status, sort)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.dictType}, #{entity.dictName}, #{entity.dictCode}, #{entity.description}, #{entity.status},
+            #{entity.sort})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into dict(dict_type, dict_name, dict_code, description, status, sort)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.dictType}, #{entity.dictName}, #{entity.dictCode}, #{entity.description}, #{entity.status},
+            #{entity.sort})
+        </foreach>
+        on duplicate key update
+        dict_type = values(dict_type),
+        dict_name = values(dict_name),
+        dict_code = values(dict_code),
+        description = values(description),
+        status = values(status),
+        sort = values(sort)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dict
+        <set>
+            <if test="dictType != null and dictType != ''">
+                dict_type = #{dictType},
+            </if>
+            <if test="dictName != null and dictName != ''">
+                dict_name = #{dictName},
+            </if>
+            <if test="dictCode != null and dictCode != ''">
+                dict_code = #{dictCode},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from dict
+        where id = #{id}
+    </delete>
+
+    <!--查询指定行数据-->
+    <select id="query" resultMap="DictMap">
+        select
+        id, dict_type, dict_name, dict_code, description, status, sort
+        from dict
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="dictType != null and dictType != ''">
+                and dict_type = #{dictType}
+            </if>
+            <if test="dictName != null and dictName != ''">
+                and dict_name = #{dictName}
+            </if>
+            <if test="dictCode != null and dictCode != ''">
+                and dict_code = #{dictCode}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="sort != null">
+                and sort = #{sort}
+            </if>
+        </where>
+    </select>
+</mapper>
+

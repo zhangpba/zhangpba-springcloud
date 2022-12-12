@@ -1,6 +1,8 @@
 package com.study.city.service.impl;
 
+import com.study.city.entity.Dict;
 import com.study.city.entity.weather.JhWeather;
+import com.study.city.service.IDictService;
 import com.study.city.service.IEmailService;
 import com.study.city.service.IJhWeatherService;
 import com.study.city.service.IRemindService;
@@ -28,6 +30,9 @@ public class RemindServiceImpl implements IRemindService {
 
     @Autowired
     private ITxLunarService txLunarService;
+
+    @Autowired
+    private IDictService dictService;
 
     // 朋友圈文案需要发送的人
     @Value("${spring.mail.send.remind.users}")
@@ -73,10 +78,10 @@ public class RemindServiceImpl implements IRemindService {
         Date date = DateUtils.prase(remindBirthDay, DateUtils.YYYY_MM_DD);
         // 要是当前日期在生日之前，是预产期
         if (new Date().getTime() < date.getTime()) {
-            return getPreDeliveryContext(weatherInfo);
+            return getPreDeliveryContent(weatherInfo);
         } else {
             // 要是当前日期在生日之前，是生日
-            return getBirthdayContext(weatherInfo);
+            return getBirthdayContent(weatherInfo);
         }
     }
 
@@ -86,7 +91,7 @@ public class RemindServiceImpl implements IRemindService {
      * @param weatherInfo
      * @return
      */
-    private String getPreDeliveryContext(String weatherInfo) {
+    private String getPreDeliveryContent(String weatherInfo) {
         String today = DateUtils.format(new Date(), DateUtils.YYYY_MM_DD);
         int alreadyDays = DateUtils.betweenDays("2022-03-15", today);
         int needDays = DateUtils.betweenDays(today, remindBirthDay);
@@ -158,7 +163,7 @@ public class RemindServiceImpl implements IRemindService {
      * @param weatherInfo 天气预报
      * @return
      */
-    private String getBirthdayContext(String weatherInfo) {
+    private String getBirthdayContent(String weatherInfo) {
         String today = DateUtils.format(new Date(), DateUtils.YYYY_MM_DD);
         int alreadyDays = DateUtils.betweenDays(remindBirthDay, today);
         // 加上周提示
@@ -170,6 +175,15 @@ public class RemindServiceImpl implements IRemindService {
         contentBuffer.append(alreadyWeeks);
         contentBuffer.append(")");
         contentBuffer.append(System.getProperty("line.separator"));
+
+        String content = getContent();
+        if (content != null) {
+            contentBuffer.append(System.getProperty("line.separator"));
+            contentBuffer.append(System.getProperty("line.separator"));
+            contentBuffer.append(content);
+            contentBuffer.append(System.getProperty("line.separator"));
+            contentBuffer.append(System.getProperty("line.separator"));
+        }
         contentBuffer.append("照顾宝宝的同时，自己也要注意饮食、注意劳逸结合呦！");
         contentBuffer.append(System.getProperty("line.separator"));
         contentBuffer.append(System.getProperty("line.separator"));
@@ -245,5 +259,27 @@ public class RemindServiceImpl implements IRemindService {
             weeks = alreadyDaysMap.get(DateUtils.WEEKS) + "周";
         }
         return weeks;
+    }
+
+    // 获取配置库中的邮件内容
+    @Override
+    public String getContent() {
+        // 获取今天之后的每一天
+        List<String> list = DateUtils.getAfterDays(new Date(), 30);
+        String dictType = "yoyo";
+        String content = null;
+        for (int i = 0; i < list.size(); i++) {
+            Dict d = new Dict();
+            d.setDictType(dictType);
+            d.setDictCode(list.get(i));
+            Dict dict = dictService.query(d);
+            if (dict != null && i == 0) {
+                content = "今天是咱们" + dictType + "的" + dict.getDictName();
+            }
+            if (dict != null && i != 0) {
+                content = "距离咱们" + dictType + "的" + dict.getDictName() + "还有" + i + "天";
+            }
+        }
+        return content;
     }
 }

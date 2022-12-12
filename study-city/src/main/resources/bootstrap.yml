@@ -84,7 +84,7 @@ spring:
         switch: 1
         users: zhangpba@qq.com,123456@qq.com
         syn-cron: 0 01 10 * * * # 每天凌晨10：01执行一次
-        birthday: 2022-11-22
+        birthday: 2022-12-05
 
 management:
   security:
