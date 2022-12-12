@@ -1,6 +1,6 @@
 package com.study.kafka.service.impl;
 
-import com.study.kafka.Utils.TopicUtils;
+import com.study.kafka.utils.TopicUtils;
 import com.study.kafka.service.ITopicService;
 import org.apache.kafka.clients.admin.CreatePartitionsResult;
 import org.apache.kafka.clients.admin.CreateTopicsResult;

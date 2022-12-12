@@ -1,7 +1,7 @@
 package com.study.kafka.service.impl;
 
-import com.study.kafka.Utils.ConsumerUtils;
-import com.study.kafka.Utils.ProducerUtils;
+import com.study.kafka.utils.ConsumerUtils;
+import com.study.kafka.utils.ProducerUtils;
 import com.study.kafka.service.IMessageService;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;

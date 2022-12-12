@@ -1,6 +1,6 @@
 package com.study.kafka.run;
 
-import com.study.kafka.Utils.ConsumerUtils;
+import com.study.kafka.utils.ConsumerUtils;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;

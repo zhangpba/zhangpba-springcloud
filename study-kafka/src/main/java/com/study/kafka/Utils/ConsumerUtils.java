@@ -1,4 +1,4 @@
-package com.study.kafka.Utils;
+package com.study.kafka.utils;
 
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.springframework.beans.factory.annotation.Value;

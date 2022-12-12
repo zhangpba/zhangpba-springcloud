@@ -1,4 +1,4 @@
-package com.study.kafka.Utils;
+package com.study.kafka.utils;
 
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
