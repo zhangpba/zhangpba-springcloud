@@ -72,8 +72,7 @@ public class DateUtils {
             // 日期型字符串格式错误
             System.out.println("日期型字符串格式错误");
         }
-        int days = (int) ((endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000));
-        return days - 1;
+        return (int) ((endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000));
     }
 
     /**
@@ -84,8 +83,7 @@ public class DateUtils {
      * @return 两天之间的天数
      */
     public static int betweenDays(Date startDate, Date endDate) {
-        int days = (int) ((endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000));
-        return days - 1;
+        return (int) ((endDate.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000));
     }
 
     /**
