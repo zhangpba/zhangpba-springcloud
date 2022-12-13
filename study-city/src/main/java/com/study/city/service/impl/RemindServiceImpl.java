@@ -264,6 +264,7 @@ public class RemindServiceImpl implements IRemindService {
     // 获取配置库中的邮件内容
     @Override
     public String getContent() {
+        logger.info("获取配置库中的邮件内容 start...");
         // 获取今天之后的每一天
         List<String> list = DateUtils.getAfterDays(new Date(), 30);
         String dictType = "yoyo";
@@ -280,6 +281,7 @@ public class RemindServiceImpl implements IRemindService {
                 content = "距离咱们" + dictType + "的" + dict.getDictName() + "还有" + i + "天";
             }
         }
+        logger.info("获取配置库中的邮件内容: {}", content);
         return content;
     }
 }
