@@ -3,7 +3,7 @@ package com.study.city.service.impl;
 import com.study.city.entity.email.EmailLog;
 import com.study.city.service.IEmailLogService;
 import com.study.city.service.IEmailService;
-import com.study.starter.utils.ArraysUtils;
+import com.study.common.utils.ArraysUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -3,7 +3,7 @@ package com.study.zuul.service;
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
 import com.netflix.zuul.exception.ZuulException;
-import com.study.util.IpUtils;
+import com.study.common.utils.IpUtils;
 import io.micrometer.core.instrument.util.StringUtils;
 import org.apache.http.HttpStatus;
 import org.slf4j.Logger;

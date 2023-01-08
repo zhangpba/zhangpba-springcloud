@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.study.city.constant.FeeApiUrl;
 import com.study.city.entity.weather.JhWeather;
 import com.study.city.service.IJhWeatherService;
-import com.study.starter.utils.DateUtils;
+import com.study.common.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

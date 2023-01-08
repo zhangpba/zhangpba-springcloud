@@ -1,4 +1,4 @@
-package com.study.starter.vo.user;
+package com.study.common.entity;
 
 import lombok.Getter;
 import lombok.Setter;

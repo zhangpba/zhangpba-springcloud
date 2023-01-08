@@ -1,6 +1,6 @@
 package com.study.city.interceptor;
 
-import com.study.starter.utils.IpUtils;
+import com.study.common.utils.IpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

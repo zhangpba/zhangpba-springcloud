@@ -1,4 +1,4 @@
-package com.study.starter.vo.web;
+package com.study.common.web;
 
 import lombok.Getter;
 import lombok.Setter;

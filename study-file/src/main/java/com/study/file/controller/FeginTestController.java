@@ -1,7 +1,7 @@
 package com.study.file.controller;
 
 import com.study.file.service.FileService;
-import com.study.starter.vo.user.User;
+import com.study.common.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;

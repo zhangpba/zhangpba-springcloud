@@ -1,7 +1,7 @@
 package com.study.city.fegin;
 
 import com.study.city.hystrix.UserServiceFallBack;
-import com.study.starter.vo.user.User;
+import com.study.common.entity.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -2,7 +2,7 @@ package com.study.city.service.impl;
 
 import com.study.city.mapper.ConfigInfoMapper;
 import com.study.city.service.IConfigInfoService;
-import com.study.starter.vo.config.ConfigInfo;
+import com.study.city.entity.ConfigInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

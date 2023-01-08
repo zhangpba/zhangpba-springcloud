@@ -1,8 +1,8 @@
 package com.study.config.controller;
 
 import com.study.config.mapper.ConfigSeverMapper;
-import com.study.starter.vo.config.ConfigInfo;
-import com.study.starter.vo.web.ResponseMessage;
+import com.study.common.entity.ConfigInfo;
+import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

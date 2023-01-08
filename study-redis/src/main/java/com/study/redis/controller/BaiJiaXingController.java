@@ -4,7 +4,7 @@ import com.study.redis.RedisUtils;
 import com.study.starter.utils.BaijiaxingUtils;
 import com.study.starter.utils.RandomNameUtils;
 import com.study.starter.vo.BaiJiaXingVo;
-import com.study.starter.vo.web.ResponseMessage;
+import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;

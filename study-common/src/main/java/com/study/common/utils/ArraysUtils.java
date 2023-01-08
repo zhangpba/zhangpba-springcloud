@@ -1,4 +1,4 @@
-package com.study.starter.utils;
+package com.study.common.utils;
 
 /**
  * @author zhangpba

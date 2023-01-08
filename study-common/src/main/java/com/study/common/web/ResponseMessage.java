@@ -1,4 +1,4 @@
-package com.study.starter.vo.web;
+package com.study.common.web;
 
 /**
  * 描述:
@@ -15,10 +15,10 @@ public class ResponseMessage<T> {
     // 详细错误信息
     private String errDetail;
 
-    //生成消息的服务名
+    // 生成消息的服务名
     private String service;
 
-    //具体的信息内容
+    // 具体的信息内容
     private T data;
 
     private Long requestId = 0L;

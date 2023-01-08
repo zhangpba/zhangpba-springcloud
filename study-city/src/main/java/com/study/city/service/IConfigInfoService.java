@@ -1,6 +1,6 @@
 package com.study.city.service;
 
-import com.study.starter.vo.config.ConfigInfo;
+import com.study.city.entity.ConfigInfo;
 
 import java.util.List;
 import java.util.Map;

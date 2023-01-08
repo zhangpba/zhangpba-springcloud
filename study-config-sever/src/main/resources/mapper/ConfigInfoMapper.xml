@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.study.config.mapper.ConfigSeverMapper">
 
-    <resultMap id="ConfigInfoResultMap" type="com.study.starter.vo.config.ConfigInfo">
+    <resultMap id="ConfigInfoResultMap" type="com.study.common.entity.ConfigInfo">
         <id property="id" column="id"/>
         <result property="key" column="key"/>
         <result property="value" column="value"/>
@@ -12,7 +12,7 @@
         <result property="createDate" column="create_date"/>
     </resultMap>
 
-    <select id="getConfigInfo" resultMap="ConfigInfoResultMap" parameterType="com.study.starter.vo.config.ConfigInfo">
+    <select id="getConfigInfo" resultMap="ConfigInfoResultMap" parameterType="com.study.common.entity.ConfigInfo">
         select
         ci.id,
         ci.key ,
@@ -43,7 +43,7 @@
         </if>
     </select>
 
-    <insert id="addConfigInfo" parameterType="com.study.starter.vo.config.ConfigInfo">
+    <insert id="addConfigInfo" parameterType="com.study.common.entity.ConfigInfo">
         insert into config_info
         (
         <if test="key != null and key !=''">

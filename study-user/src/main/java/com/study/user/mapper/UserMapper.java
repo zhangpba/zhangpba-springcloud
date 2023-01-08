@@ -1,6 +1,6 @@
 package com.study.user.mapper;
 
-import com.study.starter.vo.user.User;
+import com.study.common.entity.User;
 
 import java.util.List;
 import java.util.Map;

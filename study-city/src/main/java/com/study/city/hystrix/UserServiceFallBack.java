@@ -1,7 +1,7 @@
 package com.study.city.hystrix;
 
 import com.study.city.fegin.UserServiceFegin;
-import com.study.starter.vo.user.User;
+import com.study.common.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

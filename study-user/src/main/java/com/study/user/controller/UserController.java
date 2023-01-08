@@ -1,7 +1,7 @@
 package com.study.user.controller;
 
-import com.study.starter.vo.user.User;
-import com.study.starter.vo.web.ResponseMessage;
+import com.study.common.entity.User;
+import com.study.common.web.ResponseMessage;
 import com.study.user.service.IUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

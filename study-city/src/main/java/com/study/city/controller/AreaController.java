@@ -5,7 +5,7 @@ import com.study.city.entity.area.City;
 import com.study.city.entity.area.Province;
 import com.study.city.service.IAreaService;
 import com.study.city.service.IProvinceService;
-import com.study.starter.vo.web.ResponseMessage;
+import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

@@ -1,8 +1,8 @@
 package com.study.city.controller;
 
 import com.study.city.service.IConfigInfoService;
-import com.study.starter.vo.config.ConfigInfo;
-import com.study.starter.vo.web.ResponseMessage;
+import com.study.city.entity.ConfigInfo;
+import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

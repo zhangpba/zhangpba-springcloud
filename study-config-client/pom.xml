@@ -39,6 +39,7 @@
             <artifactId>spring-cloud-starter-config</artifactId>
         </dependency>
 
+        <!--增加工具包 2023-01-08-->
         <dependency>
             <groupId>com.study.common</groupId>
             <artifactId>study-common</artifactId>

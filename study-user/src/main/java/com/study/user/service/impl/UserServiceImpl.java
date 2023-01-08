@@ -1,6 +1,6 @@
 package com.study.user.service.impl;
 
-import com.study.starter.vo.user.User;
+import com.study.common.entity.User;
 import com.study.user.mapper.UserMapper;
 import com.study.user.service.IUserService;
 import org.slf4j.Logger;

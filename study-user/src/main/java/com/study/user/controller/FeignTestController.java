@@ -1,6 +1,6 @@
 package com.study.user.controller;
 
-import com.study.starter.vo.user.User;
+import com.study.common.entity.User;
 import com.study.user.feign.FileServiceFeign;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

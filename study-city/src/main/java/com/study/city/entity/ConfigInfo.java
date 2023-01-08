@@ -1,4 +1,4 @@
-package com.study.starter.vo.config;
+package com.study.city.entity;
 
 import lombok.Getter;
 import lombok.Setter;

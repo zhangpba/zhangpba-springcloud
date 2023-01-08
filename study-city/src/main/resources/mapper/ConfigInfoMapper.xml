@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.study.city.mapper.ConfigInfoMapper">
-    <resultMap id="configInfoResultMap" type="com.study.starter.vo.config.ConfigInfo">
+    <resultMap id="configInfoResultMap" type="com.study.city.entity.ConfigInfo">
         <id property="id" column="id"/>
         <result property="key" column="key"/>
         <result property="value" column="value"/>
@@ -21,7 +21,7 @@
         c.create_date
     </sql>
 
-    <insert id="addConfigInfo" parameterType="com.study.starter.vo.config.ConfigInfo">
+    <insert id="addConfigInfo" parameterType="com.study.city.entity.ConfigInfo">
         insert into config_info
         (
         <if test="key != null and key !=''">
@@ -60,7 +60,7 @@
         #{createDate})
     </insert>
 
-    <select id="queryConfigInfos" resultMap="configInfoResultMap" parameterType="com.study.starter.vo.config.ConfigInfo">
+    <select id="queryConfigInfos" resultMap="configInfoResultMap" parameterType="com.study.city.entity.ConfigInfo">
         select
         <include refid="selectConfigInfoFields">
         </include>
@@ -86,7 +86,7 @@
         </if>
     </select>
 
-    <select id="queryConfigInfo" resultMap="configInfoResultMap" parameterType="com.study.starter.vo.config.ConfigInfo">
+    <select id="queryConfigInfo" resultMap="configInfoResultMap" parameterType="com.study.city.entity.ConfigInfo">
         select
         <include refid="selectConfigInfoFields">
         </include>

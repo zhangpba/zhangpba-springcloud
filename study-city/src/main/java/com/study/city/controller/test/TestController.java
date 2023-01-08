@@ -1,7 +1,7 @@
 package com.study.city.controller.test;
 
 import com.study.city.fegin.UserServiceFegin;
-import com.study.starter.vo.user.User;
+import com.study.common.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;

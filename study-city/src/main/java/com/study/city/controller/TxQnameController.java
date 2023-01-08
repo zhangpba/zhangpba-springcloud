@@ -2,9 +2,7 @@ package com.study.city.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.study.city.constant.FeeApiUrl;
-import com.study.city.entity.weather.JhWeather;
-import com.study.city.service.IJhWeatherService;
-import com.study.starter.vo.web.ResponseMessage;
+import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -17,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author zhangpba

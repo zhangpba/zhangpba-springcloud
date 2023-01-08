@@ -1,6 +1,6 @@
 package com.study.city.mapper;
 
-import com.study.starter.vo.config.ConfigInfo;
+import com.study.city.entity.ConfigInfo;
 import org.mapstruct.Mapper;
 
 import java.util.List;

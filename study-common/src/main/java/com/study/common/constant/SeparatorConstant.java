@@ -1,4 +1,4 @@
-package com.study.starter.constant;
+package com.study.common.constant;
 
 /**
  * 分隔符

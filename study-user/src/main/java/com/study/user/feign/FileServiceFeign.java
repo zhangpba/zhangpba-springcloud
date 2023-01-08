@@ -1,6 +1,6 @@
 package com.study.user.feign;
 
-import com.study.starter.vo.user.User;
+import com.study.common.entity.User;
 import com.study.user.hystrix.FileServiceFallBack;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;

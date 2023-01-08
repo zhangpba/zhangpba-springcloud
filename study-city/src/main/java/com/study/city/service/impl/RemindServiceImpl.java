@@ -7,7 +7,7 @@ import com.study.city.service.IEmailService;
 import com.study.city.service.IJhWeatherService;
 import com.study.city.service.IRemindService;
 import com.study.city.service.ITxLunarService;
-import com.study.starter.utils.DateUtils;
+import com.study.common.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

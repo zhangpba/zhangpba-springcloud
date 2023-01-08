@@ -38,9 +38,10 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--增加工具包 2023-01-08-->
         <dependency>
             <groupId>com.study.common</groupId>
-            <artifactId>study-common-starter</artifactId>
+            <artifactId>study-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 

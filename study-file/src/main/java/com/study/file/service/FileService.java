@@ -1,6 +1,6 @@
 package com.study.file.service;
 
-import com.study.starter.vo.user.User;
+import com.study.common.entity.User;
 
 public interface FileService {
 

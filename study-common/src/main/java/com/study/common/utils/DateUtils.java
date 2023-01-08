@@ -1,4 +1,4 @@
-package com.study.starter.utils;
+package com.study.common.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,8 +16,12 @@ import java.util.Map;
  */
 public class DateUtils {
 
+    // 1987-01-01
     public static final String YYYY_MM_DD = "yyyy-MM-dd";
+    // 1987-01-01 23:59:59
     public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+    // 1987-01-01 星期一
+    public static final String YYYY_MM_DD_EEE = "yyyy-MM-dd EEE";
 
     public static final String YEARS = "years";
     public static final String MONTHS = "months";
@@ -254,5 +258,55 @@ public class DateUtils {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -1);
         return calendar.getTime();
+    }
+
+    /**
+     * 根据日期获得所在周的日期
+     *
+     * @param mdate
+     * @return 所在周的日期
+     */
+    @SuppressWarnings("deprecation")
+    public static List<Date> dateToWeek(Date mdate) {
+        int b = mdate.getDay();
+        Date fdate;
+        List<Date> list = new ArrayList<Date>();
+        Long fTime = mdate.getTime() - b * 24 * 3600000;
+        for (int a = 1; a <= 7; a++) {
+            fdate = new Date();
+            fdate.setTime(fTime + (a * 24 * 3600000));
+            list.add(a - 1, fdate);
+        }
+        return list;
+    }
+
+    /**
+     * 获取某一天的零点时间戳（00:00:00）
+     *
+     * @param date 某一天的时间
+     * @return
+     */
+    public static long getTodayStartTime(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        return calendar.getTime().getTime();
+    }
+
+    /**
+     * 获取某一天的12点时间戳（23:59:59）
+     *
+     * @param date 某一天的时间
+     * @return
+     */
+    public static long getTodayEndTime(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        return calendar.getTime().getTime();
     }
 }

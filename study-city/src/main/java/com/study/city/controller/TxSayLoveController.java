@@ -1,7 +1,7 @@
 package com.study.city.controller;
 
 import com.study.city.service.ITxPyqService;
-import com.study.starter.vo.web.ResponseMessage;
+import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
