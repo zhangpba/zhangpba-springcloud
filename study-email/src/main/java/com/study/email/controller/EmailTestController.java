@@ -1,7 +1,6 @@
 package com.study.email.controller;
 
 import com.study.email.service.IEmailService;
-import com.study.common.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
