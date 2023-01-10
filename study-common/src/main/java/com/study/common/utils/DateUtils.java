@@ -1,5 +1,6 @@
 package com.study.common.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -17,6 +18,8 @@ import java.util.Map;
 public class DateUtils {
 
     // 1987-01-01
+    public static final String YYYY_MM = "yyyy-MM";
+    // 1987-01-01
     public static final String YYYY_MM_DD = "yyyy-MM-dd";
     // 1987-01-01 23:59:59
     public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
@@ -28,8 +31,10 @@ public class DateUtils {
     public static final String WEEKS = "weeks";
     public static final String DAYS = "days";
 
+    private static SimpleDateFormat FORMAT_YYYY_MM = new SimpleDateFormat(YYYY_MM);
     private static SimpleDateFormat FORMAT_YYYY_MM_DD = new SimpleDateFormat(YYYY_MM_DD);
     private static SimpleDateFormat FORMAT_YYYY_MM_DD_HH_MM_SS = new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
+    private static SimpleDateFormat FORMAT_YYYY_MM_DD_EEE = new SimpleDateFormat(YYYY_MM_DD_EEE);
 
     /**
      * 格式化时间
@@ -261,7 +266,7 @@ public class DateUtils {
     }
 
     /**
-     * 根据日期获得所在周的日期
+     * 根据日期获得所在自然周的日期
      *
      * @param mdate
      * @return 所在周的日期
@@ -284,7 +289,7 @@ public class DateUtils {
      * 获取某一天的零点时间戳（00:00:00）
      *
      * @param date 某一天的时间
-     * @return
+     * @return 某一天的00:00:00
      */
     public static long getTodayStartTime(Date date) {
         Calendar calendar = Calendar.getInstance();
@@ -299,7 +304,7 @@ public class DateUtils {
      * 获取某一天的12点时间戳（23:59:59）
      *
      * @param date 某一天的时间
-     * @return
+     * @return 某一天的23:59:59
      */
     public static long getTodayEndTime(Date date) {
         Calendar calendar = Calendar.getInstance();
@@ -308,5 +313,158 @@ public class DateUtils {
         calendar.set(Calendar.MINUTE, 59);
         calendar.set(Calendar.SECOND, 59);
         return calendar.getTime().getTime();
+    }
+
+    public static void main(String[] args) {
+        List<String> list = getDayByMonth();
+        for (String s : list) {
+            System.out.println(s);
+        }
+    }
+
+    /**
+     * 获取本年度的十二个月份 yyyy-MM
+     *
+     * @return 本年度的十二个月份
+     */
+    public static List<String> getMonthByYear() {
+        List<String> data = new ArrayList<>();
+        try {
+            Calendar calendar = Calendar.getInstance();
+            // 获取当前的年份
+            int year = calendar.get(Calendar.YEAR);
+            // 开始日期为当前年拼接1月份
+            Date startDate = FORMAT_YYYY_MM.parse(year + "-01");
+            // 结束日期为当前年拼接12月份
+            Date endDate = FORMAT_YYYY_MM.parse(year + "-12");
+            // 设置calendar的开始日期
+            calendar.setTime(startDate);
+            // 当前时间小于等于设定的结束时间
+            while (calendar.getTime().compareTo(endDate) <= 0) {
+                String time = FORMAT_YYYY_MM.format(calendar.getTime());
+                data.add(time);
+                // 当前月份加1
+                calendar.add(Calendar.MONTH, 1);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * 获取本月度的每一天 yyyy-MM-dd
+     *
+     * @return 本月的每一天集合
+     */
+    public static List<String> getDayByMonth() {
+        List<String> data = new ArrayList<>();
+        try {
+            Calendar calendar = Calendar.getInstance();
+            // 获取当前的年份
+            int year = calendar.get(Calendar.YEAR);
+            // 获取当前的月份（需要加1才是现在的月份）
+            int month = calendar.get(Calendar.MONTH) + 1;
+            // 获取本月的总天数
+            int dayCount = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+            // 开始日期为当前年月拼接1号
+            Date startDate = FORMAT_YYYY_MM_DD.parse(year + "-" + month + "-01");
+            // 结束日期为当前年月拼接该月最大天数
+            Date endDate = FORMAT_YYYY_MM_DD.parse(year + "-" + month + "-" + dayCount);
+            // 设置calendar的开始日期
+            calendar.setTime(startDate);
+            // 当前时间小于等于设定的结束时间
+            while (calendar.getTime().compareTo(endDate) <= 0) {
+                String time = FORMAT_YYYY_MM_DD.format(calendar.getTime());
+                data.add(time);
+                // 当前日期加1
+                calendar.add(Calendar.DATE, 1);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * 获取本周的所有日期 yyyy-MM-dd
+     *
+     * @return
+     */
+    public static List<String> getDayByWeek() {
+        List<String> data = new ArrayList<>();
+        try {
+            //获取本周时间
+            String yzTime = getTimeInterval(new Date());
+            String[] time = yzTime.split(",");
+            //本周第一天
+            String startTime = time[0];
+            //本周最后一天
+            String endTime = time[1];
+            //格式化日期
+            Date dBegin = FORMAT_YYYY_MM_DD.parse(startTime);
+            Date dEnd = FORMAT_YYYY_MM_DD.parse(endTime);
+            //获取这周所有date
+            List<Date> lDate = findDates(dBegin, dEnd);
+            for (Date date : lDate) {
+                data.add(FORMAT_YYYY_MM_DD.format(date));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    /**
+     * 根据指定日期获取一周的第一天和最后一天日期
+     *
+     * @param date
+     * @return
+     */
+    public static String getTimeInterval(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        // 判断要计算的日期是否是周日，如果是则减一天计算周六的，否则会出问题，计算到下一周去了
+        // 获得当前日期是一个星期的第几天
+        int dayWeek = cal.get(Calendar.DAY_OF_WEEK);
+        if (1 == dayWeek) {
+            cal.add(Calendar.DAY_OF_MONTH, -1);
+        }
+        // 设置一个星期的第一天，按中国的习惯一个星期的第一天是星期一
+        cal.setFirstDayOfWeek(Calendar.MONDAY);
+        // 获得当前日期是一个星期的第几天
+        int day = cal.get(Calendar.DAY_OF_WEEK);
+        // 根据日历的规则，给当前日期减去星期几与一个星期第一天的差值
+        cal.add(Calendar.DATE, cal.getFirstDayOfWeek() - day);
+        String imptimeBegin = FORMAT_YYYY_MM_DD.format(cal.getTime());
+        cal.add(Calendar.DATE, 6);
+        String imptimeEnd = FORMAT_YYYY_MM_DD.format(cal.getTime());
+        return imptimeBegin + "," + imptimeEnd;
+    }
+
+
+    /**
+     * 查找两日期之间的日期
+     *
+     * @param dBegin 开始日期
+     * @param dEnd   结束日期
+     * @return List<Date>
+     */
+    public static List<Date> findDates(Date dBegin, Date dEnd) {
+        List<Date> lDate = new ArrayList<>();
+        lDate.add(dBegin);
+        Calendar calBegin = Calendar.getInstance();
+        // 使用给定的 Date 设置此 Calendar 的时间
+        calBegin.setTime(dBegin);
+        Calendar calEnd = Calendar.getInstance();
+        // 使用给定的 Date 设置此 Calendar 的时间
+        calEnd.setTime(dEnd);
+        // 测试此日期是否在指定日期之后
+        while (dEnd.after(calBegin.getTime())) {
+            // 根据日历的规则，为给定的日历字段添加或减去指定的时间量
+            calBegin.add(Calendar.DAY_OF_MONTH, 1);
+            lDate.add(calBegin.getTime());
+        }
+        return lDate;
     }
 }
