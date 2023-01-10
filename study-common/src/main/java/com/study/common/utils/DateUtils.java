@@ -315,13 +315,6 @@ public class DateUtils {
         return calendar.getTime().getTime();
     }
 
-    public static void main(String[] args) {
-        List<String> list = getDayByMonth();
-        for (String s : list) {
-            System.out.println(s);
-        }
-    }
-
     /**
      * 获取本年度的十二个月份 yyyy-MM
      *
