@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.study.city.mapper.EmailLogMapper">
-    <resultMap id="emailLogResultMap" type="com.study.city.entity.email.EmailLog">
+<mapper namespace="com.study.city.data.mapper.EmailLogMapper">
+    <resultMap id="emailLogResultMap" type="com.study.city.data.entity.email.EmailLog">
         <id property="id" column="id"/>
         <result property="sendUsers" column="send_users"/>
         <result property="receive" column="receive"/>
@@ -27,7 +27,7 @@
         c.update_date
     </sql>
 
-    <insert id="addEmailLog" parameterType="com.study.city.entity.email.EmailLog">
+    <insert id="addEmailLog" parameterType="com.study.city.data.entity.email.EmailLog">
         insert into log_email
         (
         <if test="sendUsers != null">
@@ -84,7 +84,7 @@
         #{createDate})
     </insert>
 
-    <select id="queryEmailLogs" resultMap="emailLogResultMap" parameterType="com.study.city.entity.email.EmailLog">
+    <select id="queryEmailLogs" resultMap="emailLogResultMap" parameterType="com.study.city.data.entity.email.EmailLog">
         select
         <include refid="selectEmailLogFields">
         </include>

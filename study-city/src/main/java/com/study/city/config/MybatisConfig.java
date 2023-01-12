@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2022-04-13
  */
 @Configuration
-@MapperScan("com.study.**.mapper")
+@MapperScan(value = "com.study.city.**.mapper")
 public class MybatisConfig {
 
 }

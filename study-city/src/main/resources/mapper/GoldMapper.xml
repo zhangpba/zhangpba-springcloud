@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.study.city.mapper.GoldMapper">
-    <resultMap id="goldMap" type="com.study.city.entity.gold.Gold">
+<mapper namespace="com.study.city.data.mapper.GoldMapper">
+    <resultMap id="goldMap" type="com.study.city.data.entity.gold.Gold">
         <id property="type" column="type"/>
         <result property="typename" column="typename"/>
         <result property="price" column="price"/>
@@ -59,7 +59,7 @@
         gold g
     </select>
 
-    <insert id="addGold" parameterType="com.study.city.entity.gold.Gold">
+    <insert id="addGold" parameterType="com.study.city.data.entity.gold.Gold">
         insert into gold (
         type,
         typename,
@@ -93,7 +93,7 @@
         )
     </insert>
 
-    <update id="updateGlod" parameterType="com.study.city.entity.gold.Gold">
+    <update id="updateGlod" parameterType="com.study.city.data.entity.gold.Gold">
         update gold
         <set>
             <if test="type != null">

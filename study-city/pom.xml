@@ -93,6 +93,17 @@
             <version>5.1.46</version> <!--版本问题，5.0以下的老版本需要配置对应低版本的连接池-->
         </dependency>
 
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>5.1.10</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jsqlparser</groupId>
+            <artifactId>jsqlparser</artifactId>
+            <version>3.1</version>
+        </dependency>
+
         <!--为swagger加密 2022-04-18-->
         <!--解决跨域问题 如果加密 一直有跨域问题 2022-04-24-->
         <!--        <dependency>-->
@@ -189,6 +200,12 @@
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>swagger-bootstrap-ui</artifactId>
             <version>1.9.6</version>
+        </dependency>
+
+        <!-- 接口参数进行校验 2023-01-12-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
     </dependencies>
 

@@ -1,0 +1,11 @@
+package com.study.city.data.service;
+
+import com.study.city.data.entity.tianxing.OneDay;
+
+public interface ITxOneDayService {
+    // 获取每日一小句
+    OneDay getOneDay();
+
+    // 发送每日一小句邮件
+    void sendOneDayEmail();
+}

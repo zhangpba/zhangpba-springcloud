@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.city.exam.mapper.QuestionInfoMapper">
+
+    <resultMap type="com.study.city.exam.entity.QuestionInfo" id="QuestionInfoMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="question" column="question" jdbcType="VARCHAR"/>
+        <result property="licenseType" column="license_type" jdbcType="VARCHAR"/>
+        <result property="subjectType" column="subject_type" jdbcType="VARCHAR"/>
+        <result property="questionType" column="question_type" jdbcType="VARCHAR"/>
+        <result property="optionA" column="option_A" jdbcType="VARCHAR"/>
+        <result property="optionB" column="option_B" jdbcType="VARCHAR"/>
+        <result property="optionC" column="option_C" jdbcType="VARCHAR"/>
+        <result property="optionD" column="option_D" jdbcType="VARCHAR"/>
+        <result property="optionE" column="option_E" jdbcType="VARCHAR"/>
+        <result property="optionF" column="option_F" jdbcType="VARCHAR"/>
+        <result property="optionG" column="option_G" jdbcType="VARCHAR"/>
+        <result property="optionH" column="option_H" jdbcType="VARCHAR"/>
+        <result property="key" column="key" jdbcType="VARCHAR"/>
+        <result property="explains" column="explains" jdbcType="VARCHAR"/>
+        <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+        <result property="sourceId" column="source_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- 批量插入 -->
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into study.question_info(question, license_type, subject_type, question_type, option_A, option_B, option_C, option_D, option_E, option_F, option_G, option_H, key, explains, image_url, source_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.question}, #{entity.licenseType}, #{entity.subjectType}, #{entity.questionType}, #{entity.optionA}, #{entity.optionB}, #{entity.optionC}, #{entity.optionD}, #{entity.optionE}, #{entity.optionF}, #{entity.optionG}, #{entity.optionH}, #{entity.key}, #{entity.explains}, #{entity.imageUrl}, #{entity.sourceId})
+        </foreach>
+    </insert>
+    <!-- 批量插入或按主键更新 -->
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into study.question_info(question, license_type, subject_type, question_type, option_A, option_B, option_C, option_D, option_E, option_F, option_G, option_H, key, explains, image_url, source_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.question}, #{entity.licenseType}, #{entity.subjectType}, #{entity.questionType}, #{entity.optionA}, #{entity.optionB}, #{entity.optionC}, #{entity.optionD}, #{entity.optionE}, #{entity.optionF}, #{entity.optionG}, #{entity.optionH}, #{entity.key}, #{entity.explains}, #{entity.imageUrl}, #{entity.sourceId})
+        </foreach>
+        on duplicate key update
+         question = values(question) , license_type = values(license_type) , subject_type = values(subject_type) , question_type = values(question_type) , option_A = values(option_A) , option_B = values(option_B) , option_C = values(option_C) , option_D = values(option_D) , option_E = values(option_E) , option_F = values(option_F) , option_G = values(option_G) , option_H = values(option_H) , key = values(key) , explains = values(explains) , image_url = values(image_url) , source_id = values(source_id)
+    </insert>
+
+    <select id="getQuestions" resultMap="QuestionInfoMap">
+        select * from question_info
+    </select>
+
+</mapper>
+
