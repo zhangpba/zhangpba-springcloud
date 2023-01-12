@@ -2,7 +2,7 @@ package com.study.city.user.service;
 
 import com.github.pagehelper.PageInfo;
 import com.study.city.user.entity.SysRole;
-import com.study.city.user.entity.SysRoleRequest;
+import com.study.city.user.entity.request.SysRoleListRequest;
 
 /**
  * 角色信息表(SysRole)表服务接口
@@ -26,7 +26,7 @@ public interface SysRoleService {
      * @param sysRoleRequest 筛选条件
      * @return 查询结果
      */
-    PageInfo<SysRole> queryByPage(SysRoleRequest sysRoleRequest);
+    PageInfo<SysRole> queryByPage(SysRoleListRequest sysRoleRequest);
 
     /**
      * 新增数据

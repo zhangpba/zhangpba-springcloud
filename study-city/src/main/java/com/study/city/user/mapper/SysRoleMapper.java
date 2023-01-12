@@ -1,7 +1,7 @@
 package com.study.city.user.mapper;
 
 import com.study.city.user.entity.SysRole;
-import com.study.city.user.entity.SysRoleRequest;
+import com.study.city.user.entity.request.SysRoleListRequest;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -29,7 +29,7 @@ public interface SysRoleMapper {
      * @param pageable         分页对象
      * @return 对象列表
      */
-    List<SysRole> queryAllByLimit(SysRoleRequest sysRoleRequest);
+    List<SysRole> queryAllByLimit(SysRoleListRequest sysRoleRequest);
 
     /**
      * 统计总行数

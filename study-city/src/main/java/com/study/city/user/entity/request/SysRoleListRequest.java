@@ -1,4 +1,4 @@
-package com.study.city.user.entity;
+package com.study.city.user.entity.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,7 +18,7 @@ import java.util.Date;
 @ApiModel
 @Setter
 @Getter
-public class SysRoleRequest implements Serializable {
+public class SysRoleListRequest implements Serializable {
     private static final long serialVersionUID = 922597341120293189L;
     /**
      * 角色ID

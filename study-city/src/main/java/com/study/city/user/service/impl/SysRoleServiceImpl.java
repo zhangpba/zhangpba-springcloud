@@ -3,7 +3,7 @@ package com.study.city.user.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.study.city.user.entity.SysRole;
-import com.study.city.user.entity.SysRoleRequest;
+import com.study.city.user.entity.request.SysRoleListRequest;
 import com.study.city.user.mapper.SysRoleMapper;
 import com.study.city.user.service.SysRoleService;
 import org.springframework.stereotype.Service;
@@ -40,7 +40,7 @@ public class SysRoleServiceImpl implements SysRoleService {
      * @return 查询结果
      */
     @Override
-    public PageInfo<SysRole> queryByPage(SysRoleRequest sysRoleRequest) {
+    public PageInfo<SysRole> queryByPage(SysRoleListRequest sysRoleRequest) {
         PageHelper.startPage(sysRoleRequest.getPageNum(), sysRoleRequest.getPageSize());
         List<SysRole> sysUsers = this.sysRoleDao.queryAllByLimit(sysRoleRequest);
         PageInfo<SysRole> pageInfo = new PageInfo<>(sysUsers);

@@ -1,7 +1,7 @@
 package com.study.city.user.controller;
 
 import com.study.city.user.entity.SysRole;
-import com.study.city.user.entity.SysRoleRequest;
+import com.study.city.user.entity.request.SysRoleListRequest;
 import com.study.city.user.service.SysRoleService;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
@@ -42,7 +42,7 @@ public class SysRoleController {
      */
     @GetMapping
     @ApiOperation(value = "分页查询角色", response = Dictionary.class)
-    public ResponseMessage<Page<SysRole>> queryByPage(SysRoleRequest sysRoleRequest) {
+    public ResponseMessage<Page<SysRole>> queryByPage(SysRoleListRequest sysRoleRequest) {
         return ResponseMessage.success(this.sysRoleService.queryByPage(sysRoleRequest));
     }
 
