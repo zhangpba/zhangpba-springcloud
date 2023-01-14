@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * Sys_User表 实体类
  *
- * @author makejava
+ * @author zhangpba
  * @since 2023-01-12 12:28:55
  */
 @Getter

@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * 角色信息表(SysRole)实体类
  *
- * @author makejava
+ * @author zhangpba
  * @since 2023-01-12 19:16:57
  */
 public class SysRole implements Serializable {

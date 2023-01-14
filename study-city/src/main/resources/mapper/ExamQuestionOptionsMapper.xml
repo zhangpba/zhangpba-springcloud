@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.city.exam.mapper.ExamQuestionOptionsMapper">
+
+    <resultMap type="com.study.city.exam.entity.ExamQuestionOptions" id="ExamQuestionOptionsMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="key" column="key" jdbcType="VARCHAR"/>
+        <result property="option" column="option" jdbcType="VARCHAR"/>
+        <result property="questionId" column="question_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ExamQuestionOptionsMap">
+        select
+          id, `key`, `option`, question_id
+        from exam_question_options
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryExamQuestionOptions" resultMap="ExamQuestionOptionsMap">
+        select
+          id, `key`, `option`, question_id
+        from exam_question_options
+        <where>
+            1 = 1
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="key != null and key != ''">
+                and `key` = #{key}
+            </if>
+            <if test="option != null and option != ''">
+                and `option` = #{option}
+            </if>
+            <if test="questionId != null">
+                and question_id = #{questionId}
+            </if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from exam_question_options
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="key != null and key != ''">
+                and `key` = #{key}
+            </if>
+            <if test="option != null and option != ''">
+                and `option` = #{option}
+            </if>
+            <if test="questionId != null">
+                and question_id = #{questionId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into exam_question_options(`key`, `option`, question_id)
+        values (#{key}, #{option}, #{questionId})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into exam_question_options(`key`, `option`, question_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.key}, #{entity.option}, #{entity.questionId})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into exam_question_options(`key`, `option`, question_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.key}, #{entity.option}, #{entity.questionId})
+        </foreach>
+        on duplicate key update
+        key = values(key),
+        option = values(option),
+        question_id = values(question_id)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update exam_question_options
+        <set>
+            <if test="key != null and key != ''">
+                `key` = #{key},
+            </if>
+            <if test="option != null and option != ''">
+                `option` = #{option},
+            </if>
+            <if test="questionId != null">
+                question_id = #{questionId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from exam_question_options where id = #{id}
+    </delete>
+
+</mapper>
+

@@ -7,7 +7,7 @@ import com.study.city.user.entity.request.SysRoleListRequest;
 /**
  * 角色信息表(SysRole)表服务接口
  *
- * @author makejava
+ * @author zhangpba
  * @since 2023-01-12 19:17:02
  */
 public interface SysRoleService {

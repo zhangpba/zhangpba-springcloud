@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * (SysUser)表数据库访问层
  *
- * @author makejava
+ * @author zhangpba
  * @since 2023-01-12 12:28:52
  */
 public interface SysUserMapper {

@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * 角色信息表(SysRole)表服务实现类
  *
- * @author makejava
+ * @author zhangpba
  * @since 2023-01-12 19:17:06
  */
 @Service("sysRoleService")

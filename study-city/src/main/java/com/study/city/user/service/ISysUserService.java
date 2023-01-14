@@ -8,7 +8,7 @@ import com.study.city.user.entity.request.SysUserListRequest;
 /**
  * (SysUser)表服务接口
  *
- * @author makejava
+ * @author zhangpba
  * @since 2023-01-12 12:28:59
  */
 public interface ISysUserService {

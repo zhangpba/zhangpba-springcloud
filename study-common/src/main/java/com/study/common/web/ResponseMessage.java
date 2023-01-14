@@ -1,24 +1,33 @@
 package com.study.common.web;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 描述:
  * HttpRequest请求返回的最外层对象,用一种统一的格式返回给前端
  */
+@ApiModel(description = "响应消息")
 public class ResponseMessage<T> {
 
-    //错误码
+    // 错误码
+    @ApiModelProperty(value = "错误码")
     private Integer errCode;
 
-    //信息描述
+    // 信息描述
+    @ApiModelProperty(value = "信息描述")
     private String errMsg;
 
     // 详细错误信息
+    @ApiModelProperty(value = "详细错误信息")
     private String errDetail;
 
     // 生成消息的服务名
+    @ApiModelProperty(value = "生成消息的服务名")
     private String service;
 
     // 具体的信息内容
+    @ApiModelProperty(value = "具体的信息内容")
     private T data;
 
     private Long requestId = 0L;

@@ -7,7 +7,7 @@ import lombok.Setter;
 /**
  * (QuestionInfo)表实体类-用于数据库交互
  *
- * @author makejava
+ * @author zhangpba
  * @since 2023-01-11 15:12:56
  */
 @Setter

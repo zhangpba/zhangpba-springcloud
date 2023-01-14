@@ -1,13 +1,14 @@
-package com.study.city.exam.entity;
+package com.study.city.exam.entity.request;
 
 
+import com.study.city.base.Page;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 /**
  * 请求体
@@ -20,7 +21,8 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 @Getter
 @ApiModel
-public class QuestionInfoRequest {
+public class QuestionInfoRequest extends Page implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "驾照类型，0：小车（C1、C2），1：客车（A1、A3、B1），2：货车（A2、B2），3：摩托车（D、E、F）")
     private String licenseType;
@@ -31,15 +33,4 @@ public class QuestionInfoRequest {
     @ApiModelProperty(value = "题目类型（1：判断题，2：单选题，3：多选题）")
     @NotEmpty(message = "题目类型不能为空")
     private String questionType;
-
-    @ApiModelProperty(value = "页码")
-    @Min(message = "页码不能小于0", value = 0)
-    private int pageNum;
-
-    @ApiModelProperty(value = "页面大小")
-    @Min(message = "页面不能小于0", value = 0)
-    private int pageSize;
-
-    @ApiModelProperty(value = "总数")
-    private int total;
 }

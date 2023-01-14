@@ -36,7 +36,7 @@ public class SysUserController {
      */
     @GetMapping
     @ApiOperation(value = "分页查询", response = Dictionary.class)
-    public ResponseMessage<PageInfo<SysUser>> queryByPage(SysUserListRequest sysUserRequest) {
+    public ResponseMessage<PageInfo<SysUser>> queryByPage(@RequestBody SysUserListRequest sysUserRequest) {
         return ResponseMessage.success(this.sysUserService.queryByPage(sysUserRequest));
     }
 
@@ -60,7 +60,7 @@ public class SysUserController {
      */
     @PostMapping
     @ApiOperation(value = "新增数据", response = Dictionary.class)
-    public ResponseMessage<SysUser> add(SysUser sysUser) {
+    public ResponseMessage<SysUser> add(@RequestBody SysUser sysUser) {
         return ResponseMessage.success(this.sysUserService.insert(sysUser));
     }
 
@@ -72,7 +72,7 @@ public class SysUserController {
      */
     @PutMapping
     @ApiOperation(value = "编辑数据", response = Dictionary.class)
-    public ResponseMessage<SysUser> edit(SysUser sysUser) {
+    public ResponseMessage<SysUser> edit(@RequestBody SysUser sysUser) {
         return ResponseMessage.success(this.sysUserService.update(sysUser));
     }
 

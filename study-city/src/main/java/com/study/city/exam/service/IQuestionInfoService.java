@@ -1,7 +1,7 @@
 package com.study.city.exam.service;
 
 import com.github.pagehelper.PageInfo;
-import com.study.city.exam.entity.QuestionInfoRequest;
+import com.study.city.exam.entity.request.QuestionInfoRequest;
 
 public interface IQuestionInfoService {
 

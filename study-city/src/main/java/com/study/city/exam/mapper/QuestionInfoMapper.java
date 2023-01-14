@@ -9,10 +9,12 @@ import com.study.city.exam.entity.QuestionInfo;
 /**
  * (QuestionInfo)表数据库访问层
  *
- * @author makejava
+ * @author zhanpba
  * @since 2023-01-11 15:12:53
  */
 public interface QuestionInfoMapper extends BaseMapper<QuestionInfo> {
+
+    QuestionInfo queryById(Integer id);
 
     /**
      * 批量新增数据（MyBatis原生foreach方法）

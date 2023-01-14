@@ -2,7 +2,7 @@ package com.study.city.exam.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.study.city.exam.entity.QuestionInfoRequest;
+import com.study.city.exam.entity.request.QuestionInfoRequest;
 import com.study.city.exam.mapper.QuestionInfoMapper;
 import com.study.city.exam.service.IQuestionInfoService;
 import com.study.city.exam.entity.QuestionInfo;
@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * (QuestionInfo)表服务实现类
  *
- * @author makejava
+ * @author zhanpba
  * @since 2023-01-11 15:12:56
  */
 @Service

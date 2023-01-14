@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.city.exam.mapper.ExamQuestionInfoMapper">
+
+    <resultMap type="com.study.city.exam.entity.ExamQuestionInfo" id="ExamQuestionInfoMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="question" column="question" jdbcType="VARCHAR"/>
+        <result property="answer" column="answer" jdbcType="VARCHAR"/>
+        <result property="explain" column="explain" jdbcType="VARCHAR"/>
+        <result property="imageUrl" column="image_url" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="VARCHAR"/>
+        <result property="examType" column="exam_type" jdbcType="VARCHAR"/>
+        <result property="sourceId" column="source_id" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ExamQuestionInfoMap">
+        select
+          id, question, answer, explain, image_url, `type`, exam_type, source_id
+        from exam_question_info
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="ExamQuestionInfoMap">
+        select
+          id, question, answer, `explain`, image_url, `type`, exam_type, source_id
+        from exam_question_info
+        <where>
+            <if test="question != null and question != ''">
+                and question = #{question}
+            </if>
+            <if test="answer != null and answer != ''">
+                and answer = #{answer}
+            </if>
+            <if test="explain != null and explain != ''">
+                and `explain` = #{explain}
+            </if>
+            <if test="imageUrl != null and imageUrl != ''">
+                and image_url = #{imageUrl}
+            </if>
+            <if test="type != null and type != ''">
+                and `type` = #{type}
+            </if>
+            <if test="examType != null and examType != ''">
+                and exam_type = #{examType}
+            </if>
+            <if test="sourceId != null and sourceId != ''">
+                and source_id = #{sourceId}
+            </if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from exam_question_info
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="question != null and question != ''">
+                and question = #{question}
+            </if>
+            <if test="answer != null and answer != ''">
+                and answer = #{answer}
+            </if>
+            <if test="explain != null and explain != ''">
+                and explain = #{explain}
+            </if>
+            <if test="imageUrl != null and imageUrl != ''">
+                and image_url = #{imageUrl}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="examType != null and examType != ''">
+                and exam_type = #{examType}
+            </if>
+            <if test="sourceId != null and sourceId != ''">
+                and source_id = #{sourceId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into exam_question_info(question, answer, `explain`, image_url, type, exam_type, source_id)
+        values (#{question}, #{answer}, #{explain}, #{imageUrl}, #{type}, #{examType}, #{sourceId})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into exam_question_info(question, answer, `explain`, image_url, type, exam_type, source_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.question}, #{entity.answer}, #{entity.explain}, #{entity.imageUrl}, #{entity.type}, #{entity.examType}, #{entity.sourceId})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into exam_question_info(question, answer, explain, image_url, type, exam_type, source_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.question}, #{entity.answer}, #{entity.explain}, #{entity.imageUrl}, #{entity.type}, #{entity.examType}, #{entity.sourceId})
+        </foreach>
+        on duplicate key update
+        question = values(question),
+        answer = values(answer),
+        explain = values(explain),
+        image_url = values(image_url),
+        type = values(type),
+        exam_type = values(exam_type),
+        source_id = values(source_id)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update exam_question_info
+        <set>
+            <if test="question != null and question != ''">
+                question = #{question},
+            </if>
+            <if test="answer != null and answer != ''">
+                answer = #{answer},
+            </if>
+            <if test="explain != null and explain != ''">
+                `explain` = #{explain},
+            </if>
+            <if test="imageUrl != null and imageUrl != ''">
+                image_url = #{imageUrl},
+            </if>
+            <if test="type != null and type != ''">
+                `type` = #{type},
+            </if>
+            <if test="examType != null and examType != ''">
+                exam_type = #{examType},
+            </if>
+            <if test="sourceId != null and sourceId != ''">
+                source_id = #{sourceId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from exam_question_info where id = #{id}
+    </delete>
+
+</mapper>
+

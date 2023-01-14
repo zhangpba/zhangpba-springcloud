@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * 新增用户-实体类
  *
- * @author makejava
+ * @author zhangpba
  * @since 2023-01-12 12:28:55
  */
 @Setter

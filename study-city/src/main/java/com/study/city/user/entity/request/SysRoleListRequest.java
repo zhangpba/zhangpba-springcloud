@@ -1,13 +1,12 @@
 package com.study.city.user.entity.request;
 
+import com.study.city.base.Page;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Min;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 角色信息表(SysRole)实体类
@@ -18,7 +17,7 @@ import java.util.Date;
 @ApiModel
 @Setter
 @Getter
-public class SysRoleListRequest implements Serializable {
+public class SysRoleListRequest extends Page implements Serializable {
     private static final long serialVersionUID = 922597341120293189L;
     /**
      * 角色ID
@@ -70,16 +69,5 @@ public class SysRoleListRequest implements Serializable {
      */
     @ApiModelProperty(value = "创建者")
     private String createBy;
-
-    @ApiModelProperty(value = "页码")
-    @Min(message = "页码不能小于0", value = 0)
-    private int pageNum;
-
-    @ApiModelProperty(value = "页面大小")
-    @Min(message = "页面不能小于0", value = 0)
-    private int pageSize;
-
-    @ApiModelProperty(value = "总数")
-    private int total;
 }
 

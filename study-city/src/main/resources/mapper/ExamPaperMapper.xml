@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.city.exam.mapper.ExamPaperMapper">
+
+    <resultMap type="com.study.city.exam.entity.ExamPaper" id="ExamPaperMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="paperName" column="paper_name" jdbcType="VARCHAR"/>
+        <result property="examType" column="exam_type" jdbcType="VARCHAR"/>
+        <result property="scoreLine" column="score_line" jdbcType="VARCHAR"/>
+        <result property="score" column="score" jdbcType="VARCHAR"/>
+        <result property="totalNum" column="total_num" jdbcType="VARCHAR"/>
+        <result property="count" column="count" jdbcType="INTEGER"/>
+        <result property="choiceSingleNum" column="choice_single_num" jdbcType="VARCHAR"/>
+        <result property="choiceSingleScore" column="choice_single_score" jdbcType="VARCHAR"/>
+        <result property="choiceManyNum" column="choice_many_num" jdbcType="VARCHAR"/>
+        <result property="choiceManyScore" column="choice_many_score" jdbcType="VARCHAR"/>
+        <result property="judgeNum" column="judge_num" jdbcType="VARCHAR"/>
+        <result property="judgeScore" column="judge_score" jdbcType="VARCHAR"/>
+        <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+        <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ExamPaperMap">
+        select
+          id, paper_name, exam_type, score_line, score, total_num, `count`, choice_single_num, choice_single_score, choice_many_num, choice_many_score, judge_num, judge_score, start_time, end_time, create_time, create_by, update_time, update_by
+        from exam_paper
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="ExamPaperMap">
+        select
+          id, paper_name, exam_type, score_line, score, total_num, `count`, choice_single_num, choice_single_score, choice_many_num, choice_many_score, judge_num, judge_score, start_time, end_time, create_time, create_by, update_time, update_by
+        from exam_paper
+        <where>
+            1 = 1
+            <if test="paperName != null and paperName != ''">
+                and paper_name = #{paperName}
+            </if>
+            <if test="examType != null and examType != ''">
+                and exam_type = #{examType}
+            </if>
+            <if test="scoreLine != null">
+                and score_line = #{scoreLine}
+            </if>
+            <if test="score != null">
+                and score = #{score}
+            </if>
+            <if test="totalNum != null">
+                and total_num = #{totalNum}
+            </if>
+            <if test="count != null">
+                and `count` = #{count}
+            </if>
+            <if test="choiceSingleNum != null">
+                and choice_single_num = #{choiceSingleNum}
+            </if>
+            <if test="choiceSingleScore != null">
+                and choice_single_score = #{choiceSingleScore}
+            </if>
+            <if test="choiceManyNum != null">
+                and choice_many_num = #{choiceManyNum}
+            </if>
+            <if test="choiceManyScore != null">
+                and choice_many_score = #{choiceManyScore}
+            </if>
+            <if test="judgeNum != null">
+                and judge_num = #{judgeNum}
+            </if>
+            <if test="judgeScore != null">
+                and judge_score = #{judgeScore}
+            </if>
+            <if test="startTime != null">
+                and start_time = #{startTime}
+            </if>
+            <if test="endTime != null">
+                and end_time = #{endTime}
+            </if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from exam_paper
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="paperName != null and paperName != ''">
+                and paper_name = #{paperName}
+            </if>
+            <if test="examType != null and examType != ''">
+                and exam_type = #{examType}
+            </if>
+            <if test="scoreLine != null">
+                and score_line = #{scoreLine}
+            </if>
+            <if test="score != null">
+                and score = #{score}
+            </if>
+            <if test="totalNum != null">
+                and total_num = #{totalNum}
+            </if>
+            <if test="count != null">
+                and `count` = #{count}
+            </if>
+            <if test="choiceSingleNum != null">
+                and choice_single_num = #{choiceSingleNum}
+            </if>
+            <if test="choiceSingleScore != null">
+                and choice_single_score = #{choiceSingleScore}
+            </if>
+            <if test="choiceManyNum != null">
+                and choice_many_num = #{choiceManyNum}
+            </if>
+            <if test="choiceManyScore != null">
+                and choice_many_score = #{choiceManyScore}
+            </if>
+            <if test="judgeNum != null">
+                and judge_num = #{judgeNum}
+            </if>
+            <if test="judgeScore != null">
+                and judge_score = #{judgeScore}
+            </if>
+            <if test="startTime != null">
+                and start_time = #{startTime}
+            </if>
+            <if test="endTime != null">
+                and end_time = #{endTime}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                and create_by = #{createBy}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                and update_by = #{updateBy}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into exam_paper(paper_name, exam_type, score_line, score, total_num, `count`, choice_single_num, choice_single_score, choice_many_num, choice_many_score, judge_num, judge_score, start_time, end_time, create_time, create_by, update_time, update_by)
+        values (#{paperName}, #{examType}, #{scoreLine}, #{score}, #{totalNum}, #{count}, #{choiceSingleNum}, #{choiceSingleScore}, #{choiceManyNum}, #{choiceManyScore}, #{judgeNum}, #{judgeScore}, #{startTime}, #{endTime}, now(), #{createBy}, now(), #{updateBy})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into exam_paper(paper_name, exam_type, score_line, score, total_num, `count`, choice_single_num, choice_single_score, choice_many_num, choice_many_score, judge_num, judge_score, start_time, end_time, create_time, create_by, update_time, update_by)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.paperName}, #{entity.examType}, #{entity.scoreLine}, #{entity.score}, #{entity.totalNum}, #{entity.count}, #{entity.choiceSingleNum}, #{entity.choiceSingleScore}, #{entity.choiceManyNum}, #{entity.choiceManyScore}, #{entity.judgeNum}, #{entity.judgeScore}, #{entity.startTime}, #{entity.endTime}, now(), #{entity.createBy}, now(), #{entity.updateBy})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into exam_paper(paper_name, exam_type, score_line, score, total_num, `count`, choice_single_num, choice_single_score, choice_many_num, choice_many_score, judge_num, judge_score, start_time, end_time, create_time, create_by, update_time, update_by)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.paperName}, #{entity.examType}, #{entity.scoreLine}, #{entity.score}, #{entity.totalNum}, #{entity.count}, #{entity.choiceSingleNum}, #{entity.choiceSingleScore}, #{entity.choiceManyNum}, #{entity.choiceManyScore}, #{entity.judgeNum}, #{entity.judgeScore}, #{entity.startTime}, #{entity.endTime}, now(), #{entity.createBy}, now(), #{entity.updateBy})
+        </foreach>
+        on duplicate key update
+        paper_name = values(paper_name),
+        exam_type = values(exam_type),
+        score_line = values(score_line),
+        score = values(score),
+        total_num = values(total_num),
+        `count` = values(count),
+        choice_single_num = values(choice_single_num),
+        choice_single_score = values(choice_single_score),
+        choice_many_num = values(choice_many_num),
+        choice_many_score = values(choice_many_score),
+        judge_num = values(judge_num),
+        judge_score = values(judge_score),
+        start_time = values(start_time),
+        end_time = values(end_time),
+        create_time = values(create_time),
+        create_by = values(create_by),
+        update_time = values(update_time),
+        update_by = values(update_by)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update exam_paper
+        <set>
+            <if test="paperName != null and paperName != ''">
+                paper_name = #{paperName},
+            </if>
+            <if test="examType != null and examType != ''">
+                exam_type = #{examType},
+            </if>
+            <if test="scoreLine != null">
+                score_line = #{scoreLine},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+            <if test="totalNum != null">
+                total_num = #{totalNum},
+            </if>
+            <if test="count != null">
+                `count` = #{count},
+            </if>
+            <if test="choiceSingleNum != null">
+                choice_single_num = #{choiceSingleNum},
+            </if>
+            <if test="choiceSingleScore != null">
+                choice_single_score = #{choiceSingleScore},
+            </if>
+            <if test="choiceManyNum != null">
+                choice_many_num = #{choiceManyNum},
+            </if>
+            <if test="choiceManyScore != null">
+                choice_many_score = #{choiceManyScore},
+            </if>
+            <if test="judgeNum != null">
+                judge_num = #{judgeNum},
+            </if>
+            <if test="judgeScore != null">
+                judge_score = #{judgeScore},
+            </if>
+            <if test="startTime != null">
+                start_time = #{startTime},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by = #{createBy},
+            </if>
+            update_time = now(),
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from exam_paper where id = #{id}
+    </delete>
+
+</mapper>
+

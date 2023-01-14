@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 角色信息表(SysRole)表数据库访问层
  *
- * @author makejava
+ * @author zhangpba
  * @since 2023-01-12 19:16:54
  */
 public interface SysRoleMapper {

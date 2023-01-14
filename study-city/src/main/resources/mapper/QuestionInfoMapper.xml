@@ -22,6 +22,13 @@
         <result property="sourceId" column="source_id" jdbcType="INTEGER"/>
     </resultMap>
 
+    <select id="queryById" resultMap="QuestionInfoMap">
+        select
+            *
+        from question_info
+        where id = #{id}
+    </select>
+
     <!-- 批量插入 -->
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
         insert into study.question_info(question, license_type, subject_type, question_type, option_A, option_B, option_C, option_D, option_E, option_F, option_G, option_H, key, explains, image_url, source_id)

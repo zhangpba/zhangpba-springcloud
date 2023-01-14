@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +22,7 @@ import java.util.Dictionary;
 /**
  * 角色信息表(SysRole)表控制层
  *
- * @author makejava
+ * @author zhangpba
  * @since 2023-01-12 19:16:53
  */
 @RestController
@@ -42,7 +43,7 @@ public class SysRoleController {
      */
     @GetMapping
     @ApiOperation(value = "分页查询角色", response = Dictionary.class)
-    public ResponseMessage<Page<SysRole>> queryByPage(SysRoleListRequest sysRoleRequest) {
+    public ResponseMessage<Page<SysRole>> queryByPage(@RequestBody SysRoleListRequest sysRoleRequest) {
         return ResponseMessage.success(this.sysRoleService.queryByPage(sysRoleRequest));
     }
 
@@ -66,7 +67,7 @@ public class SysRoleController {
      */
     @PostMapping
     @ApiOperation(value = "新增角色", response = Dictionary.class)
-    public ResponseMessage<SysRole> add(SysRole sysRole) {
+    public ResponseMessage<SysRole> add(@RequestBody SysRole sysRole) {
         return ResponseMessage.success(this.sysRoleService.insert(sysRole));
     }
 
@@ -78,7 +79,7 @@ public class SysRoleController {
      */
     @PutMapping
     @ApiOperation(value = "编辑角色", response = Dictionary.class)
-    public ResponseMessage<SysRole> edit(SysRole sysRole) {
+    public ResponseMessage<SysRole> edit(@RequestBody SysRole sysRole) {
         return ResponseMessage.success(this.sysRoleService.update(sysRole));
     }
 

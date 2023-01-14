@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.city.exam.mapper.ExamPaperDetailMapper">
+
+    <resultMap type="com.study.city.exam.entity.ExamPaperDetail" id="ExamPaperDetailMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="questionId" column="question_id" jdbcType="INTEGER"/>
+        <result property="examPaperUserId" column="exam_paper_user_id" jdbcType="VARCHAR"/>
+        <result property="answer" column="answer" jdbcType="VARCHAR"/>
+        <result property="right" column="right" jdbcType="VARCHAR"/>
+        <result property="score" column="score" jdbcType="VARCHAR"/>
+        <result property="points" column="points" jdbcType="VARCHAR"/>
+        <result property="previous" column="previous" jdbcType="INTEGER"/>
+        <result property="next" column="next" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ExamPaperDetailMap">
+        select
+          id, question_id, exam_paper_user_id, answer, `right`, score, points, previous, `next`, create_time, create_by, update_time, update_by
+        from exam_paper_detail
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="ExamPaperDetailMap">
+        select
+          id, question_id, exam_paper_user_id, answer, `right`, score, points, previous, `next`, create_time, create_by, update_time, update_by
+        from exam_paper_detail
+        <where>
+            1 = 1
+            <if test="questionId != null">
+                and question_id = #{questionId}
+            </if>
+            <if test="examPaperUserId != null and examPaperUserId != ''">
+                and exam_paper_user_id = #{examPaperUserId}
+            </if>
+            <if test="answer != null and answer != ''">
+                and answer = #{answer}
+            </if>
+            <if test="right != null and right != ''">
+                and `right` = #{right}
+            </if>
+            <if test="score != null and score != ''">
+                and score = #{score}
+            </if>
+            <if test="points != null and points != ''">
+                and points = #{points}
+            </if>
+            <if test="previous != null">
+                and previous = #{previous}
+            </if>
+            <if test="next != null">
+                and `next` = #{next}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                and create_by = #{createBy}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                and update_by = #{updateBy}
+            </if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from exam_paper_detail
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="questionId != null">
+                and question_id = #{questionId}
+            </if>
+            <if test="examPaperUserId != null and examPaperUserId != ''">
+                and exam_paper_user_id = #{examPaperUserId}
+            </if>
+            <if test="answer != null and answer != ''">
+                and answer = #{answer}
+            </if>
+            <if test="right != null and right != ''">
+                and `right` = #{right}
+            </if>
+            <if test="score != null and score != ''">
+                and score = #{score}
+            </if>
+            <if test="points != null and points != ''">
+                and points = #{points}
+            </if>
+            <if test="previous != null">
+                and previous = #{previous}
+            </if>
+            <if test="next != null">
+                and `next` = #{next}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                and create_by = #{createBy}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                and update_by = #{updateBy}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into exam_paper_detail(question_id, exam_paper_user_id, answer, `right`, score, points, previous, `next`, create_time, create_by, update_time, update_by)
+        values (#{questionId}, #{examPaperUserId}, #{answer}, #{right}, #{score}, #{points}, #{previous}, #{next}, #{createTime}, #{createBy}, now(), #{updateBy})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into exam_paper_detail(question_id, exam_paper_user_id, answer, `right`, score, points, previous, `next`, create_time, create_by, update_time, update_by)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.questionId}, #{entity.examPaperUserId}, #{entity.answer}, #{entity.right}, #{entity.score}, #{entity.points}, #{entity.previous}, #{entity.next}, #{entity.createTime}, #{entity.createBy}, now(), #{entity.updateBy})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into exam_paper_detail(question_id, exam_paper_user_id, answer, `right`, score, points, previous, `next`, create_time, create_by, update_time, update_by)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.questionId}, #{entity.examPaperUserId}, #{entity.answer}, #{entity.right}, #{entity.score}, #{entity.points}, #{entity.previous}, #{entity.next}, #{entity.createTime}, #{entity.createBy}, now(), #{entity.updateBy})
+        </foreach>
+        on duplicate key update
+        question_id = values(question_id),
+        exam_paper_user_id = values(exam_paper_user_id),
+        answer = values(answer),
+        right = values(right),
+        score = values(score),
+        points = values(points),
+        previous = values(previous),
+        next = values(next),
+        create_time = values(create_time),
+        create_by = values(create_by),
+        update_time = values(update_time),
+        update_by = values(update_by)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update exam_paper_detail
+        <set>
+            <if test="questionId != null">
+                question_id = #{questionId},
+            </if>
+            <if test="examPaperUserId != null and examPaperUserId != ''">
+                exam_paper_user_id = #{examPaperUserId},
+            </if>
+            <if test="answer != null and answer != ''">
+                answer = #{answer},
+            </if>
+            <if test="right != null and right != ''">
+                `right` = #{right},
+            </if>
+            <if test="score != null and score != ''">
+                score = #{score},
+            </if>
+            <if test="points != null and points != ''">
+                points = #{points},
+            </if>
+            <if test="previous != null">
+                previous = #{previous},
+            </if>
+            <if test="next != null">
+                `next` = #{next},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by = #{createBy},
+            </if>
+            update_date = now(),
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from exam_paper_detail where id = #{id}
+    </delete>
+
+</mapper>
+

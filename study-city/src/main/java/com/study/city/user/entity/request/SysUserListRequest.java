@@ -1,21 +1,21 @@
 package com.study.city.user.entity.request;
 
+import com.study.city.base.Page;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.Min;
 import java.io.Serializable;
 
 /**
  * 列表查询实体类
  *
- * @author makejava
+ * @author zhangpba
  * @since 2023-01-12 12:28:55
  */
 @Setter
 @Getter
-public class SysUserListRequest implements Serializable {
+public class SysUserListRequest extends Page implements Serializable {
     private static final long serialVersionUID = 843219744776281933L;
 
     @ApiModelProperty(value = "用户ID")
@@ -44,17 +44,5 @@ public class SysUserListRequest implements Serializable {
 
     @ApiModelProperty(value = "性别")
     private Integer sex;
-
-    @ApiModelProperty(value = "页码")
-    @Min(message = "页码不能小于0", value = 0)
-    private int pageNum;
-
-    @ApiModelProperty(value = "页面大小")
-    @Min(message = "页面不能小于0", value = 0)
-    private int pageSize;
-
-    @ApiModelProperty(value = "总数")
-    private int total;
-
 }
 

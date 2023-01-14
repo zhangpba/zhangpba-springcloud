@@ -22,13 +22,46 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 
     @Bean
-    public Docket createRestApi() {
+    public Docket allApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("webApi")
+                .groupName("考试呗整体接口")
                 .apiInfo(apiInfo())
                 .enable(true)//是否启用swagger
                 .select()
                 .apis(RequestHandlerSelectors.any())
+                .paths(PathSelectors.ant("/**")).build();
+    }
+
+    @Bean
+    public Docket dataApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("数据管理")
+                .apiInfo(apiInfo())
+                .enable(true)//是否启用swagger
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.study.city.data.controller"))
+                .paths(PathSelectors.ant("/**")).build();
+    }
+
+    @Bean
+    public Docket examApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("考试管理")
+                .apiInfo(apiInfo())
+                .enable(true)//是否启用swagger
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.study.city.exam.controller"))
+                .paths(PathSelectors.ant("/**")).build();
+    }
+
+    @Bean
+    public Docket userApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("用户管理")
+                .apiInfo(apiInfo())
+                .enable(true)//是否启用swagger
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.study.city.user.controller"))
                 .paths(PathSelectors.ant("/**")).build();
     }
 
@@ -37,7 +70,7 @@ public class SwaggerConfig {
                 .title("城市服务接口 文档") // 文档标题
                 .description("This is a restful api document of File for '城市服务接口 文档'") // 文档描述
                 .version("1.0") // 版本
-                .contact(new Contact("zhangpba","","zhangpba@qq.com"))// 作者及联系方式
+                .contact(new Contact("zhangpba", "", "zhangpba@qq.com"))// 作者及联系方式
                 .build();
     }
 }
