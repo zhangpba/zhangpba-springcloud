@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 字典表(Dict)实体类
  *
- * @author makejava
+ * @author zhangpba
  * @since 2022-12-12 20:23:30
  */
 public class Dict implements Serializable {

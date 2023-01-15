@@ -2,7 +2,7 @@ package com.study.city.exam.mapper;
 
 import com.study.city.exam.entity.ExamPaperDetail;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.data.domain.Pageable;
+
 import java.util.List;
 
 /**
@@ -77,6 +77,10 @@ public interface ExamPaperDetailMapper {
      * @return 影响行数
      */
     int deleteById(Integer id);
+
+
+    // 查询在页面显示的试卷题目
+//    queryExamPaperUser();
 
 }
 

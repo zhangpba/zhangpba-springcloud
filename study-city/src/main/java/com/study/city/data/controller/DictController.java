@@ -20,7 +20,7 @@ import javax.annotation.Resource;
 /**
  * 字典表(Dict)表控制层
  *
- * @author makejava
+ * @author zhangpba
  * @since 2022-12-12 20:23:21
  */
 @Api(value = "字典表", tags = "字典表")

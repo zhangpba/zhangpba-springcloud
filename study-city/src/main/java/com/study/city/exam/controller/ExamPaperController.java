@@ -26,7 +26,7 @@ import java.util.Dictionary;
  * @since 2023-01-14 19:51:20
  */
 @RestController
-@RequestMapping("examPaper")
+@RequestMapping("paper")
 @Api(value = "考卷定义", tags = "考卷定义")
 public class ExamPaperController {
     /**

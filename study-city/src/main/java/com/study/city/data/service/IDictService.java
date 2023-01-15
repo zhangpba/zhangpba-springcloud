@@ -7,7 +7,7 @@ import org.springframework.data.domain.PageRequest;
 /**
  * 字典表(Dict)表服务接口
  *
- * @author makejava
+ * @author zhangpba
  * @since 2022-12-12 20:23:32
  */
 public interface IDictService {

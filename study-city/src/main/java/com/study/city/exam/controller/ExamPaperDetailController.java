@@ -26,7 +26,7 @@ import java.util.List;
  * @since 2023-01-14 19:51:46
  */
 @RestController
-@RequestMapping("examPaperDetail")
+@RequestMapping("paperDetail")
 @Api(value = "考卷明细", tags = "考卷明细")
 public class ExamPaperDetailController {
     /**

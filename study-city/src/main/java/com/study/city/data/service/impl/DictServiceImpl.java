@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 /**
  * 字典表(Dict)表服务实现类
  *
- * @author makejava
+ * @author zhangpba
  * @since 2022-12-12 20:23:36
  */
 @Service("dictService")

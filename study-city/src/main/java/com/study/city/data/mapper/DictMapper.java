@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * 字典表(Dict)表数据库访问层
  *
- * @author makejava
+ * @author zhangpba
  * @since 2022-12-12 20:23:25
  */
 public interface DictMapper {

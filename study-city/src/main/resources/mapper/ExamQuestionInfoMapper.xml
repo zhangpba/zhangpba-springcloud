@@ -16,7 +16,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="ExamQuestionInfoMap">
         select
-          id, question, answer, explain, image_url, `type`, exam_type, source_id
+          id, question, answer, `explain`, image_url, `type`, exam_type, source_id
         from exam_question_info
         where id = #{id}
     </select>

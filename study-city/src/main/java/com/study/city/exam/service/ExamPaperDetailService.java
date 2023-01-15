@@ -1,7 +1,6 @@
 package com.study.city.exam.service;
 
 import com.study.city.exam.entity.ExamPaperDetail;
-import com.study.city.exam.entity.ExamQuestionInfo;
 
 import java.util.List;
 

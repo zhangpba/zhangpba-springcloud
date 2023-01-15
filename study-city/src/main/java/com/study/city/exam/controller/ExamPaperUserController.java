@@ -3,6 +3,7 @@ package com.study.city.exam.controller;
 import com.github.pagehelper.PageInfo;
 import com.study.city.exam.entity.ExamPaperUser;
 import com.study.city.exam.entity.request.ExamPaperUserListRequest;
+import com.study.city.exam.entity.response.ExamPaperUserResponse;
 import com.study.city.exam.service.ExamPaperUserService;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
@@ -26,7 +27,7 @@ import java.util.Dictionary;
  * @since 2023-01-14 19:52:19
  */
 @RestController
-@RequestMapping("examPaperUser")
+@RequestMapping("paperUser")
 @Api(value = "考生考卷", tags = "考生考卷")
 public class ExamPaperUserController {
     /**
@@ -93,6 +94,19 @@ public class ExamPaperUserController {
     @ApiOperation(value = "删除考生考卷", response = Dictionary.class)
     public ResponseMessage<Boolean> deleteById(Integer id) {
         return ResponseMessage.success(this.examPaperUserService.deleteById(id));
+    }
+
+
+    /**
+     * 考生考卷
+     *
+     * @param paperUserId 考卷主键
+     * @return 删除是否成功
+     */
+    @GetMapping("/queryPaperUserDetail")
+    @ApiOperation(value = "考生考卷信息", response = Dictionary.class)
+    public ResponseMessage<ExamPaperUserResponse> queryPaperUserDetail(Integer paperUserId) {
+        return ResponseMessage.success(this.examPaperUserService.queryPaperUserDetail(paperUserId));
     }
 }
 

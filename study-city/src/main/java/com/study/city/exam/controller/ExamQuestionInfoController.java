@@ -26,7 +26,7 @@ import java.util.Dictionary;
  * @since 2023-01-13 16:57:29
  */
 @RestController
-@RequestMapping("examQuestionInfo")
+@RequestMapping("questionInfo")
 @Api(value = "考试题库-改良版", tags = "考试题库-改良版库")
 public class ExamQuestionInfoController {
     /**

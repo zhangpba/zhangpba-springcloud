@@ -25,8 +25,7 @@ public interface ExamPaperUserMapper {
     /**
      * 查询指定行数据
      *
-     * @param examPaperUser 查询条件
-     * @param pageable         分页对象
+     * @param examPaperUserListRequest 查询条件
      * @return 对象列表
      */
     List<ExamPaperUser> queryAll(ExamPaperUserListRequest examPaperUserListRequest);

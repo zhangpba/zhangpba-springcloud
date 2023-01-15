@@ -3,6 +3,7 @@ package com.study.city.exam.service;
 import com.github.pagehelper.PageInfo;
 import com.study.city.exam.entity.ExamPaperUser;
 import com.study.city.exam.entity.request.ExamPaperUserListRequest;
+import com.study.city.exam.entity.response.ExamPaperUserResponse;
 
 /**
  * (ExamPaperUser)表服务接口
@@ -51,5 +52,13 @@ public interface ExamPaperUserService {
      * @return 是否成功
      */
     boolean deleteById(Integer id);
+
+    /**
+     * 查询考生考卷详情
+     *
+     * @param id
+     * @return
+     */
+    ExamPaperUserResponse queryPaperUserDetail(Integer id);
 
 }

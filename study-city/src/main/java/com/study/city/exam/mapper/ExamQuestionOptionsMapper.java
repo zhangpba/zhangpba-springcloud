@@ -24,7 +24,7 @@ public interface ExamQuestionOptionsMapper {
     /**
      * 查询指定行数据
      *
-     * @param examQuestionOptionsRequest 查询条件
+     * @param examQuestionOptions 查询条件
      * @return 对象列表
      */
     List<ExamQuestionOptions> queryExamQuestionOptions(ExamQuestionOptions examQuestionOptions);

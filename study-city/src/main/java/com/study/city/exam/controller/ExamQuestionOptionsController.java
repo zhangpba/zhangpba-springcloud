@@ -25,7 +25,7 @@ import java.util.List;
  * @since 2023-01-13 17:02:56
  */
 @RestController
-@RequestMapping("examQuestionOptions")
+@RequestMapping("questionOptions")
 @Api(value = "题库选项", tags = "题库选项")
 public class ExamQuestionOptionsController {
     /**
