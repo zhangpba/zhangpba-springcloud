@@ -188,7 +188,7 @@
             <if test="createBy != null and createBy != ''">
                 create_by = #{createBy},
             </if>
-            update_date = now(),
+            update_time = now(),
             <if test="updateBy != null and updateBy != ''">
                 update_by = #{updateBy},
             </if>

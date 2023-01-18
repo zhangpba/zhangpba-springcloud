@@ -28,4 +28,7 @@ public class ExamPaperUserSubmitResponse {
 
     @ApiModelProperty(value = "描述")
     private String message;
+
+    @ApiModelProperty(value = "考生姓名")
+    private String username;
 }

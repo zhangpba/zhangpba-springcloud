@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.util.Dictionary;
+import java.util.List;
 
 /**
  * (ExamPaperUser)表控制层
@@ -115,6 +116,20 @@ public class ExamPaperUserController {
         return ResponseMessage.success(this.examPaperUserService.deleteById(id));
     }
 
+    /**
+     * 生成试卷
+     *
+     * @param userId      考生ID
+     * @param examPaperId 考卷定义ID
+     * @return 单条数据
+     */
+    @GetMapping("buildExamPaperUserDetail")
+    @ApiOperation(value = "生成试卷", response = Dictionary.class)
+    public ResponseMessage<List<ExamPaperDetail>> buildExamPaperUserDetail(@RequestParam(value = "userId") Integer userId, @RequestParam(value = "examPaperId") Integer examPaperId) {
+        logger.info("生成试卷! userId:{}，examPaperId：{}", userId, examPaperId);
+        return ResponseMessage.success(this.examPaperDetailService.buildExamPaperUserDetail(userId, examPaperId));
+    }
+
 
     /**
      * 考生考卷
@@ -123,9 +138,9 @@ public class ExamPaperUserController {
      * @return 删除是否成功
      */
     @GetMapping("/queryPaperUserDetail")
-    @ApiOperation(value = "考生考卷信息", response = Dictionary.class)
+    @ApiOperation(value = "考生试卷信息", response = Dictionary.class)
     public ResponseMessage<ExamPaperUserResponse> queryPaperUserDetail(@RequestParam("paperUserId") Integer paperUserId) {
-        logger.info("考生考卷信息! paperUserId:{}", paperUserId);
+        logger.info("考生试卷信息! paperUserId:{}", paperUserId);
         return ResponseMessage.success(this.examPaperUserService.queryPaperUserDetail(paperUserId));
     }
 

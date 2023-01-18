@@ -1,9 +1,11 @@
 package com.study.city.exam.service.impl;
 
+import com.study.city.config.exception.CustomException;
 import com.study.city.exam.entity.ExamPaper;
 import com.study.city.exam.entity.ExamPaperDetail;
 import com.study.city.exam.entity.ExamPaperUser;
 import com.study.city.exam.entity.ExamQuestionInfo;
+import com.study.city.exam.entity.request.ExamPaperUserListRequest;
 import com.study.city.exam.entity.request.ExamQuestionInfoRequest;
 import com.study.city.exam.mapper.ExamPaperDetailMapper;
 import com.study.city.exam.mapper.ExamPaperMapper;
@@ -16,10 +18,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -117,19 +121,54 @@ public class ExamPaperDetailServiceImpl implements ExamPaperDetailService {
      */
     @Override
     @Transactional
-    public List<ExamPaperDetail> buildExamPaperUserDetail(Integer userId, Integer examPaperId) {
+    public String buildExamPaperUserDetail(Integer userId, Integer examPaperId) {
         // 用户表
         SysUser user = sysUserMapper.queryById(userId);
+        if (user == null) {
+            throw new CustomException(608, "用户信息为空！");
+        }
         // 考卷定义信息
         ExamPaper examPaper = examPaperMapper.queryById(examPaperId);
+        if (user == null) {
+            throw new CustomException(609, "考卷定义信息为空! examPaperId：" + examPaperId);
+        }
+        String message = "";
+        // 查询该考生是否已经考过该考试
+        ExamPaperUserListRequest examPaperUserListRequest = new ExamPaperUserListRequest();
+        examPaperUserListRequest.setUserId(userId);
+        examPaperUserListRequest.setExamPaperId(examPaperId);
+        List<ExamPaperUser> examPaperUsers = examPaperUserMapper.queryAll(examPaperUserListRequest);
+        if (!CollectionUtils.isEmpty(examPaperUsers)) {
+            if (examPaperUsers.size() >= examPaper.getCount()) {
+                throw new CustomException(607, "您已超过考试次数上限制！");
+            } else {
+                // 获取最大的批次号
+                BigDecimal maxBatceh = examPaperUsers.stream().max(Comparator.comparing(ExamPaperUser::getBatch)).get().getBatch();
+                // 生成考卷
+                message = this.getExamPaperDetails(user, maxBatceh, examPaper);
+            }
+        } else {
+            message = this.getExamPaperDetails(user, BigDecimal.ONE, examPaper);
+        }
+        return message;
+    }
 
+
+    /**
+     * 生成考卷
+     *
+     * @param user      考生信息
+     * @param maxBatceh 最大的批次号
+     * @param examPaper 试卷定义信息
+     * @return 试卷ID
+     */
+    private String getExamPaperDetails(SysUser user, BigDecimal maxBatceh, ExamPaper examPaper) {
         // 一、生成考生考卷
         ExamPaperUser examPaperUser = new ExamPaperUser();
-        examPaperUser.setUserId(userId);
+        examPaperUser.setUserId(user.getUserId());
         examPaperUser.setUserName(user.getUsername());
-        // todo 获取批次号，需要查一下库中是否有改用户该类型的考生试卷，然后进行批次号的生成。（批次号的生成，需要根据考生之前考卷的状态，判断能否继续考试）
-        examPaperUser.setBatch(BigDecimal.valueOf(1));
-        examPaperUser.setStatus(0);
+        examPaperUser.setBatch(maxBatceh);
+        examPaperUser.setStatus(0); // 0-未参加，1-已通过，2-未通过
         examPaperUser.setExamPaperId(examPaper.getId());
         examPaperUser.getCreateTime(new Date());
         examPaperUserMapper.insert(examPaperUser);
@@ -157,7 +196,7 @@ public class ExamPaperDetailServiceImpl implements ExamPaperDetailService {
             examPaperDetails.add(examPaperDetail);
         }
         examPaperDetailMapper.insertBatch(examPaperDetails);
-        return examPaperDetails;
+        return examPaperUser.getId() + "";
     }
 
 

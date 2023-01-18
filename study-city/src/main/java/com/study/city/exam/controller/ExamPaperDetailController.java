@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -101,21 +100,6 @@ public class ExamPaperDetailController {
     public ResponseMessage<Boolean> deleteById(Integer id) {
         logger.info("删除考卷明细! id:{}", id);
         return ResponseMessage.success(this.examPaperDetailService.deleteById(id));
-    }
-
-
-    /**
-     * 生成试卷
-     *
-     * @param userId      考生ID
-     * @param examPaperId 考卷定义ID
-     * @return 单条数据
-     */
-    @GetMapping("buildExamPaperUserDetail")
-    @ApiOperation(value = "生成试卷", response = Dictionary.class)
-    public ResponseMessage<List<ExamPaperDetail>> buildExamPaperUserDetail(@RequestParam(value = "userId") Integer userId, @RequestParam(value = "examPaperId") Integer examPaperId) {
-        logger.info("生成试卷! userId:{}，examPaperId：{}", userId, examPaperId);
-        return ResponseMessage.success(this.examPaperDetailService.buildExamPaperUserDetail(userId, examPaperId));
     }
 }
 

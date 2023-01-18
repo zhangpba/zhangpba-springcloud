@@ -21,7 +21,6 @@ public class ExamPaperDetailSaveRequest implements Serializable {
     private static final long serialVersionUID = 627503953144307695L;
 
     @ApiModelProperty(value = "主键")
-    @NotEmpty(message = "题目主键不能为空")
     private Integer id;
 
     @ApiModelProperty(value = "题目id")

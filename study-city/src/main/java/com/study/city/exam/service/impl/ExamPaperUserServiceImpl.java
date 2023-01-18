@@ -2,6 +2,7 @@ package com.study.city.exam.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.study.city.config.exception.CustomException;
 import com.study.city.exam.entity.ExamPaper;
 import com.study.city.exam.entity.ExamPaperDetail;
 import com.study.city.exam.entity.ExamPaperUser;
@@ -21,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -115,9 +117,15 @@ public class ExamPaperUserServiceImpl implements ExamPaperUserService {
 
     @Override
     public ExamPaperUserResponse queryPaperUserDetail(Integer paperUserId) {
-        // 考试卷面
+        // 考生考卷基本信息
         ExamPaperUser examPaperUser = examPaperUserMapper.queryById(paperUserId);
+        if (examPaperUser == null) {
+            throw new CustomException(605, "考生考卷基本信息为空！");
+        }
         ExamPaper examPaper = examPaperMapper.queryById(examPaperUser.getExamPaperId());
+        if (examPaper == null) {
+            throw new CustomException(606, "考卷定义信息为空！");
+        }
         ExamPaperUserResponse examPaperUserResponse = new ExamPaperUserResponse();
         BeanUtils.copyProperties(examPaper, examPaperUserResponse);
         examPaperUserResponse.setUsername(examPaperUser.getUserName());
@@ -146,7 +154,7 @@ public class ExamPaperUserServiceImpl implements ExamPaperUserService {
             }
             examPaperUserResponse.setExamPaperDetailList(paperDetailResponseList);
         } else {
-            throw new RuntimeException("考题详情明细为空！");
+            throw new CustomException(604, "考题详情明细为空！");
         }
         return examPaperUserResponse;
     }
@@ -158,13 +166,12 @@ public class ExamPaperUserServiceImpl implements ExamPaperUserService {
      * @return
      */
     @Override
+    @Transactional
     public ExamPaperUserSubmitResponse submitExamPaper(Integer paperUserId) {
-
         ExamPaperUserSubmitResponse examPaperUserSubmitResponse = new ExamPaperUserSubmitResponse();
-
         String message = null;
         if (paperUserId == null) {
-            message = "考试试卷ID不能为空！";
+            throw new CustomException(601, "考试试卷ID不能为空！");
         }
         ExamPaperDetail examPaperDetail = new ExamPaperDetail();
         examPaperDetail.setExamPaperUserId(paperUserId + "");
@@ -173,15 +180,16 @@ public class ExamPaperUserServiceImpl implements ExamPaperUserService {
             // 是否答试卷
             boolean isAlerdy = true;
             for (ExamPaperDetail paperDetail : examPaperDetails) {
-                if (paperDetail.getAnswer() != null) {
+                if (paperDetail.getAnswer() == null) {
                     isAlerdy = false;
                     break;
                 }
             }
             if (!isAlerdy) {
-                message = "试卷没有答完，请检查试卷！";
+                throw new CustomException(602, "试卷没有答完，请检查试卷！");
             }
 
+            // 计算考试成绩
             Integer score = 0;
             for (ExamPaperDetail paperDetail : examPaperDetails) {
                 if (paperDetail.getAnswer().equals(paperDetail.getRight())) {
@@ -189,23 +197,39 @@ public class ExamPaperUserServiceImpl implements ExamPaperUserService {
                     score = score + Integer.parseInt(paperDetail.getPoints());
                 }
             }
-            ExamPaper examPaper = examPaperMapper.queryById(paperUserId);
+
+            // 更新考试试卷上的成绩、批次
+            ExamPaperUser examPaperUser = examPaperUserMapper.queryById(paperUserId);
+            if (examPaperUser == null) {
+                throw new CustomException(611, "考试试卷基础信息不存在！");
+            }
+            examPaperUser.setScore(BigDecimal.valueOf(score));
+            // 查寻及格线
+            ExamPaper examPaper = examPaperMapper.queryById(examPaperUser.getExamPaperId());
+            if (examPaper == null) {
+                throw new CustomException(610, "考试试卷配追信息不能为空！");
+            }
             if (examPaper.getScoreLine().compareTo(BigDecimal.valueOf(score)) < 0) {
                 // 及格
                 message = "及格";
+                // 0-未参加，1-已通过，2-未通过
+                examPaperUser.setStatus(1);
             } else {
                 // 不及格
                 message = "不及格";
+                examPaperUser.setStatus(2);
             }
+            // 更新考试试卷成绩,和批次
+            examPaperUserMapper.update(examPaperUser);
+            examPaperUserSubmitResponse.setUsername(examPaperUser.getUserName());
             examPaperUserSubmitResponse.setExamPaperUserId(paperUserId + "");
             examPaperUserSubmitResponse.setScore(score);
             examPaperUserSubmitResponse.setScoreLine(examPaper.getScoreLine());
         } else {
-            message = "考试试卷已经过期！";
+            throw new CustomException(603, "考试试卷已经过期！");
         }
 
         examPaperUserSubmitResponse.setMessage(message);
-
         return examPaperUserSubmitResponse;
     }
 }

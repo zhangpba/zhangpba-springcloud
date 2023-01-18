@@ -58,5 +58,5 @@ public interface ExamPaperDetailService {
      * @param userId      考生ID
      * @param ExamPaperId 考试定义ID
      */
-    List<ExamPaperDetail>  buildExamPaperUserDetail(Integer userId, Integer ExamPaperId);
+    String buildExamPaperUserDetail(Integer userId, Integer ExamPaperId);
 }

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * (ExamPaperUser)表数据库访问层
+ * (ExamPaperUser)考生考卷基本信息
  *
  * @author zhangpba
  * @since 2023-01-14 19:52:19
@@ -15,7 +15,7 @@ import java.util.List;
 public interface ExamPaperUserMapper {
 
     /**
-     * 通过ID查询单条数据
+     * 通过ID查询考生考卷基本信息
      *
      * @param id 主键
      * @return 实例对象
@@ -23,7 +23,7 @@ public interface ExamPaperUserMapper {
     ExamPaperUser queryById(Integer id);
 
     /**
-     * 查询指定行数据
+     * 查询指定行考生考卷基本信息
      *
      * @param examPaperUserListRequest 查询条件
      * @return 对象列表
@@ -41,7 +41,7 @@ public interface ExamPaperUserMapper {
     /**
      * 新增数据
      *
-     * @param examPaperUser 实例对象
+     * @param examPaperUser 实例考生考卷基本信息
      * @return 影响行数
      */
     int insert(ExamPaperUser examPaperUser);
@@ -64,15 +64,15 @@ public interface ExamPaperUserMapper {
     int insertOrUpdateBatch(@Param("entities") List<ExamPaperUser> entities);
 
     /**
-     * 修改数据
+     * 修改考生考卷基本信息
      *
-     * @param examPaperUser 实例对象
+     * @param examPaperUser 考生考卷基本信息
      * @return 影响行数
      */
     int update(ExamPaperUser examPaperUser);
 
     /**
-     * 通过主键删除数据
+     * 通过主键删除考生考卷基本信息
      *
      * @param id 主键
      * @return 影响行数
