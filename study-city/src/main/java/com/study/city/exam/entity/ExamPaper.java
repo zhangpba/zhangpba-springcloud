@@ -77,5 +77,30 @@ public class ExamPaper implements Serializable {
 
     @ApiModelProperty(value = "修改人")
     private String updateBy;
+
+    @Override
+    public String toString() {
+        return "ExamPaper{" +
+                "id=" + id +
+                ", paperName='" + paperName + '\'' +
+                ", examType='" + examType + '\'' +
+                ", scoreLine=" + scoreLine +
+                ", score=" + score +
+                ", totalNum=" + totalNum +
+                ", count=" + count +
+                ", choiceSingleNum=" + choiceSingleNum +
+                ", choiceSingleScore=" + choiceSingleScore +
+                ", choiceManyNum=" + choiceManyNum +
+                ", choiceManyScore=" + choiceManyScore +
+                ", judgeNum=" + judgeNum +
+                ", judgeScore=" + judgeScore +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", createTime=" + createTime +
+                ", createBy='" + createBy + '\'' +
+                ", updateTime=" + updateTime +
+                ", updateBy='" + updateBy + '\'' +
+                '}';
+    }
 }
 

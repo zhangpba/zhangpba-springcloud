@@ -5,6 +5,8 @@ import com.study.city.exam.service.ExamQuestionOptionsService;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +30,9 @@ import java.util.List;
 @RequestMapping("questionOptions")
 @Api(value = "题库选项", tags = "题库选项")
 public class ExamQuestionOptionsController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ExamQuestionOptionsController.class);
+
     /**
      * 服务对象
      */
@@ -43,6 +48,7 @@ public class ExamQuestionOptionsController {
     @GetMapping
     @ApiOperation(value = "查询选项", response = Dictionary.class)
     public ResponseMessage<List<ExamQuestionOptions>> queryExamQuestionOptions(@RequestBody ExamQuestionOptions examQuestionOptions) {
+        logger.info("查询选项! 参数:{}", examQuestionOptions);
         return ResponseMessage.success(this.examQuestionOptionsService.queryExamQuestionOptions(examQuestionOptions));
     }
 
@@ -55,6 +61,7 @@ public class ExamQuestionOptionsController {
     @ApiOperation(value = "通过主键查询单条选项", response = Dictionary.class)
     @GetMapping("{id}")
     public ResponseMessage<ExamQuestionOptions> queryById(@PathVariable("id") Integer id) {
+        logger.info("通过主键查询单条选项! 参数:{}", id);
         return ResponseMessage.success(this.examQuestionOptionsService.queryById(id));
     }
 
@@ -67,6 +74,7 @@ public class ExamQuestionOptionsController {
     @ApiOperation(value = "新增选项", response = Dictionary.class)
     @PostMapping
     public ResponseMessage<ExamQuestionOptions> add(@RequestBody ExamQuestionOptions examQuestionOptions) {
+        logger.info("新增选项! 参数:{}", examQuestionOptions.toString());
         return ResponseMessage.success(this.examQuestionOptionsService.insert(examQuestionOptions));
     }
 
@@ -79,6 +87,7 @@ public class ExamQuestionOptionsController {
     @ApiOperation(value = "编辑选项", response = Dictionary.class)
     @PutMapping
     public ResponseMessage<ExamQuestionOptions> edit(@RequestBody ExamQuestionOptions examQuestionOptions) {
+        logger.info("编辑选项! 参数:{}", examQuestionOptions.toString());
         return ResponseMessage.success(this.examQuestionOptionsService.update(examQuestionOptions));
     }
 
@@ -91,6 +100,7 @@ public class ExamQuestionOptionsController {
     @ApiOperation(value = "删除选项", response = Dictionary.class)
     @DeleteMapping
     public ResponseMessage<Boolean> deleteById(Integer id) {
+        logger.info("删除选项! 参数id:{}", id);
         return ResponseMessage.success(this.examQuestionOptionsService.deleteById(id));
     }
 

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.study.city.exam.entity.ExamPaperUser;
 import com.study.city.exam.entity.request.ExamPaperUserListRequest;
 import com.study.city.exam.entity.response.ExamPaperUserResponse;
+import com.study.city.exam.entity.response.ExamPaperUserSubmitResponse;
 
 /**
  * (ExamPaperUser)表服务接口
@@ -60,5 +61,13 @@ public interface ExamPaperUserService {
      * @return
      */
     ExamPaperUserResponse queryPaperUserDetail(Integer id);
+
+    /**
+     * 提交考试试卷
+     *
+     * @param paperUserId 考试试卷ID
+     * @return
+     */
+    ExamPaperUserSubmitResponse submitExamPaper(Integer paperUserId);
 
 }

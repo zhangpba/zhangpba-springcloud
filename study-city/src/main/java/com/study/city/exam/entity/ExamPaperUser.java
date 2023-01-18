@@ -151,5 +151,21 @@ public class ExamPaperUser implements Serializable {
         this.updateBy = updateBy;
     }
 
+    @Override
+    public String toString() {
+        return "ExamPaperUser{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", examPaperId=" + examPaperId +
+                ", score=" + score +
+                ", batch=" + batch +
+                ", status=" + status +
+                ", createTime=" + createTime +
+                ", createBy='" + createBy + '\'' +
+                ", updateTime=" + updateTime +
+                ", updateBy='" + updateBy + '\'' +
+                '}';
+    }
 }
 

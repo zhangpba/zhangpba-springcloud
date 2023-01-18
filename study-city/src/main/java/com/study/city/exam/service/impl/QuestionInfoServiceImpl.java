@@ -2,10 +2,12 @@ package com.study.city.exam.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.study.city.exam.entity.QuestionInfo;
 import com.study.city.exam.entity.request.QuestionInfoRequest;
 import com.study.city.exam.mapper.QuestionInfoMapper;
 import com.study.city.exam.service.IQuestionInfoService;
-import com.study.city.exam.entity.QuestionInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ import java.util.List;
  */
 @Service
 public class QuestionInfoServiceImpl implements IQuestionInfoService {
+    private static final Logger logger = LoggerFactory.getLogger(QuestionInfoServiceImpl.class);
 
     @Autowired
     private QuestionInfoMapper questionInfoDao;

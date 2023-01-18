@@ -40,5 +40,18 @@ public class ExamQuestionInfoRequest extends Page implements Serializable {
 
     @ApiModelProperty(value = "原始题目id")
     private String sourceId;
+
+    @Override
+    public String toString() {
+        return "ExamQuestionInfoRequest{" +
+                "question='" + question + '\'' +
+                ", answer='" + answer + '\'' +
+                ", explain='" + explain + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", type='" + type + '\'' +
+                ", examType='" + examType + '\'' +
+                ", sourceId='" + sourceId + '\'' +
+                '}';
+    }
 }
 

@@ -7,6 +7,8 @@ import com.study.city.exam.service.ExamPaperService;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +31,9 @@ import java.util.Dictionary;
 @RequestMapping("paper")
 @Api(value = "考卷定义", tags = "考卷定义")
 public class ExamPaperController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ExamPaperController.class);
+
     /**
      * 服务对象
      */
@@ -44,6 +49,7 @@ public class ExamPaperController {
     @PostMapping("/queryAll")
     @ApiOperation(value = "分页查询考卷定义", response = Dictionary.class)
     public ResponseMessage<PageInfo<ExamPaper>> queryAll(@RequestBody ExamPaperListRequest examPaperRequest) {
+        logger.info("分页查询考卷定义!");
         return ResponseMessage.success(this.examPaperService.queryByPage(examPaperRequest));
     }
 
@@ -56,6 +62,7 @@ public class ExamPaperController {
     @GetMapping("{id}")
     @ApiOperation(value = "通过主键查询单条考卷定义", response = Dictionary.class)
     public ResponseMessage<ExamPaper> queryById(@PathVariable("id") Integer id) {
+        logger.info("通过主键查询单条考卷定义! id:{}", id);
         return ResponseMessage.success(this.examPaperService.queryById(id));
     }
 
@@ -68,6 +75,7 @@ public class ExamPaperController {
     @PostMapping
     @ApiOperation(value = "新增考卷定义", response = Dictionary.class)
     public ResponseMessage<ExamPaper> add(@RequestBody ExamPaper examPaper) {
+        logger.info("新增考卷定义! 参数：{}", examPaper);
         return ResponseMessage.success(this.examPaperService.insert(examPaper));
     }
 
@@ -80,6 +88,7 @@ public class ExamPaperController {
     @PutMapping
     @ApiOperation(value = "编辑考卷定义", response = Dictionary.class)
     public ResponseMessage<ExamPaper> edit(@RequestBody ExamPaper examPaper) {
+        logger.info("编辑考卷定义!");
         return ResponseMessage.success(this.examPaperService.update(examPaper));
     }
 
@@ -92,6 +101,7 @@ public class ExamPaperController {
     @DeleteMapping
     @ApiOperation(value = "删除考卷定义", response = Dictionary.class)
     public ResponseMessage<Boolean> deleteById(Integer id) {
+        logger.info("删除考卷定义! id:{}", id);
         return ResponseMessage.success(this.examPaperService.deleteById(id));
     }
 }

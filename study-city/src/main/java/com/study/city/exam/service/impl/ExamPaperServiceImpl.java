@@ -6,6 +6,8 @@ import com.study.city.exam.entity.ExamPaper;
 import com.study.city.exam.entity.request.ExamPaperListRequest;
 import com.study.city.exam.mapper.ExamPaperMapper;
 import com.study.city.exam.service.ExamPaperService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,6 +21,9 @@ import java.util.List;
  */
 @Service("examPaperService")
 public class ExamPaperServiceImpl implements ExamPaperService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ExamPaperServiceImpl.class);
+
     @Resource
     private ExamPaperMapper examPaperDao;
 

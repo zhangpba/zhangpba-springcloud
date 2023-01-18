@@ -30,5 +30,15 @@ public class ExamQuestionOptions implements Serializable {
 
     @ApiModelProperty(value = "题目主键")
     private Integer questionId;
+
+    @Override
+    public String toString() {
+        return "ExamQuestionOptions{" +
+                "id=" + id +
+                ", key='" + key + '\'' +
+                ", option='" + option + '\'' +
+                ", questionId=" + questionId +
+                '}';
+    }
 }
 

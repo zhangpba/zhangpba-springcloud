@@ -12,6 +12,8 @@ import com.study.city.exam.mapper.ExamQuestionInfoMapper;
 import com.study.city.exam.service.ExamPaperDetailService;
 import com.study.city.user.entity.SysUser;
 import com.study.city.user.mapper.SysUserMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +31,9 @@ import java.util.List;
  */
 @Service("examPaperDetailService")
 public class ExamPaperDetailServiceImpl implements ExamPaperDetailService {
+
+    private static final Logger logger = LoggerFactory.getLogger(ExamPaperDetailServiceImpl.class);
+
     @Resource
     private ExamPaperMapper examPaperMapper;
 
@@ -105,14 +110,14 @@ public class ExamPaperDetailServiceImpl implements ExamPaperDetailService {
     }
 
     /**
-     * 生成考试明细
+     * 生成考生考卷明细
      *
      * @param userId      考生ID
      * @param examPaperId 考试定义ID
      */
     @Override
     @Transactional
-    public List<ExamPaperDetail>  buildExamPaperUserDetail(Integer userId, Integer examPaperId) {
+    public List<ExamPaperDetail> buildExamPaperUserDetail(Integer userId, Integer examPaperId) {
         // 用户表
         SysUser user = sysUserMapper.queryById(userId);
         // 考卷定义信息
@@ -175,21 +180,21 @@ public class ExamPaperDetailServiceImpl implements ExamPaperDetailService {
         examQuestionInfoRequest.setExamType(examPaper.getExamType());
 
         List<ExamQuestionInfo> questionInfoList = new ArrayList<>();
-        if (judgeNum.intValue() > 0) {
+        if (judgeNum != null && judgeNum.intValue() > 0) {
             examQuestionInfoRequest.setType("1");
             List<ExamQuestionInfo> judgeList = examQuestionInfoMapper.queryAll(examQuestionInfoRequest);
             List<ExamQuestionInfo> judge = judgeList.subList(0, judgeNum.intValue());
             questionInfoList.addAll(judge);
         }
 
-        if (choiceSingleNum.intValue() > 0) {
+        if (choiceSingleNum != null && choiceSingleNum.intValue() > 0) {
             examQuestionInfoRequest.setType("2");
             List<ExamQuestionInfo> singleList = examQuestionInfoMapper.queryAll(examQuestionInfoRequest);
             List<ExamQuestionInfo> single = singleList.subList(0, choiceSingleNum.intValue());
             questionInfoList.addAll(single);
         }
 
-        if (choiceManyNum.intValue() > 0) {
+        if (choiceManyNum != null && choiceManyNum.intValue() > 0) {
             examQuestionInfoRequest.setType("3");
             List<ExamQuestionInfo> manyList = examQuestionInfoMapper.queryAll(examQuestionInfoRequest);
             List<ExamQuestionInfo> many = manyList.subList(0, choiceManyNum.intValue());

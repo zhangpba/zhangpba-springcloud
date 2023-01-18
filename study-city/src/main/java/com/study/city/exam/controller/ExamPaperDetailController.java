@@ -5,6 +5,8 @@ import com.study.city.exam.service.ExamPaperDetailService;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +31,7 @@ import java.util.List;
 @RequestMapping("paperDetail")
 @Api(value = "考卷明细", tags = "考卷明细")
 public class ExamPaperDetailController {
+    private static final Logger logger = LoggerFactory.getLogger(ExamPaperDetailController.class);
     /**
      * 服务对象
      */
@@ -41,9 +44,10 @@ public class ExamPaperDetailController {
      * @param examPaperDetail 筛选条件
      * @return 查询结果
      */
-    @GetMapping
+    @PostMapping("/queryByPage")
     @ApiOperation(value = "查询考卷明细列表", response = Dictionary.class)
     public ResponseMessage<List<ExamPaperDetail>> queryByPage(@RequestBody ExamPaperDetail examPaperDetail) {
+        logger.info("查询考卷明细列表! 参数:{}", examPaperDetail.toString());
         return ResponseMessage.success(this.examPaperDetailService.queryAll(examPaperDetail));
     }
 
@@ -56,6 +60,7 @@ public class ExamPaperDetailController {
     @GetMapping("{id}")
     @ApiOperation(value = "通过主键查询单条考卷明细", response = Dictionary.class)
     public ResponseMessage<ExamPaperDetail> queryById(@PathVariable("id") Integer id) {
+        logger.info("通过主键查询单条考卷明细! id:{}", id);
         return ResponseMessage.success(this.examPaperDetailService.queryById(id));
     }
 
@@ -68,6 +73,7 @@ public class ExamPaperDetailController {
     @PostMapping
     @ApiOperation(value = "新增考卷明细", response = Dictionary.class)
     public ResponseMessage<ExamPaperDetail> add(@RequestBody ExamPaperDetail examPaperDetail) {
+        logger.info("新增考卷明细! id:{}", examPaperDetail.toString());
         return ResponseMessage.success(this.examPaperDetailService.insert(examPaperDetail));
     }
 
@@ -80,6 +86,7 @@ public class ExamPaperDetailController {
     @PutMapping
     @ApiOperation(value = "编辑考卷明细", response = Dictionary.class)
     public ResponseMessage<ExamPaperDetail> edit(@RequestBody ExamPaperDetail examPaperDetail) {
+        logger.info("编辑考卷明细! id:{}", examPaperDetail.toString());
         return ResponseMessage.success(this.examPaperDetailService.update(examPaperDetail));
     }
 
@@ -92,6 +99,7 @@ public class ExamPaperDetailController {
     @DeleteMapping
     @ApiOperation(value = "删除考卷明细", response = Dictionary.class)
     public ResponseMessage<Boolean> deleteById(Integer id) {
+        logger.info("删除考卷明细! id:{}", id);
         return ResponseMessage.success(this.examPaperDetailService.deleteById(id));
     }
 
@@ -99,13 +107,15 @@ public class ExamPaperDetailController {
     /**
      * 生成试卷
      *
-     * @param id 主键
+     * @param userId      考生ID
+     * @param examPaperId 考卷定义ID
      * @return 单条数据
      */
     @GetMapping("buildExamPaperUserDetail")
     @ApiOperation(value = "生成试卷", response = Dictionary.class)
-    public ResponseMessage<List<ExamPaperDetail>> buildExamPaperUserDetail(@RequestParam(value = "userId") Integer userId, @RequestParam(value = "id") Integer id) {
-        return ResponseMessage.success(this.examPaperDetailService.buildExamPaperUserDetail(userId, id));
+    public ResponseMessage<List<ExamPaperDetail>> buildExamPaperUserDetail(@RequestParam(value = "userId") Integer userId, @RequestParam(value = "examPaperId") Integer examPaperId) {
+        logger.info("生成试卷! userId:{}，examPaperId：{}", userId, examPaperId);
+        return ResponseMessage.success(this.examPaperDetailService.buildExamPaperUserDetail(userId, examPaperId));
     }
 }
 

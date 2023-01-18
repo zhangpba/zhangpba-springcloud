@@ -7,6 +7,8 @@ import com.study.city.exam.service.ExamQuestionInfoService;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +31,9 @@ import java.util.Dictionary;
 @RequestMapping("questionInfo")
 @Api(value = "考试题库-改良版", tags = "考试题库-改良版库")
 public class ExamQuestionInfoController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ExamQuestionInfoController.class);
+
     /**
      * 服务对象
      */
@@ -38,6 +43,7 @@ public class ExamQuestionInfoController {
     @GetMapping("/synQuestionInfo/{id}")
     @ApiOperation(value = "根据ID同步题目", response = Dictionary.class)
     public ResponseMessage<ExamQuestionInfo> synQuestionInfo(@PathVariable("id") Integer id) {
+        logger.info("根据ID同步题目! id:{}",id);
         examQuestionInfoService.synQuestionInfo(id);
         return ResponseMessage.success("同步ID为" + id + "的题目成功！");
     }
@@ -45,6 +51,7 @@ public class ExamQuestionInfoController {
     @GetMapping("/synQuestionInfo")
     @ApiOperation(value = "同步所有题目", response = Dictionary.class)
     public ResponseMessage<ExamQuestionInfo> synQuestionInfoAll() {
+        logger.info("同步所有题目! ");
         examQuestionInfoService.synQuestionInfoAll();
         return ResponseMessage.success("所有题目同步成功！");
     }
@@ -55,9 +62,10 @@ public class ExamQuestionInfoController {
      * @param examQuestionInfoRequest 筛选条件
      * @return 查询结果
      */
-    @GetMapping
+    @PostMapping("/queryByPage")
     @ApiOperation(value = "分页查询题目", response = Dictionary.class)
     public ResponseMessage<PageInfo<ExamQuestionInfo>> queryByPage(@RequestBody ExamQuestionInfoRequest examQuestionInfoRequest) {
+        logger.info("分页查询题目! 参数:{}",examQuestionInfoRequest.toString());
         return ResponseMessage.success(this.examQuestionInfoService.queryByPage(examQuestionInfoRequest));
     }
 
@@ -70,6 +78,7 @@ public class ExamQuestionInfoController {
     @GetMapping("{id}")
     @ApiOperation(value = "通过主键查询单条题目", response = Dictionary.class)
     public ResponseMessage<ExamQuestionInfo> queryById(@PathVariable("id") Integer id) {
+        logger.info("通过主键查询单条题目! 参数id:{}",id);
         return ResponseMessage.success(this.examQuestionInfoService.queryById(id));
     }
 
@@ -82,6 +91,7 @@ public class ExamQuestionInfoController {
     @PostMapping
     @ApiOperation(value = "新增题目", response = Dictionary.class)
     public ResponseMessage<ExamQuestionInfo> add(@RequestBody ExamQuestionInfo examQuestionInfo) {
+        logger.info("新增题目! 参数:{}",examQuestionInfo.toString());
         return ResponseMessage.success(this.examQuestionInfoService.insert(examQuestionInfo));
     }
 
@@ -94,6 +104,7 @@ public class ExamQuestionInfoController {
     @PutMapping
     @ApiOperation(value = "编辑题目", response = Dictionary.class)
     public ResponseMessage<ExamQuestionInfo> edit(@RequestBody ExamQuestionInfo examQuestionInfo) {
+        logger.info("编辑题目! 参数:{}",examQuestionInfo.toString());
         return ResponseMessage.success(this.examQuestionInfoService.update(examQuestionInfo));
     }
 
@@ -106,6 +117,7 @@ public class ExamQuestionInfoController {
     @DeleteMapping
     @ApiOperation(value = "删除题目", response = Dictionary.class)
     public ResponseMessage<Boolean> deleteById(Integer id) {
+        logger.info("删除题目! 参数id:{}",id);
         return ResponseMessage.success(this.examQuestionInfoService.deleteById(id));
     }
 

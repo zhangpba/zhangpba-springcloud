@@ -33,7 +33,7 @@ public class SysUserController {
     private ISysUserService sysUserService;
 
     /**
-     * 分页查询
+     * 分页查询用户
      *
      * @param sysUserRequest 筛选条件分页对象
      * @return 查询结果
@@ -41,7 +41,7 @@ public class SysUserController {
     @PostMapping("/queryByPage")
     @ApiOperation(value = "分页查询", response = Dictionary.class)
     public ResponseMessage<PageInfo<SysUser>> queryByPage(@RequestBody SysUserListRequest sysUserRequest) {
-        logger.info("分页查询！");
+        logger.info("分页查询用户！");
         return ResponseMessage.success(this.sysUserService.queryByPage(sysUserRequest));
     }
 

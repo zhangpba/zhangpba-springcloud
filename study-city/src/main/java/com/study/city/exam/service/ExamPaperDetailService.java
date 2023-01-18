@@ -53,7 +53,7 @@ public interface ExamPaperDetailService {
     boolean deleteById(Integer id);
 
     /**
-     * 生成考试明细
+     * 生成考生考卷明细
      *
      * @param userId      考生ID
      * @param ExamPaperId 考试定义ID
