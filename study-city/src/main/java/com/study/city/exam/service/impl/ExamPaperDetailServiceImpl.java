@@ -11,7 +11,7 @@ import com.study.city.exam.mapper.ExamPaperDetailMapper;
 import com.study.city.exam.mapper.ExamPaperMapper;
 import com.study.city.exam.mapper.ExamPaperUserMapper;
 import com.study.city.exam.mapper.ExamQuestionInfoMapper;
-import com.study.city.exam.service.ExamPaperDetailService;
+import com.study.city.exam.service.IExamPaperDetailService;
 import com.study.city.user.entity.SysUser;
 import com.study.city.user.mapper.SysUserMapper;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ import java.util.List;
  * @since 2023-01-14 19:51:46
  */
 @Service("examPaperDetailService")
-public class ExamPaperDetailServiceImpl implements ExamPaperDetailService {
+public class ExamPaperDetailServiceImpl implements IExamPaperDetailService {
 
     private static final Logger logger = LoggerFactory.getLogger(ExamPaperDetailServiceImpl.class);
 

@@ -1,7 +1,7 @@
 package com.study.city.exam.controller;
 
 import com.study.city.exam.entity.ExamQuestionOptions;
-import com.study.city.exam.service.ExamQuestionOptionsService;
+import com.study.city.exam.service.IExamQuestionOptionsService;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,7 +37,7 @@ public class ExamQuestionOptionsController {
      * 服务对象
      */
     @Resource
-    private ExamQuestionOptionsService examQuestionOptionsService;
+    private IExamQuestionOptionsService examQuestionOptionsService;
 
     /**
      * 分页查询选项

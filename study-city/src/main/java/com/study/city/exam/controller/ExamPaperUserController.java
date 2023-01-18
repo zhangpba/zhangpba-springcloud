@@ -7,8 +7,8 @@ import com.study.city.exam.entity.request.ExamPaperDetailSaveRequest;
 import com.study.city.exam.entity.request.ExamPaperUserListRequest;
 import com.study.city.exam.entity.response.ExamPaperUserResponse;
 import com.study.city.exam.entity.response.ExamPaperUserSubmitResponse;
-import com.study.city.exam.service.ExamPaperDetailService;
-import com.study.city.exam.service.ExamPaperUserService;
+import com.study.city.exam.service.IExamPaperDetailService;
+import com.study.city.exam.service.IExamPaperUserService;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,10 +46,10 @@ public class ExamPaperUserController {
      * 服务对象
      */
     @Resource
-    private ExamPaperUserService examPaperUserService;
+    private IExamPaperUserService examPaperUserService;
 
     @Resource
-    private ExamPaperDetailService examPaperDetailService;
+    private IExamPaperDetailService examPaperDetailService;
 
     /**
      * 分页查询考生考卷

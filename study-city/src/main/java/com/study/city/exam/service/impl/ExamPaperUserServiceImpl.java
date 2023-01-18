@@ -16,8 +16,8 @@ import com.study.city.exam.mapper.ExamPaperMapper;
 import com.study.city.exam.mapper.ExamPaperUserMapper;
 import com.study.city.exam.mapper.ExamQuestionInfoMapper;
 import com.study.city.exam.mapper.ExamQuestionOptionsMapper;
-import com.study.city.exam.service.ExamPaperDetailService;
-import com.study.city.exam.service.ExamPaperUserService;
+import com.study.city.exam.service.IExamPaperDetailService;
+import com.study.city.exam.service.IExamPaperUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -37,14 +37,14 @@ import java.util.List;
  * @since 2023-01-14 19:52:19
  */
 @Service("examPaperUserService")
-public class ExamPaperUserServiceImpl implements ExamPaperUserService {
+public class ExamPaperUserServiceImpl implements IExamPaperUserService {
     private static final Logger logger = LoggerFactory.getLogger(ExamPaperUserServiceImpl.class);
 
     @Resource
     private ExamPaperUserMapper examPaperUserMapper;
 
     @Resource
-    private ExamPaperDetailService examPaperDetailService;
+    private IExamPaperDetailService examPaperDetailService;
 
     @Resource
     private ExamQuestionOptionsMapper examQuestionOptionsMapper;

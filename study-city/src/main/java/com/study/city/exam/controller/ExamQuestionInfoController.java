@@ -3,7 +3,7 @@ package com.study.city.exam.controller;
 import com.github.pagehelper.PageInfo;
 import com.study.city.exam.entity.ExamQuestionInfo;
 import com.study.city.exam.entity.request.ExamQuestionInfoRequest;
-import com.study.city.exam.service.ExamQuestionInfoService;
+import com.study.city.exam.service.IExamQuestionInfoService;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,7 +38,7 @@ public class ExamQuestionInfoController {
      * 服务对象
      */
     @Resource
-    private ExamQuestionInfoService examQuestionInfoService;
+    private IExamQuestionInfoService examQuestionInfoService;
 
     @GetMapping("/synQuestionInfo/{id}")
     @ApiOperation(value = "根据ID同步题目", response = Dictionary.class)

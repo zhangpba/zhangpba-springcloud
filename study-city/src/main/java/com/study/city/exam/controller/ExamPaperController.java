@@ -3,7 +3,7 @@ package com.study.city.exam.controller;
 import com.github.pagehelper.PageInfo;
 import com.study.city.exam.entity.ExamPaper;
 import com.study.city.exam.entity.request.ExamPaperListRequest;
-import com.study.city.exam.service.ExamPaperService;
+import com.study.city.exam.service.IExamPaperService;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,7 +38,7 @@ public class ExamPaperController {
      * 服务对象
      */
     @Resource
-    private ExamPaperService examPaperService;
+    private IExamPaperService examPaperService;
 
     /**
      * 分页查询考卷定义

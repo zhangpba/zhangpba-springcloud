@@ -10,7 +10,7 @@ import java.util.List;
  * @author zhanpba
  * @since 2023-01-13 17:02:56
  */
-public interface ExamQuestionOptionsService {
+public interface IExamQuestionOptionsService {
 
     /**
      * 通过ID查询单条数据

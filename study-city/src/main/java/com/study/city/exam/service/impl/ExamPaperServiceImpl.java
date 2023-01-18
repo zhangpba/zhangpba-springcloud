@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.study.city.exam.entity.ExamPaper;
 import com.study.city.exam.entity.request.ExamPaperListRequest;
 import com.study.city.exam.mapper.ExamPaperMapper;
-import com.study.city.exam.service.ExamPaperService;
+import com.study.city.exam.service.IExamPaperService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.List;
  * @since 2023-01-14 19:51:20
  */
 @Service("examPaperService")
-public class ExamPaperServiceImpl implements ExamPaperService {
+public class ExamPaperServiceImpl implements IExamPaperService {
 
     private static final Logger logger = LoggerFactory.getLogger(ExamPaperServiceImpl.class);
 

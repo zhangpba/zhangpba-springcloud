@@ -2,7 +2,7 @@ package com.study.city.exam.service.impl;
 
 import com.study.city.exam.entity.ExamQuestionOptions;
 import com.study.city.exam.mapper.ExamQuestionOptionsMapper;
-import com.study.city.exam.service.ExamQuestionOptionsService;
+import com.study.city.exam.service.IExamQuestionOptionsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import java.util.List;
  * @since 2023-01-13 17:02:56
  */
 @Service("examQuestionOptionsService")
-public class ExamQuestionOptionsServiceImpl implements ExamQuestionOptionsService {
+public class ExamQuestionOptionsServiceImpl implements IExamQuestionOptionsService {
     private static final Logger logger = LoggerFactory.getLogger(ExamQuestionOptionsServiceImpl.class);
 
     @Resource

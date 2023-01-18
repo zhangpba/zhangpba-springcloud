@@ -12,7 +12,7 @@ import com.study.city.exam.entity.response.ExamPaperUserSubmitResponse;
  * @author zhangpba
  * @since 2023-01-14 19:52:19
  */
-public interface ExamPaperUserService {
+public interface IExamPaperUserService {
 
     /**
      * 通过ID查询单条数据

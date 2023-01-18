@@ -10,7 +10,7 @@ import com.study.city.exam.entity.request.ExamQuestionInfoRequest;
  * @author zhanpba
  * @since 2023-01-13 16:57:31
  */
-public interface ExamQuestionInfoService {
+public interface IExamQuestionInfoService {
 
     /**
      * 根据ID同步题目

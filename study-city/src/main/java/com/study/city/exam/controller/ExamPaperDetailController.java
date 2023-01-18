@@ -1,7 +1,7 @@
 package com.study.city.exam.controller;
 
 import com.study.city.exam.entity.ExamPaperDetail;
-import com.study.city.exam.service.ExamPaperDetailService;
+import com.study.city.exam.service.IExamPaperDetailService;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +35,7 @@ public class ExamPaperDetailController {
      * 服务对象
      */
     @Resource
-    private ExamPaperDetailService examPaperDetailService;
+    private IExamPaperDetailService examPaperDetailService;
 
     /**
      * 查询考卷明细列表

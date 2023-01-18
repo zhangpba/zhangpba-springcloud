@@ -10,7 +10,7 @@ import com.study.city.exam.entity.request.ExamPaperListRequest;
  * @author zhangpba
  * @since 2023-01-14 19:51:20
  */
-public interface ExamPaperService {
+public interface IExamPaperService {
 
     /**
      * 通过ID查询单条数据

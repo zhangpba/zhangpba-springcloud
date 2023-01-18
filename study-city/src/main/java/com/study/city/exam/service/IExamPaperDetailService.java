@@ -10,7 +10,7 @@ import java.util.List;
  * @author zhangpba
  * @since 2023-01-14 19:51:46
  */
-public interface ExamPaperDetailService {
+public interface IExamPaperDetailService {
 
     /**
      * 通过ID查询单条数据

@@ -9,7 +9,7 @@ import com.study.city.exam.entity.QuestionInfo;
 import com.study.city.exam.mapper.ExamQuestionInfoMapper;
 import com.study.city.exam.mapper.ExamQuestionOptionsMapper;
 import com.study.city.exam.mapper.QuestionInfoMapper;
-import com.study.city.exam.service.ExamQuestionInfoService;
+import com.study.city.exam.service.IExamQuestionInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ import java.util.List;
  * @since 2023-01-13 16:57:31
  */
 @Service("examQuestionInfoService")
-public class ExamQuestionInfoServiceImpl implements ExamQuestionInfoService {
+public class ExamQuestionInfoServiceImpl implements IExamQuestionInfoService {
 
     private static final Logger logger = LoggerFactory.getLogger(ExamQuestionInfoServiceImpl.class);
 
