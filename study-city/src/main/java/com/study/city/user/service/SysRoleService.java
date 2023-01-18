@@ -50,6 +50,6 @@ public interface SysRoleService {
      * @param roleId 主键
      * @return 是否成功
      */
-    boolean deleteById(Long roleId);
+    Integer deleteById(Long roleId);
 
 }

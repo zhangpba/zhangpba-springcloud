@@ -79,7 +79,7 @@ public class SysRoleServiceImpl implements SysRoleService {
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(Long roleId) {
-        return this.sysRoleDao.deleteById(roleId) > 0;
+    public Integer deleteById(Long roleId) {
+        return this.sysRoleDao.deleteById(roleId);
     }
 }

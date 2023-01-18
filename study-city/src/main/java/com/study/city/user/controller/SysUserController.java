@@ -7,6 +7,8 @@ import com.study.city.user.service.ISysUserService;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -22,6 +24,8 @@ import java.util.Dictionary;
 @RequestMapping("sysUser")
 @Api(value = "用户管理", tags = "用户管理")
 public class SysUserController {
+    private static final Logger logger = LoggerFactory.getLogger(SysUserController.class);
+
     /**
      * 服务对象
      */
@@ -34,9 +38,10 @@ public class SysUserController {
      * @param sysUserRequest 筛选条件分页对象
      * @return 查询结果
      */
-    @GetMapping
+    @PostMapping("/queryByPage")
     @ApiOperation(value = "分页查询", response = Dictionary.class)
     public ResponseMessage<PageInfo<SysUser>> queryByPage(@RequestBody SysUserListRequest sysUserRequest) {
+        logger.info("分页查询！");
         return ResponseMessage.success(this.sysUserService.queryByPage(sysUserRequest));
     }
 
@@ -47,8 +52,9 @@ public class SysUserController {
      * @return 单条数据
      */
     @GetMapping("{id}")
-    @ApiOperation(value = "通过主键查询单条数据", response = Dictionary.class)
+    @ApiOperation(value = "通过主键查询单条用户数据", response = Dictionary.class)
     public ResponseMessage<SysUser> queryById(@PathVariable("id") Integer id) {
+        logger.info("通过主键查询单条用户数据！");
         return ResponseMessage.success(this.sysUserService.queryById(id));
     }
 
@@ -59,8 +65,9 @@ public class SysUserController {
      * @return 新增结果
      */
     @PostMapping
-    @ApiOperation(value = "新增数据", response = Dictionary.class)
+    @ApiOperation(value = "新增用户数据", response = Dictionary.class)
     public ResponseMessage<SysUser> add(@RequestBody SysUser sysUser) {
+        logger.info("新增用户数据！");
         return ResponseMessage.success(this.sysUserService.insert(sysUser));
     }
 
@@ -71,8 +78,9 @@ public class SysUserController {
      * @return 编辑结果
      */
     @PutMapping
-    @ApiOperation(value = "编辑数据", response = Dictionary.class)
+    @ApiOperation(value = "编辑用户数据", response = Dictionary.class)
     public ResponseMessage<SysUser> edit(@RequestBody SysUser sysUser) {
+        logger.info("编辑用户数据！");
         return ResponseMessage.success(this.sysUserService.update(sysUser));
     }
 
@@ -82,9 +90,10 @@ public class SysUserController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
-    @ApiOperation(value = "删除数据", response = Dictionary.class)
-    public ResponseMessage<Boolean> deleteById(Integer id) {
+    @DeleteMapping("/delete/{id}")
+    @ApiOperation(value = "删除用户数据", response = Dictionary.class)
+    public ResponseMessage<Boolean> deleteById(@PathVariable("id") Integer id) {
+        logger.info("删除用户数据！");
         return ResponseMessage.success(this.sysUserService.deleteById(id));
     }
 

@@ -79,7 +79,7 @@ public class SysUserServiceImpl implements ISysUserService {
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(Integer userId) {
-        return this.sysUserDao.deleteById(userId) > 0;
+    public Integer deleteById(Integer userId) {
+        return this.sysUserDao.deleteById(userId);
     }
 }

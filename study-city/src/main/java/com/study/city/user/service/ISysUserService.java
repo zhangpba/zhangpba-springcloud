@@ -51,6 +51,6 @@ public interface ISysUserService {
      * @param userId 主键
      * @return 是否成功
      */
-    boolean deleteById(Integer userId);
+    Integer deleteById(Integer userId);
 
 }
