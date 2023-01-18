@@ -2,12 +2,17 @@ package com.study.common.web;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 描述:
  * HttpRequest请求返回的最外层对象,用一种统一的格式返回给前端
  */
 @ApiModel(description = "响应消息")
+@Data
+@AllArgsConstructor
 public class ResponseMessage<T> {
 
     // 错误码
@@ -43,52 +48,9 @@ public class ResponseMessage<T> {
         this.data = data;
     }
 
-    public Integer getErrCode() {
-        return errCode;
-    }
-
-    public void setErrCode(Integer errCode) {
+    public ResponseMessage(Integer errCode, String errMsg) {
         this.errCode = errCode;
-    }
-
-    public String getErrMsg() {
-        return errMsg;
-    }
-
-    public void setErrMsg(String errMsg) {
         this.errMsg = errMsg;
-    }
-
-    public String getErrDetail() {
-        return errDetail;
-    }
-
-    public void setErrDetail(String errDetail) {
-        this.errDetail = errDetail;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
-    public String getService() {
-        return service;
-    }
-
-    public void setService(String service) {
-        this.service = service;
-    }
-
-    public Long getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(Long requestId) {
-        this.requestId = requestId;
     }
 
     public static ResponseMessage success(Object object, String message) {
@@ -117,6 +79,14 @@ public class ResponseMessage<T> {
         return success(null, message);
     }
 
+
+    public static ResponseMessage error(Integer errCode, String message) {
+        ResponseMessage responseMessage = new ResponseMessage();
+        responseMessage.setErrCode(errCode);
+        responseMessage.setErrMsg(message);
+        responseMessage.setService("study-city");
+        return responseMessage;
+    }
 
     public static ResponseMessage error(GeneralErrorCode generalErrorCode) {
         ResponseMessage responseMessage = new ResponseMessage();
