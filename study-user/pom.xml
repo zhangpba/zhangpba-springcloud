@@ -80,6 +80,24 @@
             <version>8.0.27</version> <!--版本问题，5.0以下的老版本需要配置对应低版本的连接池-->
         </dependency>
 
+        <!--单元测试 2023-01-10-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--断言 2022-01-10-->
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.hamcrest</groupId>
+                    <artifactId>hamcrest-core</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
 
     <!--2021-01-04 eureka-->
