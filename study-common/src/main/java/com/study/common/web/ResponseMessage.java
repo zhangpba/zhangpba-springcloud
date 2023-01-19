@@ -4,7 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * 描述:
@@ -53,12 +52,12 @@ public class ResponseMessage<T> {
         this.errMsg = errMsg;
     }
 
-    public static ResponseMessage success(Object object, String message) {
+    public static ResponseMessage success(Object object, String message, String service) {
         ResponseMessage<Object> responseMessage = new ResponseMessage<>();
         responseMessage.setErrCode(0);// 成功
         responseMessage.setErrMsg(message);
         responseMessage.setData(object);
-        responseMessage.setService("default");
+        responseMessage.setService(service);
         return responseMessage;
     }
 
@@ -68,15 +67,15 @@ public class ResponseMessage<T> {
      * @return
      */
     public static ResponseMessage success() {
-        return success(null, null);
+        return success(null, null, null);
     }
 
     public static ResponseMessage success(Object obj) {
-        return success(obj, null);
+        return success(obj, null, null);
     }
 
     public static ResponseMessage success(String message) {
-        return success(null, message);
+        return success(null, message, null);
     }
 
 
