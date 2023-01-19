@@ -14,6 +14,7 @@ import com.study.city.exam.mapper.ExamQuestionInfoMapper;
 import com.study.city.exam.service.IExamPaperDetailService;
 import com.study.city.user.entity.SysUser;
 import com.study.city.user.mapper.SysUserMapper;
+import com.study.common.utils.ListUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -219,24 +220,29 @@ public class ExamPaperDetailServiceImpl implements IExamPaperDetailService {
         examQuestionInfoRequest.setExamType(examPaper.getExamType());
 
         List<ExamQuestionInfo> questionInfoList = new ArrayList<>();
+
+        // 判断题
         if (judgeNum != null && judgeNum.intValue() > 0) {
             examQuestionInfoRequest.setType("1");
             List<ExamQuestionInfo> judgeList = examQuestionInfoMapper.queryAll(examQuestionInfoRequest);
-            List<ExamQuestionInfo> judge = judgeList.subList(0, judgeNum.intValue());
+            // 从题库中随机获取N个判断题
+            List<ExamQuestionInfo> judge = ListUtils.shuffle(judgeList, judgeNum.intValue());
             questionInfoList.addAll(judge);
         }
 
+        // 单选题
         if (choiceSingleNum != null && choiceSingleNum.intValue() > 0) {
             examQuestionInfoRequest.setType("2");
             List<ExamQuestionInfo> singleList = examQuestionInfoMapper.queryAll(examQuestionInfoRequest);
-            List<ExamQuestionInfo> single = singleList.subList(0, choiceSingleNum.intValue());
+            List<ExamQuestionInfo> single = ListUtils.shuffle(singleList, choiceSingleNum.intValue());
             questionInfoList.addAll(single);
         }
 
+        // 多选题
         if (choiceManyNum != null && choiceManyNum.intValue() > 0) {
             examQuestionInfoRequest.setType("3");
             List<ExamQuestionInfo> manyList = examQuestionInfoMapper.queryAll(examQuestionInfoRequest);
-            List<ExamQuestionInfo> many = manyList.subList(0, choiceManyNum.intValue());
+            List<ExamQuestionInfo> many = ListUtils.shuffle(manyList, choiceManyNum.intValue());
             questionInfoList.addAll(many);
         }
         return questionInfoList;
