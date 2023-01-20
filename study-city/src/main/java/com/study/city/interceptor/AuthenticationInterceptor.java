@@ -65,10 +65,11 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                     throw new CustomException(401, "验证失败");
                 }
 
-                SysUser user = sysUserMapper.login(sysUser.getUsername(), sysUser.getPassword());
-                if (user == null) {
-                    throw new CustomException(401, "用户不存在，请重新登录");
-                }
+                // 生成token的时候已经查过库，用户名和密码是存在且正确的，不需要进行二次查询了
+//                SysUser user = sysUserMapper.login(sysUser.getUsername(), sysUser.getPassword());
+//                if (user == null) {
+//                    throw new CustomException(401, "用户不存在，请重新登录");
+//                }
                 return true;
             }
         }

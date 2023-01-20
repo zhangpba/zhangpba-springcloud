@@ -3,9 +3,10 @@ package com.study.city.exam.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.study.city.exam.entity.ExamQuestionInfo;
-import com.study.city.exam.entity.request.ExamQuestionInfoRequest;
 import com.study.city.exam.entity.ExamQuestionOptions;
 import com.study.city.exam.entity.QuestionInfo;
+import com.study.city.exam.entity.request.ExamQuestionInfoRequest;
+import com.study.city.exam.enums.ExamTypeEnum;
 import com.study.city.exam.mapper.ExamQuestionInfoMapper;
 import com.study.city.exam.mapper.ExamQuestionOptionsMapper;
 import com.study.city.exam.mapper.QuestionInfoMapper;
@@ -29,23 +30,6 @@ import java.util.List;
 public class ExamQuestionInfoServiceImpl implements IExamQuestionInfoService {
 
     private static final Logger logger = LoggerFactory.getLogger(ExamQuestionInfoServiceImpl.class);
-
-    // 小车科目一
-    public static final String CAR_ONE = "car_one";
-    // 小车科目四
-    public static final String CAR_FOUR = "car_four";
-    // 客车科目一
-    public static final String BUS_ONE = "bus_one";
-    // 客车科目四
-    public static final String BUS_FOUR = "bus_four";
-    // 货车科目一
-    public static final String TRACK_ONE = "track_one";
-    // 货车科目四
-    public static final String TRACK_FOUR = "track_four";
-    // 摩托车科目一
-    public static final String MOTORCYCLE_ONE = "motorcycle_one";
-    // 摩托车科目四
-    public static final String MOTORCYCLE_FOUR = "motorcycle_four";
 
     @Resource
     private ExamQuestionInfoMapper examQuestionInfoMapper;
@@ -78,41 +62,41 @@ public class ExamQuestionInfoServiceImpl implements IExamQuestionInfoService {
                 // 小车 car_one
                 if ("科目一".equals(questionInfo.getSubjectType())) {
                     // 科目一
-                    examQuestionInfo.setExamType(CAR_ONE);
+                    examQuestionInfo.setExamType(ExamTypeEnum.CAR_ONE.getType());
                 }
                 if ("科目四".equals(questionInfo.getSubjectType()))
                     // 科目四
-                    examQuestionInfo.setExamType(CAR_FOUR);
+                    examQuestionInfo.setExamType(ExamTypeEnum.CAR_FOUR.getType());
             } else if ("1".equals(questionInfo.getLicenseType())) {
                 // 客车 bus_one
                 if ("科目一".equals(questionInfo.getSubjectType())) {
                     // 科目一
-                    examQuestionInfo.setExamType(BUS_ONE);
+                    examQuestionInfo.setExamType(ExamTypeEnum.BUS_ONE.getType());
                 }
                 if ("科目四".equals(questionInfo.getSubjectType())) {
                     // 科目四
-                    examQuestionInfo.setExamType(BUS_FOUR);
+                    examQuestionInfo.setExamType(ExamTypeEnum.BUS_FOUR.getType());
                 }
             } else if ("2".equals(questionInfo.getLicenseType())) {
                 // 货车 track_one
                 if ("科目一".equals(questionInfo.getSubjectType())) {
                     // 科目一
-                    examQuestionInfo.setExamType(TRACK_ONE);
+                    examQuestionInfo.setExamType(ExamTypeEnum.TRACK_ONE.getType());
                 }
                 if ("科目四".equals(questionInfo.getSubjectType())) {
                     // 科目四
-                    examQuestionInfo.setExamType(TRACK_FOUR);
+                    examQuestionInfo.setExamType(ExamTypeEnum.TRACK_FOUR.getType());
                 }
 
             } else if ("3".equals(questionInfo.getLicenseType())) {
                 // 摩托车 motorcycle_one
                 if ("科目一".equals(questionInfo.getSubjectType())) {
                     // 科目一
-                    examQuestionInfo.setExamType(MOTORCYCLE_ONE);
+                    examQuestionInfo.setExamType(ExamTypeEnum.MOTORCYCLE_ONE.getType());
                 }
                 if ("科目四".equals(questionInfo.getSubjectType())) {
                     // 科目四
-                    examQuestionInfo.setExamType(MOTORCYCLE_FOUR);
+                    examQuestionInfo.setExamType(ExamTypeEnum.MOTORCYCLE_FOUR.getType());
                 }
             }
             examQuestionInfo.setQuestion(questionInfo.getQuestion());

@@ -3,7 +3,9 @@ package com.study.city.exam.controller;
 import com.github.pagehelper.PageInfo;
 import com.study.city.annotation.LoginToken;
 import com.study.city.exam.entity.ExamPaper;
+import com.study.city.exam.entity.ExamType;
 import com.study.city.exam.entity.request.ExamPaperListRequest;
+import com.study.city.exam.enums.ExamTypeEnum;
 import com.study.city.exam.service.IExamPaperService;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
@@ -20,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Dictionary;
+import java.util.List;
 
 /**
  * (ExamPaper)考卷定义控制层
@@ -109,6 +113,20 @@ public class ExamPaperController {
     public ResponseMessage<Boolean> deleteById(Integer id) {
         logger.info("删除考卷定义! id:{}", id);
         return ResponseMessage.success(this.examPaperService.deleteById(id));
+    }
+
+    @GetMapping("/getExamType")
+    @ApiOperation(value = "查询考试类型", response = Dictionary.class)
+    @LoginToken
+    public ResponseMessage<List<ExamType>> getExamType() {
+        List<ExamType> examTypes = new ArrayList<>();
+        for (ExamTypeEnum examTypeEnum : ExamTypeEnum.values()) {
+            ExamType examType = new ExamType();
+            examType.setType(examTypeEnum.getType());
+            examType.setDesc(examTypeEnum.getDesc());
+            examTypes.add(examType);
+        }
+        return ResponseMessage.success(examTypes);
     }
 }
 
