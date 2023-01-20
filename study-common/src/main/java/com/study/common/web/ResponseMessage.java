@@ -57,6 +57,9 @@ public class ResponseMessage<T> {
         responseMessage.setErrCode(0);// 成功
         responseMessage.setErrMsg(message);
         responseMessage.setData(object);
+        if (service == null) {
+            service = "study-city";// 默认服务
+        }
         responseMessage.setService(service);
         return responseMessage;
     }
@@ -72,10 +75,6 @@ public class ResponseMessage<T> {
 
     public static ResponseMessage success(Object obj) {
         return success(obj, null, null);
-    }
-
-    public static ResponseMessage success(String message) {
-        return success(null, message, null);
     }
 
 
