@@ -1,6 +1,7 @@
 package com.study.city.exam.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.study.city.annotation.LoginToken;
 import com.study.city.exam.entity.ExamPaperDetail;
 import com.study.city.exam.entity.ExamPaperUser;
 import com.study.city.exam.entity.request.ExamPaperDetailSaveRequest;
@@ -59,6 +60,7 @@ public class ExamPaperUserController {
      */
     @PostMapping("/queryAll")
     @ApiOperation(value = "分页查询考生考卷", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<PageInfo<ExamPaperUser>> queryAll(@RequestBody ExamPaperUserListRequest examPaperUserListRequest) {
         logger.info("分页查询考生考卷! id:{}", examPaperUserListRequest.toString());
         return ResponseMessage.success(this.examPaperUserService.queryByPage(examPaperUserListRequest));
@@ -72,6 +74,7 @@ public class ExamPaperUserController {
      */
     @GetMapping("{id}")
     @ApiOperation(value = "通过主键查询单条考生考卷", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<ExamPaperUser> queryById(@PathVariable("id") Integer id) {
         logger.info("通过主键查询单条考生考卷! id:{}", id);
         return ResponseMessage.success(this.examPaperUserService.queryById(id));
@@ -85,6 +88,7 @@ public class ExamPaperUserController {
      */
     @PostMapping("/addExamPaperUser")
     @ApiOperation(value = "新增考生考卷", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<ExamPaperUser> addExamPaperUser(@RequestBody ExamPaperUser examPaperUser) {
         logger.info("新增考生考卷! 参数:{}", examPaperUser.toString());
         return ResponseMessage.success(this.examPaperUserService.insert(examPaperUser));
@@ -98,6 +102,7 @@ public class ExamPaperUserController {
      */
     @PutMapping("/editExamPaperUser")
     @ApiOperation(value = "编辑考生考卷", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<ExamPaperUser> editExamPaperUser(@RequestBody ExamPaperUser examPaperUser) {
         logger.info("编辑考生考卷! 参数:{}", examPaperUser.toString());
         return ResponseMessage.success(this.examPaperUserService.update(examPaperUser));
@@ -111,6 +116,7 @@ public class ExamPaperUserController {
      */
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "删除考生考卷", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<Boolean> deleteById(@PathVariable("id") Integer id) {
         logger.info("删除考生考卷! id:{}", id);
         return ResponseMessage.success(this.examPaperUserService.deleteById(id));
@@ -139,6 +145,7 @@ public class ExamPaperUserController {
      */
     @GetMapping("/queryPaperUserDetail")
     @ApiOperation(value = "考生试卷信息", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<ExamPaperUserResponse> queryPaperUserDetail(@RequestParam("paperUserId") Integer paperUserId) {
         logger.info("考生试卷信息! paperUserId:{}", paperUserId);
         return ResponseMessage.success(this.examPaperUserService.queryPaperUserDetail(paperUserId));
@@ -152,6 +159,7 @@ public class ExamPaperUserController {
      */
     @PostMapping("saveExamPaperDetail")
     @ApiOperation(value = "保存考试草稿", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage saveExamPaperDetail(@Valid @RequestBody ExamPaperDetailSaveRequest examPaperDetailSaveRequest) {
         logger.info("保存考试草稿! 参数:{}", examPaperDetailSaveRequest.toString());
         ExamPaperDetail examPaperDetail = new ExamPaperDetail();
@@ -169,6 +177,7 @@ public class ExamPaperUserController {
      */
     @GetMapping("submitExamPaper")
     @ApiOperation(value = "提交考试试卷", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<ExamPaperUserSubmitResponse> submitExamPaper(@RequestParam(value = "paperUserId") Integer paperUserId) {
         logger.info("提交考试试卷! paperUserId:{}", paperUserId);
         ExamPaperUserSubmitResponse examPaperUserSubmitResponse = examPaperUserService.submitExamPaper(paperUserId);

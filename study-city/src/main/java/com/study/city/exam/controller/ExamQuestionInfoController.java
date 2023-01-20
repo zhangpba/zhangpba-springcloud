@@ -1,6 +1,7 @@
 package com.study.city.exam.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.study.city.annotation.LoginToken;
 import com.study.city.exam.entity.ExamQuestionInfo;
 import com.study.city.exam.entity.request.ExamQuestionInfoRequest;
 import com.study.city.exam.service.IExamQuestionInfoService;
@@ -42,6 +43,7 @@ public class ExamQuestionInfoController {
 
     @GetMapping("/synQuestionInfo/{id}")
     @ApiOperation(value = "根据ID同步题目", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<ExamQuestionInfo> synQuestionInfo(@PathVariable("id") Integer id) {
         logger.info("根据ID同步题目! id:{}",id);
         examQuestionInfoService.synQuestionInfo(id);
@@ -50,6 +52,7 @@ public class ExamQuestionInfoController {
 
     @GetMapping("/synQuestionInfo")
     @ApiOperation(value = "同步所有题目", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<ExamQuestionInfo> synQuestionInfoAll() {
         logger.info("同步所有题目! ");
         examQuestionInfoService.synQuestionInfoAll();
@@ -64,6 +67,7 @@ public class ExamQuestionInfoController {
      */
     @PostMapping("/queryByPage")
     @ApiOperation(value = "分页查询题目", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<PageInfo<ExamQuestionInfo>> queryByPage(@RequestBody ExamQuestionInfoRequest examQuestionInfoRequest) {
         logger.info("分页查询题目! 参数:{}",examQuestionInfoRequest.toString());
         return ResponseMessage.success(this.examQuestionInfoService.queryByPage(examQuestionInfoRequest));
@@ -77,6 +81,7 @@ public class ExamQuestionInfoController {
      */
     @GetMapping("{id}")
     @ApiOperation(value = "通过主键查询单条题目", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<ExamQuestionInfo> queryById(@PathVariable("id") Integer id) {
         logger.info("通过主键查询单条题目! 参数id:{}",id);
         return ResponseMessage.success(this.examQuestionInfoService.queryById(id));
@@ -90,6 +95,7 @@ public class ExamQuestionInfoController {
      */
     @PostMapping
     @ApiOperation(value = "新增题目", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<ExamQuestionInfo> add(@RequestBody ExamQuestionInfo examQuestionInfo) {
         logger.info("新增题目! 参数:{}",examQuestionInfo.toString());
         return ResponseMessage.success(this.examQuestionInfoService.insert(examQuestionInfo));
@@ -103,6 +109,7 @@ public class ExamQuestionInfoController {
      */
     @PutMapping
     @ApiOperation(value = "编辑题目", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<ExamQuestionInfo> edit(@RequestBody ExamQuestionInfo examQuestionInfo) {
         logger.info("编辑题目! 参数:{}",examQuestionInfo.toString());
         return ResponseMessage.success(this.examQuestionInfoService.update(examQuestionInfo));
@@ -116,6 +123,7 @@ public class ExamQuestionInfoController {
      */
     @DeleteMapping
     @ApiOperation(value = "删除题目", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<Boolean> deleteById(Integer id) {
         logger.info("删除题目! 参数id:{}",id);
         return ResponseMessage.success(this.examQuestionInfoService.deleteById(id));

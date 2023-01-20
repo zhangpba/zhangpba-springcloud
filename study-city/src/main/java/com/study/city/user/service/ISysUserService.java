@@ -53,4 +53,11 @@ public interface ISysUserService {
      */
     Integer deleteById(Integer userId);
 
+    /**
+     * 登录
+     *
+     * @param sysUser 用户
+     * @return token
+     */
+    String login(SysUser sysUser);
 }

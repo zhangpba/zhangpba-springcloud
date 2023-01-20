@@ -1,6 +1,7 @@
 package com.study.city.exam.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.study.city.annotation.LoginToken;
 import com.study.city.exam.entity.ExamPaper;
 import com.study.city.exam.entity.request.ExamPaperListRequest;
 import com.study.city.exam.service.IExamPaperService;
@@ -48,6 +49,7 @@ public class ExamPaperController {
      */
     @PostMapping("/queryAll")
     @ApiOperation(value = "分页查询考卷定义", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<PageInfo<ExamPaper>> queryAll(@RequestBody ExamPaperListRequest examPaperRequest) {
         logger.info("分页查询考卷定义!");
         return ResponseMessage.success(this.examPaperService.queryByPage(examPaperRequest));
@@ -61,6 +63,7 @@ public class ExamPaperController {
      */
     @GetMapping("{id}")
     @ApiOperation(value = "通过主键查询单条考卷定义", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<ExamPaper> queryById(@PathVariable("id") Integer id) {
         logger.info("通过主键查询单条考卷定义! id:{}", id);
         return ResponseMessage.success(this.examPaperService.queryById(id));
@@ -74,6 +77,7 @@ public class ExamPaperController {
      */
     @PostMapping
     @ApiOperation(value = "新增考卷定义", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<ExamPaper> add(@RequestBody ExamPaper examPaper) {
         logger.info("新增考卷定义! 参数：{}", examPaper);
         return ResponseMessage.success(this.examPaperService.insert(examPaper));
@@ -87,6 +91,7 @@ public class ExamPaperController {
      */
     @PutMapping
     @ApiOperation(value = "编辑考卷定义", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<ExamPaper> edit(@RequestBody ExamPaper examPaper) {
         logger.info("编辑考卷定义!");
         return ResponseMessage.success(this.examPaperService.update(examPaper));
@@ -100,6 +105,7 @@ public class ExamPaperController {
      */
     @DeleteMapping
     @ApiOperation(value = "删除考卷定义", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<Boolean> deleteById(Integer id) {
         logger.info("删除考卷定义! id:{}", id);
         return ResponseMessage.success(this.examPaperService.deleteById(id));

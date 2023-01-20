@@ -25,7 +25,7 @@ public interface SysUserMapper {
     /**
      * 查询指定行数据
      *
-     * @param sysUser  查询条件
+     * @param sysUser 查询条件
      * @return 对象列表
      */
     List<SysUser> queryAll(SysUserListRequest sysUser);
@@ -78,6 +78,16 @@ public interface SysUserMapper {
      * @return 影响行数
      */
     int deleteById(Integer userId);
+
+
+    /**
+     * 登录
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return
+     */
+    SysUser login(String username, String password);
 
 }
 

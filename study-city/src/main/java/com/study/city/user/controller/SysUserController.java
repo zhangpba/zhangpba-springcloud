@@ -1,6 +1,7 @@
 package com.study.city.user.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.study.city.annotation.LoginToken;
 import com.study.city.user.entity.SysUser;
 import com.study.city.user.entity.request.SysUserListRequest;
 import com.study.city.user.service.ISysUserService;
@@ -9,7 +10,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.Dictionary;
@@ -40,6 +48,7 @@ public class SysUserController {
      */
     @PostMapping("/queryByPage")
     @ApiOperation(value = "分页查询", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<PageInfo<SysUser>> queryByPage(@RequestBody SysUserListRequest sysUserRequest) {
         logger.info("分页查询用户！");
         return ResponseMessage.success(this.sysUserService.queryByPage(sysUserRequest));
@@ -53,6 +62,7 @@ public class SysUserController {
      */
     @GetMapping("{id}")
     @ApiOperation(value = "通过主键查询单条用户数据", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<SysUser> queryById(@PathVariable("id") Integer id) {
         logger.info("通过主键查询单条用户数据！");
         return ResponseMessage.success(this.sysUserService.queryById(id));
@@ -66,6 +76,7 @@ public class SysUserController {
      */
     @PostMapping
     @ApiOperation(value = "新增用户数据", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<SysUser> add(@RequestBody SysUser sysUser) {
         logger.info("新增用户数据！");
         return ResponseMessage.success(this.sysUserService.insert(sysUser));
@@ -79,6 +90,7 @@ public class SysUserController {
      */
     @PutMapping
     @ApiOperation(value = "编辑用户数据", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<SysUser> edit(@RequestBody SysUser sysUser) {
         logger.info("编辑用户数据！");
         return ResponseMessage.success(this.sysUserService.update(sysUser));
@@ -92,9 +104,24 @@ public class SysUserController {
      */
     @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "删除用户数据", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<Boolean> deleteById(@PathVariable("id") Integer id) {
         logger.info("删除用户数据！");
         return ResponseMessage.success(this.sysUserService.deleteById(id));
+    }
+
+
+    /**
+     * 用户登录
+     *
+     * @param sysUser 实体
+     * @return token
+     */
+    @PostMapping("login")
+    @ApiOperation(value = "用户登录", response = Dictionary.class)
+    public ResponseMessage<SysUser> login(@RequestBody SysUser sysUser) {
+        logger.info("用户登录！");
+        return ResponseMessage.success(this.sysUserService.login(sysUser));
     }
 
 }

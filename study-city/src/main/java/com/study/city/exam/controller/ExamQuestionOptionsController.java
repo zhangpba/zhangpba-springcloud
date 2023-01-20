@@ -1,5 +1,6 @@
 package com.study.city.exam.controller;
 
+import com.study.city.annotation.LoginToken;
 import com.study.city.exam.entity.ExamQuestionOptions;
 import com.study.city.exam.service.IExamQuestionOptionsService;
 import com.study.common.web.ResponseMessage;
@@ -47,6 +48,7 @@ public class ExamQuestionOptionsController {
      */
     @GetMapping
     @ApiOperation(value = "查询选项", response = Dictionary.class)
+    @LoginToken
     public ResponseMessage<List<ExamQuestionOptions>> queryExamQuestionOptions(@RequestBody ExamQuestionOptions examQuestionOptions) {
         logger.info("查询选项! 参数:{}", examQuestionOptions);
         return ResponseMessage.success(this.examQuestionOptionsService.queryExamQuestionOptions(examQuestionOptions));
@@ -60,6 +62,7 @@ public class ExamQuestionOptionsController {
      */
     @ApiOperation(value = "通过主键查询单条选项", response = Dictionary.class)
     @GetMapping("{id}")
+    @LoginToken
     public ResponseMessage<ExamQuestionOptions> queryById(@PathVariable("id") Integer id) {
         logger.info("通过主键查询单条选项! 参数:{}", id);
         return ResponseMessage.success(this.examQuestionOptionsService.queryById(id));
@@ -73,6 +76,7 @@ public class ExamQuestionOptionsController {
      */
     @ApiOperation(value = "新增选项", response = Dictionary.class)
     @PostMapping
+    @LoginToken
     public ResponseMessage<ExamQuestionOptions> add(@RequestBody ExamQuestionOptions examQuestionOptions) {
         logger.info("新增选项! 参数:{}", examQuestionOptions.toString());
         return ResponseMessage.success(this.examQuestionOptionsService.insert(examQuestionOptions));
@@ -86,6 +90,7 @@ public class ExamQuestionOptionsController {
      */
     @ApiOperation(value = "编辑选项", response = Dictionary.class)
     @PutMapping
+    @LoginToken
     public ResponseMessage<ExamQuestionOptions> edit(@RequestBody ExamQuestionOptions examQuestionOptions) {
         logger.info("编辑选项! 参数:{}", examQuestionOptions.toString());
         return ResponseMessage.success(this.examQuestionOptionsService.update(examQuestionOptions));
@@ -99,10 +104,10 @@ public class ExamQuestionOptionsController {
      */
     @ApiOperation(value = "删除选项", response = Dictionary.class)
     @DeleteMapping
+    @LoginToken
     public ResponseMessage<Boolean> deleteById(Integer id) {
         logger.info("删除选项! 参数id:{}", id);
         return ResponseMessage.success(this.examQuestionOptionsService.deleteById(id));
     }
-
 }
 

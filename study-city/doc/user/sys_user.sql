@@ -12,6 +12,6 @@ CREATE TABLE `study`.`sys_user`  (
                                      `update_by` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NULL DEFAULT NULL,
                                      `create_date` timestamp(0) NULL DEFAULT NULL,
                                      `update_date` timestamp(0) NULL DEFAULT NULL,
-                                     `nickname` varchar(255) NULL COMMENT '用户昵称',
+                                     `realname` varchar(255) NULL COMMENT '真实姓名',
                                      PRIMARY KEY (`user_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_bin ROW_FORMAT = Dynamic;
