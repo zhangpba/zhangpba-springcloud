@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.study.city.data.constant.FeeApiUrl;
 import com.study.city.data.entity.email.EmailLog;
+import com.study.city.data.entity.response.LunarResponse;
+import com.study.city.data.entity.response.TianxingBaseResponse;
 import com.study.city.data.service.IEmailLogService;
 import com.study.city.data.service.IEmailService;
 import com.study.city.data.service.ITxLunarService;
@@ -13,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -162,5 +165,31 @@ public class TxLunarServiceImpl implements ITxLunarService {
         emailLog.setSendTime(new Date());
         emailLog.setCreateDate(new Date());
         emailLogService.addEmailLog(emailLog);
+    }
+
+    /**
+     * 从天行数据获取老黄历数据 2023-01-25
+     *
+     * @param day
+     * @return
+     */
+    public List<LunarResponse> getLunarResponse(String day) {
+        String url = String.format(FeeApiUrl.TIANXING_LUNAR_URL, key, day);
+        logger.info("查询{}的老黄历的请求 url：{}", day, url);
+        ResponseEntity<TianxingBaseResponse> baseResponse = null;
+        List<LunarResponse> newslist = new ArrayList<>();
+        try {
+            baseResponse = restTemplate.getForEntity(url, TianxingBaseResponse.class);
+            if (baseResponse.getStatusCode() == HttpStatus.OK) {
+                if ("200".equals(baseResponse.getBody().getCode())) {
+                    newslist = baseResponse.getBody().getNewslist();
+                }
+            }
+            logger.info("请求返回：{}", newslist);
+        } catch (Exception e) {
+            logger.error("请求报错！");
+            e.printStackTrace();
+        }
+        return newslist;
     }
 }

@@ -1,5 +1,6 @@
 package com.study.city.data.controller;
 
+import com.study.city.data.entity.response.LunarResponse;
 import com.study.city.data.service.ITxLunarService;
 import com.study.common.utils.DateUtils;
 import com.study.common.web.ResponseMessage;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.mail.MessagingException;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -52,12 +52,12 @@ public class TxLunarController {
      * @return
      */
     @ApiOperation(value = "查询中国老黄历")
-    @GetMapping(value = "/getCharacterByBrithday")
-    public ResponseMessage getCharacterByBrithday(@ApiParam(name = "day", value = "日期(格式：2022-01-01)", required = true) @RequestParam String day) {
+    @GetMapping(value = "/getLunarByday")
+    public ResponseMessage getLunarByday(@ApiParam(name = "day", value = "日期(格式：2022-01-01)", required = true) @RequestParam String day) {
         logger.info("查询中国老黄历 日:{}", day);
-        List<Map<String, Object>> mapList = lunarService.getLunar(day);
-        logger.info("查询中国老黄历:{}", mapList);
-        return ResponseMessage.success(mapList);
+        List<LunarResponse> lunarResponses = lunarService.getLunarResponse(day);
+        logger.info("查询中国老黄历:{}", lunarResponses);
+        return ResponseMessage.success(lunarResponses);
     }
 
     /**
