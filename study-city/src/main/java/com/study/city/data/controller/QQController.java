@@ -1,6 +1,6 @@
 package com.study.city.data.controller;
 
-import com.study.city.data.entity.QQResponse;
+import com.study.city.data.entity.response.QQResponse;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

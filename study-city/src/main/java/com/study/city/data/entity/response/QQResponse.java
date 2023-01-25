@@ -1,4 +1,4 @@
-package com.study.city.data.entity;
+package com.study.city.data.entity.response;
 
 import lombok.Getter;
 import lombok.Setter;
