@@ -1,5 +1,6 @@
 package com.study.city.data.controller;
 
+import com.study.city.data.entity.response.PyqResponse;
 import com.study.city.data.service.ITxPyqService;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -22,7 +24,7 @@ import java.util.Map;
  * @author zhangpba
  * @date 2022-05-13
  */
-@Api(value = "土味情话", tags = "土味情话")
+@Api(value = "天行数据-土味情话", tags = "天行数据-土味情话")
 @RestController
 @RequestMapping("/saylove")
 public class TxSayLoveController {
@@ -43,8 +45,9 @@ public class TxSayLoveController {
     @ApiOperation(value = "获取土味情话")
     @GetMapping(value = "/getPyqWenan")
     public ResponseMessage getPyqWenan() {
-        Map<String, String> map = pyqService.getSayLove();
-        return ResponseMessage.success(map);
+//        Map<String, String> map = pyqService.getSayLove();
+        List<PyqResponse> response = pyqService.sayLove();
+        return ResponseMessage.success(response);
     }
 
     /**

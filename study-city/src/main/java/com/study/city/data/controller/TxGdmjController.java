@@ -1,5 +1,6 @@
 package com.study.city.data.controller;
 
+import com.study.city.data.entity.response.PyqResponse;
 import com.study.city.data.service.ITxPyqService;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -43,8 +45,9 @@ public class TxGdmjController {
     @ApiOperation(value = "获取古典名句")
     @GetMapping(value = "/getGdmj")
     public ResponseMessage getGdmj() {
-        Map<String, String> map = pyqService.getGdmj();
-        return ResponseMessage.success(map);
+//        Map<String, String> map = pyqService.getGdmj();
+        List<PyqResponse> response = pyqService.gdmj();
+        return ResponseMessage.success(response);
     }
 
     /**

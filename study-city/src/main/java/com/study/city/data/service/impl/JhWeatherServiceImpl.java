@@ -32,6 +32,7 @@ public class JhWeatherServiceImpl implements IJhWeatherService {
     @Override
     public List<JhWeather> getWheatherByCity(String cityName) {
         String url = String.format(FeeApiUrl.JUHE_WEATHER_URL, cityName, FeeApiUrl.JUHE_WEATHER_API_KEY);
+        logger.info("获取【聚合数据-天气预报】的 url {}", url);
         String response = restTemplate.getForObject(url, String.class);
 
         List<JhWeather> list = new ArrayList<>();

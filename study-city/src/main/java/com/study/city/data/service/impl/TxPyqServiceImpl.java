@@ -4,19 +4,24 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.study.city.data.constant.FeeApiUrl;
-import com.study.city.data.service.ITxPyqService;
+import com.study.city.data.entity.response.PyqResponse;
+import com.study.city.data.entity.response.TianxingBaseResponse;
 import com.study.city.data.service.IEmailService;
+import com.study.city.data.service.ITxPyqService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -50,6 +55,7 @@ public class TxPyqServiceImpl implements ITxPyqService {
      * @return
      */
     @Override
+    @Deprecated
     public Map<String, String> getPyqWenan() {
         Map<String, String> map = getStringStringMap(FeeApiUrl.TIANXING_PYQWENAN_URL);
         map.put("desc", "朋友圈文案");
@@ -62,6 +68,7 @@ public class TxPyqServiceImpl implements ITxPyqService {
      * @return
      */
     @Override
+    @Deprecated
     public Map<String, String> getGdmj() {
         Map<String, String> map = getStringStringMap(FeeApiUrl.TIANXING_GDMJ_URL);
         map.put("desc", "古典名句");
@@ -74,6 +81,7 @@ public class TxPyqServiceImpl implements ITxPyqService {
      * @return
      */
     @Override
+    @Deprecated
     public Map<String, String> getSayLove() {
         Map<String, String> map = getStringStringMap(FeeApiUrl.TIANXING_SAYLOVE_URL);
         map.put("desc", "土味情话");
@@ -162,5 +170,36 @@ public class TxPyqServiceImpl implements ITxPyqService {
             contentBuffer.append(source);
         }
         return contentBuffer.toString();
+    }
+
+    @Override
+    public List<PyqResponse> pyqWenan() {
+        return this.gatSourceData(FeeApiUrl.TIANXING_PYQWENAN_URL);
+    }
+
+    // 获取古典名句
+    @Override
+    public List<PyqResponse> gdmj() {
+        return this.gatSourceData(FeeApiUrl.TIANXING_GDMJ_URL);
+    }
+
+    // 获取朋友圈文案
+    @Override
+    public List<PyqResponse> sayLove() {
+        return this.gatSourceData(FeeApiUrl.TIANXING_SAYLOVE_URL);
+    }
+
+    private List<PyqResponse> gatSourceData(String feeApiUrl) {
+        String url = String.format(feeApiUrl, key);
+        PyqResponse response = null;
+        ResponseEntity<TianxingBaseResponse> baseResponse = restTemplate.getForEntity(url, TianxingBaseResponse.class);
+        logger.info("获取天行数据请求 url：{}", url);
+        List<PyqResponse> newslist = new ArrayList<>();
+        if (baseResponse.getStatusCode() == HttpStatus.OK) {
+            if ("200".equals(baseResponse.getBody().getCode())) {
+                newslist = baseResponse.getBody().getNewslist();
+            }
+        }
+        return newslist;
     }
 }
