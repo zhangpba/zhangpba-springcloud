@@ -16,15 +16,18 @@ import org.apache.http.message.BasicHeader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -69,6 +72,8 @@ public class RestTemplateConfig {
         restTemplate.getMessageConverters().add(new StringHttpMessageConverter(Charset.forName("utf-8")));
 
         restTemplate.getMessageConverters().set(1, new StringHttpMessageConverter(StandardCharsets.UTF_8));
+        // 手动添加text/plan,text/html格式
+        restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter());
         return restTemplate;
     }
 
@@ -111,5 +116,15 @@ public class RestTemplateConfig {
                 // 重试次数，默认是3次，没有开启
                 .setRetryHandler(new DefaultHttpRequestRetryHandler(2, true))
                 .build();
+    }
+
+
+    // 手动添加text/plan,text/html格式
+    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+        MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
+        mappingJackson2HttpMessageConverter.setSupportedMediaTypes(Arrays.asList(
+                MediaType.TEXT_HTML,
+                MediaType.TEXT_PLAIN));
+        return mappingJackson2HttpMessageConverter;
     }
 }

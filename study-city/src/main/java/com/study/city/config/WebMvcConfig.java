@@ -34,6 +34,19 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/weather/**")
                 .addPathPatterns("/gold/**")
                 .addPathPatterns("/area/**")    // 拦截的路径
+                .addPathPatterns("/qq/**")
+                .addPathPatterns("/jh-weather/**")
+                .addPathPatterns("/remind/**")
+                .addPathPatterns("/character/**")
+                .addPathPatterns("/gdmj/**")
+                .addPathPatterns("/lunar/**")
+                .addPathPatterns("/one-day/**")
+                .addPathPatterns("/pyq/**")
+                .addPathPatterns("/quname/**")
+                .addPathPatterns("/saylove/**")
+                .addPathPatterns("/dict/**")
+                .addPathPatterns("/config/**")
+                .addPathPatterns("/config/**")
                 .excludePathPatterns("/swagger-ui.html"); // 不拦截的路径
 
         // 拦截所有请求，通过判断是否有 @LoginRequired 注解 决定是否需要登录

@@ -1,9 +1,6 @@
 package com.study.city.data.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.study.city.utils.RestTemplateUtils;
+import com.study.city.data.entity.QQResponse;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,11 +8,13 @@ import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * @author zhangpba
@@ -29,7 +28,7 @@ public class QQController {
     private static final Logger logger = LoggerFactory.getLogger(QQController.class);
 
     @Autowired
-    private RestTemplateUtils restTemplateUtils;
+    private RestTemplate restTemplate;
 
     /**
      * 查询当日黄金
@@ -41,27 +40,18 @@ public class QQController {
     @GetMapping(value = "/getQQInfo")
     public ResponseMessage getQQInfo(@ApiParam(name = "QQ", value = "QQ号码", required = true) @RequestParam String QQ) {
         String url = "https://v.api.aa1.cn/api/qqjson/index.php?qq=" + QQ;
-
-        ResponseEntity<String> response = restTemplateUtils.get(url, String.class);
-        String body = response.getBody();
-        String[] strings = body.split("JSON数据：");
-        String result = strings[1];
-
-        logger.info(result);
-        JSONArray jsonArray = (JSONArray) JSON.parse(result);
-        for (Object object : jsonArray) {
-            JSONObject QQObject = (JSONObject) object;
-            logger.info(QQObject.toJSONString());
-            String touxiang = QQObject.getString("touxiang");
-            String nickname = QQObject.getString("nickname");
-            String email = QQObject.getString("email");
-
-            logger.info("touxiang:{}", touxiang);
-            logger.info("nickname:{}", nickname);
-            logger.info("email:{}", email);
-
+        ResponseEntity<QQResponse> response = null;
+        try {
+            response = restTemplate.getForEntity(url, QQResponse.class);
+            HttpStatus httpStatus = response.getStatusCode();
+            QQResponse qqResponse = null;
+            if (httpStatus == HttpStatus.OK) {
+                qqResponse = response.getBody();
+            }
+            return ResponseMessage.success(qqResponse);
+        } catch (Exception e) {
+            logger.info("查询QQ信息异常！");
+            return ResponseMessage.success("查询QQ信息异常！");
         }
-        return ResponseMessage.success(jsonArray);
     }
-
 }
