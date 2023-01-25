@@ -1,15 +1,18 @@
 package com.study.city.interceptor;
 
+import com.study.city.base.ResponseEnum;
 import com.study.common.utils.IpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -47,16 +50,22 @@ public class VisitorInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        logger.info("拦截器 获取控制器的名称：{}", handler);
+        String handlerName = ((HandlerMethod) handler).getBean().getClass().getName();
+        String methodName = ((HandlerMethod) handler).getMethod().getName();
+        logger.info("拦截器 请求控制器【{}】的方法名【{}】", handlerName, methodName);
         if (!checkIp(request)) {
             return true;
         } else {
+            response.setStatus(ResponseEnum.ERROR_403.getCode());
+            response.setCharacterEncoding(StandardCharsets.UTF_8.displayName());
+            response.setContentType("application/json; charset=utf-8");
+            response.getWriter().write("您的IP在黑名单内，请联系系统管理员！");
             return false;
         }
     }
 
     /**
-     * 校验是ip是否在和名单内
+     * 校验是ip是否在和黑名单内
      *
      * @param request web请求
      * @return
@@ -64,7 +73,7 @@ public class VisitorInterceptor implements HandlerInterceptor {
     public boolean checkIp(HttpServletRequest request) {
         AtomicBoolean isIp = new AtomicBoolean(false);
         String requestIp = IpUtils.getRequestIp(request);
-        logger.info("访问 ip：{}", requestIp);
+        logger.info("来访IP：{}", requestIp);
         String[] ips = ipBlacklist.split(",");
         Arrays.asList(ips).forEach(ip -> {
             if (ip.equals(requestIp)) {
@@ -77,6 +86,9 @@ public class VisitorInterceptor implements HandlerInterceptor {
         return isIp.get();
     }
 
+    // preHandle：在业务处理器处理请求之前被调用。预处理，可以进行编码、安全控制、权限校验等处理；
+    // postHandle：在业务处理器处理请求执行完成后，生成视图之前执行。后处理（调用了Service并返回ModelAndView，但未进行页面渲染），有机会修改ModelAndView；
+    // afterCompletion：在DispatcherServlet完全处理完请求后被调用，可用于清理资源等。返回处理（已经渲染了页面）；
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
