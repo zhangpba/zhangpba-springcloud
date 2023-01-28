@@ -10,7 +10,7 @@ import com.study.city.user.entity.request.SysRoleListRequest;
  * @author zhangpba
  * @since 2023-01-12 19:17:02
  */
-public interface SysRoleService {
+public interface ISysRoleService {
 
     /**
      * 通过ID查询单条数据

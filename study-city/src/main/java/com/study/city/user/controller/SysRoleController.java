@@ -3,7 +3,7 @@ package com.study.city.user.controller;
 import com.github.pagehelper.PageInfo;
 import com.study.city.user.entity.SysRole;
 import com.study.city.user.entity.request.SysRoleListRequest;
-import com.study.city.user.service.SysRoleService;
+import com.study.city.user.service.ISysRoleService;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,7 +38,7 @@ public class SysRoleController {
      * 服务对象
      */
     @Resource
-    private SysRoleService sysRoleService;
+    private ISysRoleService sysRoleService;
 
     /**
      * 分页查询角色
@@ -72,7 +72,7 @@ public class SysRoleController {
      * @param sysRole 实体
      * @return 新增结果
      */
-    @PostMapping
+    @PostMapping("/add")
     @ApiOperation(value = "新增角色", response = Dictionary.class)
     public ResponseMessage<SysRole> add(@RequestBody SysRole sysRole) {
         logger.info("新增角色！");
@@ -85,7 +85,7 @@ public class SysRoleController {
      * @param sysRole 实体
      * @return 编辑结果
      */
-    @PutMapping
+    @PutMapping("/eidt")
     @ApiOperation(value = "编辑角色", response = Dictionary.class)
     public ResponseMessage<SysRole> edit(@RequestBody SysRole sysRole) {
         logger.info("编辑角色！");

@@ -3,6 +3,7 @@ package com.study.city.user.controller;
 import com.github.pagehelper.PageInfo;
 import com.study.city.annotation.LoginToken;
 import com.study.city.user.entity.SysUser;
+import com.study.city.user.entity.request.SysUserCreateRequest;
 import com.study.city.user.entity.request.SysUserListRequest;
 import com.study.city.user.service.ISysUserService;
 import com.study.common.web.ResponseMessage;
@@ -71,15 +72,15 @@ public class SysUserController {
     /**
      * 新增数据
      *
-     * @param sysUser 实体
+     * @param sysUserCreateRequest 实体
      * @return 新增结果
      */
-    @PostMapping
-    @ApiOperation(value = "新增用户数据", response = Dictionary.class)
+    @PostMapping("/add")
+    @ApiOperation(value = "新增用户", response = Dictionary.class)
     @LoginToken
-    public ResponseMessage<SysUser> add(@RequestBody SysUser sysUser) {
-        logger.info("新增用户数据！");
-        return ResponseMessage.success(this.sysUserService.insert(sysUser));
+    public ResponseMessage<SysUser> add(@RequestBody SysUserCreateRequest sysUserCreateRequest) {
+        logger.info("新增用户！");
+        return ResponseMessage.success(this.sysUserService.insert(sysUserCreateRequest));
     }
 
     /**
@@ -88,11 +89,11 @@ public class SysUserController {
      * @param sysUser 实体
      * @return 编辑结果
      */
-    @PutMapping
-    @ApiOperation(value = "编辑用户数据", response = Dictionary.class)
+    @PutMapping("/eidt")
+    @ApiOperation(value = "编辑用户", response = Dictionary.class)
     @LoginToken
     public ResponseMessage<SysUser> edit(@RequestBody SysUser sysUser) {
-        logger.info("编辑用户数据！");
+        logger.info("编辑用户！");
         return ResponseMessage.success(this.sysUserService.update(sysUser));
     }
 
@@ -106,7 +107,7 @@ public class SysUserController {
     @ApiOperation(value = "删除用户数据", response = Dictionary.class)
     @LoginToken
     public ResponseMessage<Boolean> deleteById(@PathVariable("id") Integer id) {
-        logger.info("删除用户数据！");
+        logger.info("删除用户！");
         return ResponseMessage.success(this.sysUserService.deleteById(id));
     }
 

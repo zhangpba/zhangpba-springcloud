@@ -1,8 +1,6 @@
 package com.study.city.data.service.impl;
 
-import com.study.city.data.entity.Dict;
 import com.study.city.data.entity.weather.JhWeather;
-import com.study.city.data.service.IDictService;
 import com.study.city.data.service.IEmailService;
 import com.study.city.data.service.IJhWeatherService;
 import com.study.city.data.service.IRemindService;
@@ -30,9 +28,6 @@ public class RemindServiceImpl implements IRemindService {
 
     @Autowired
     private ITxLunarService txLunarService;
-
-    @Autowired
-    private IDictService dictService;
 
     // 朋友圈文案需要发送的人
     @Value("${spring.mail.send.remind.users}")
@@ -269,18 +264,18 @@ public class RemindServiceImpl implements IRemindService {
         List<String> list = DateUtils.getAfterDays(new Date(), 30);
         String dictType = "yoyo";
         String content = null;
-        for (int i = 0; i < list.size(); i++) {
-            Dict d = new Dict();
-            d.setDictType(dictType);
-            d.setDictCode(list.get(i));
-            Dict dict = dictService.query(d);
-            if (dict != null && i == 0) {
-                content = "今天是咱们" + dictType + "的" + dict.getDictName();
-            }
-            if (dict != null && i != 0) {
-                content = "距离咱们" + dictType + "的" + dict.getDictName() + "还有" + i + "天";
-            }
-        }
+//        for (int i = 0; i < list.size(); i++) {
+//            Dict d = new Dict();
+//            d.setDictType(dictType);
+//            d.setDictCode(list.get(i));
+//            Dict dict = dictService.query(d);
+//            if (dict != null && i == 0) {
+//                content = "今天是咱们" + dictType + "的" + dict.getDictName();
+//            }
+//            if (dict != null && i != 0) {
+//                content = "距离咱们" + dictType + "的" + dict.getDictName() + "还有" + i + "天";
+//            }
+//        }
         logger.info("获取配置库中的邮件内容: {}", content);
         return content;
     }

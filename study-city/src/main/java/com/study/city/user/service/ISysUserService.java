@@ -2,7 +2,9 @@ package com.study.city.user.service;
 
 
 import com.github.pagehelper.PageInfo;
+import com.study.city.user.entity.LoginResponse;
 import com.study.city.user.entity.SysUser;
+import com.study.city.user.entity.request.SysUserCreateRequest;
 import com.study.city.user.entity.request.SysUserListRequest;
 
 /**
@@ -32,10 +34,10 @@ public interface ISysUserService {
     /**
      * 新增数据
      *
-     * @param sysUser 实例对象
+     * @param sysUserCreateRequest 实例对象
      * @return 实例对象
      */
-    SysUser insert(SysUser sysUser);
+    SysUser insert(SysUserCreateRequest sysUserCreateRequest);
 
     /**
      * 修改数据
@@ -59,5 +61,5 @@ public interface ISysUserService {
      * @param sysUser 用户
      * @return token
      */
-    String login(SysUser sysUser);
+    LoginResponse login(SysUser sysUser);
 }

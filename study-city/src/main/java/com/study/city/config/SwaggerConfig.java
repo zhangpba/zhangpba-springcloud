@@ -65,6 +65,17 @@ public class SwaggerConfig {
                 .paths(PathSelectors.ant("/**")).build();
     }
 
+    @Bean
+    public Docket dictApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName("公共字典管理")
+                .apiInfo(apiInfo())
+                .enable(true)//是否启用swagger
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("com.study.city.common.controller"))
+                .paths(PathSelectors.ant("/**")).build();
+    }
+
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("城市服务接口 文档") // 文档标题

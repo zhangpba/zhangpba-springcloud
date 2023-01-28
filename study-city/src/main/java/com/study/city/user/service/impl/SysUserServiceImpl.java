@@ -3,15 +3,24 @@ package com.study.city.user.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.study.city.config.exception.CustomException;
+import com.study.city.user.entity.LoginResponse;
 import com.study.city.user.entity.SysUser;
+import com.study.city.user.entity.SysUserRole;
+import com.study.city.user.entity.request.SysRoleListRequest;
+import com.study.city.user.entity.request.SysUserCreateRequest;
 import com.study.city.user.entity.request.SysUserListRequest;
 import com.study.city.user.mapper.SysUserMapper;
+import com.study.city.user.mapper.SysUserRoleMapper;
 import com.study.city.user.service.ISysUserService;
 import com.study.city.utils.RedisUtils;
 import com.study.city.utils.TokenUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -24,7 +33,10 @@ import java.util.concurrent.TimeUnit;
 @Service("sysUserService")
 public class SysUserServiceImpl implements ISysUserService {
     @Resource
-    private SysUserMapper sysUserDao;
+    private SysUserMapper sysUserMapper;
+
+    @Resource
+    private SysUserRoleMapper sysUserRoleMapper;
 
     @Resource
     RedisUtils redisUtils;
@@ -37,7 +49,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public SysUser queryById(Integer userId) {
-        return this.sysUserDao.queryById(userId);
+        return this.sysUserMapper.queryById(userId);
     }
 
     /**
@@ -50,7 +62,7 @@ public class SysUserServiceImpl implements ISysUserService {
     public PageInfo<SysUser> queryByPage(SysUserListRequest sysUserRequest) {
 
         PageHelper.startPage(sysUserRequest.getPageNum(), sysUserRequest.getPageSize());
-        List<SysUser> sysUsers = this.sysUserDao.queryAll(sysUserRequest);
+        List<SysUser> sysUsers = this.sysUserMapper.queryAll(sysUserRequest);
         PageInfo<SysUser> pageInfo = new PageInfo<>(sysUsers);
         return pageInfo;
     }
@@ -58,12 +70,38 @@ public class SysUserServiceImpl implements ISysUserService {
     /**
      * 新增数据
      *
-     * @param sysUser 实例对象
+     * @param sysUserCreateRequest 实例对象
      * @return 实例对象
      */
     @Override
-    public SysUser insert(SysUser sysUser) {
-        this.sysUserDao.insert(sysUser);
+    @Transactional
+    public SysUser insert(SysUserCreateRequest sysUserCreateRequest) {
+        // 插入用户信息
+        SysUser sysUser = new SysUser();
+        BeanUtils.copyProperties(sysUserCreateRequest, sysUser);
+        this.sysUserMapper.insert(sysUser);
+
+        // 插入角色信息
+        List<SysRoleListRequest> sysRoleList = sysUserCreateRequest.getRoleList();
+        Integer userId = sysUser.getUserId();
+        List<SysUserRole> sysUserRoleList = new ArrayList<>();
+        if (!CollectionUtils.isEmpty(sysRoleList)) {
+            for (SysRoleListRequest sysRole : sysRoleList) {
+                if (sysRole.getRoleId() != null) {
+                    SysUserRole sysUserRole = new SysUserRole();
+                    sysUserRole.setUserId(userId);
+                    sysUserRole.setRoleId(sysRole.getRoleId());
+                    sysUserRoleList.add(sysUserRole);
+                }
+            }
+        } else {
+            // 默认为考生
+            SysUserRole sysUserRole = new SysUserRole();
+            sysUserRole.setUserId(userId);
+            sysUserRole.setRoleId(2L);
+            sysUserRoleList.add(sysUserRole);
+        }
+        sysUserRoleMapper.insertBatch(sysUserRoleList);
         return sysUser;
     }
 
@@ -75,7 +113,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public SysUser update(SysUser sysUser) {
-        this.sysUserDao.update(sysUser);
+        this.sysUserMapper.update(sysUser);
         return this.queryById(sysUser.getUserId());
     }
 
@@ -87,7 +125,7 @@ public class SysUserServiceImpl implements ISysUserService {
      */
     @Override
     public Integer deleteById(Integer userId) {
-        return this.sysUserDao.deleteById(userId);
+        return this.sysUserMapper.deleteById(userId);
     }
 
     /**
@@ -97,7 +135,7 @@ public class SysUserServiceImpl implements ISysUserService {
      * @return token
      */
     @Override
-    public String login(SysUser sysUser) {
+    public LoginResponse login(SysUser sysUser) {
         String token = null;
         String username = sysUser.getUsername();
         String password = sysUser.getPassword();
@@ -108,14 +146,18 @@ public class SysUserServiceImpl implements ISysUserService {
             throw new CustomException(401, "用户密码不能为空，请重新登录");
         }
         // 判断数据库中是否有该用户
-        SysUser user = sysUserDao.login(username, password);
+        SysUser user = sysUserMapper.login(username, password);
         if (user == null) {
             throw new CustomException(401, "用户不存在，请重新登录");
         }
         // 先去缓存中看一下是否有token
         token = TokenUtils.getToken(username, password);
 //        token = getString(username, password);
-        return token;
+
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setToken(token);
+        loginResponse.setUsername(sysUser.getUsername());
+        return loginResponse;
     }
 
     // 加入redis组件，如果用到这个方法，需要加入redis组件

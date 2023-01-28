@@ -5,7 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.study.city.user.entity.SysRole;
 import com.study.city.user.entity.request.SysRoleListRequest;
 import com.study.city.user.mapper.SysRoleMapper;
-import com.study.city.user.service.SysRoleService;
+import com.study.city.user.service.ISysRoleService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,7 +18,7 @@ import java.util.List;
  * @since 2023-01-12 19:17:06
  */
 @Service("sysRoleService")
-public class SysRoleServiceImpl implements SysRoleService {
+public class SysRoleServiceImpl implements ISysRoleService {
     @Resource
     private SysRoleMapper sysRoleDao;
 

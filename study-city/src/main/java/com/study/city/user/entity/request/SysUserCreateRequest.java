@@ -1,10 +1,12 @@
 package com.study.city.user.entity.request;
 
+import com.study.city.user.entity.SysRole;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 新增用户-实体类
@@ -20,8 +22,8 @@ public class SysUserCreateRequest implements Serializable {
     @ApiModelProperty(value = "用户名")
     private String username;
 
-    @ApiModelProperty(value = "用户昵称")
-    private String nickname;
+    @ApiModelProperty(value = "真实姓名")
+    private String realname;
 
     @ApiModelProperty(value = "密码")
     private String password;
@@ -43,5 +45,8 @@ public class SysUserCreateRequest implements Serializable {
 
     @ApiModelProperty(value = "性别")
     private Integer sex;
+
+    @ApiModelProperty(value = "角色列表")
+    private List<SysRoleListRequest> roleList;
 }
 
