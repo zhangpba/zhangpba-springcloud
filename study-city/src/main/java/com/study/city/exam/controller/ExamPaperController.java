@@ -79,7 +79,7 @@ public class ExamPaperController {
      * @param examPaper 实体
      * @return 新增结果
      */
-    @PostMapping
+    @PostMapping("/add")
     @ApiOperation(value = "新增考卷定义", response = Dictionary.class)
     @LoginToken
     public ResponseMessage<ExamPaper> add(@RequestBody ExamPaper examPaper) {
@@ -93,7 +93,7 @@ public class ExamPaperController {
      * @param examPaper 实体
      * @return 编辑结果
      */
-    @PutMapping
+    @PutMapping("/edit")
     @ApiOperation(value = "编辑考卷定义", response = Dictionary.class)
     @LoginToken
     public ResponseMessage<ExamPaper> edit(@RequestBody ExamPaper examPaper) {
@@ -107,10 +107,10 @@ public class ExamPaperController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+    @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "删除考卷定义", response = Dictionary.class)
     @LoginToken
-    public ResponseMessage<Boolean> deleteById(Integer id) {
+    public ResponseMessage<Boolean> deleteById(@PathVariable("id")Integer id) {
         logger.info("删除考卷定义! id:{}", id);
         return ResponseMessage.success(this.examPaperService.deleteById(id));
     }

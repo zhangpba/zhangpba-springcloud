@@ -73,7 +73,7 @@ public class TokenUtils {
     /**
      * @param token 需要校验的串
      * @return
-     * @desc 验证token，通过返回true
+     * @desc 从token中获取对象信息，通过返回true
      */
     public static SysUser verifyUser(String token) {
         SysUser sysUser = new SysUser();

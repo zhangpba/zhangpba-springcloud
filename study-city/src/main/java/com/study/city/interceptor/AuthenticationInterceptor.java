@@ -4,9 +4,8 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.study.city.annotation.LoginToken;
 import com.study.city.annotation.PassToken;
 import com.study.city.config.exception.CustomException;
-import com.study.city.user.entity.SysUser;
-import com.study.city.user.mapper.SysUserMapper;
 import com.study.city.utils.TokenUtils;
+import com.study.common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -14,7 +13,6 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
@@ -29,13 +27,11 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     private static final Logger logger = LoggerFactory.getLogger(TokenUtils.class);
 
-    @Resource
-    private SysUserMapper sysUserMapper;
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 从http请求头中取出token
-        String token = request.getParameter(TokenUtils.TOKEN_NAME);
+        String token = request.getHeader(TokenUtils.TOKEN_NAME);
+//        String token = request.getParameter(TokenUtils.TOKEN_NAME);
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {
             return true;
@@ -54,23 +50,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             LoginToken userLoginToken = method.getAnnotation(LoginToken.class);
             if (userLoginToken.required()) {
                 // 执行认证
-                if (token == null) {
-                    throw new CustomException(401, "无token，请重新登录");
+                if (StringUtils.isEmpty(token)) {
+                    throw new CustomException(401, "无token，请重新登录获取token");
                 }
-                // 获取token中的username password
-                SysUser sysUser;
                 try {
-                    sysUser = TokenUtils.verifyUser(token);
+                    return TokenUtils.verify(token);
                 } catch (JWTDecodeException j) {
                     throw new CustomException(401, "验证失败");
                 }
-
-                // 生成token的时候已经查过库，用户名和密码是存在且正确的，不需要进行二次查询了
-//                SysUser user = sysUserMapper.login(sysUser.getUsername(), sysUser.getPassword());
-//                if (user == null) {
-//                    throw new CustomException(401, "用户不存在，请重新登录");
-//                }
-                return true;
             }
         }
         return true;

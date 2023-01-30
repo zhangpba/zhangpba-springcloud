@@ -87,9 +87,9 @@ public class DictTypeController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "删除字典类型")
-    public ResponseMessage<Boolean> deleteById(Long id) {
+    public ResponseMessage<Boolean> deleteById(@PathVariable("id")Long id) {
         return ResponseMessage.success(this.dictTypeService.deleteById(id));
     }
 }

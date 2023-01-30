@@ -63,7 +63,7 @@ public class DictDataController {
      * @param dictData 实体
      * @return 新增结果
      */
-    @PostMapping
+    @PostMapping("/add")
     @ApiOperation(value = "新增字典数据")
     public ResponseMessage<DictData> add(DictData dictData) {
         return ResponseMessage.success(this.dictDataService.insert(dictData));
@@ -75,7 +75,7 @@ public class DictDataController {
      * @param dictData 实体
      * @return 编辑结果
      */
-    @PutMapping
+    @PutMapping("/edit")
     @ApiOperation(value = "编辑字典数据")
     public ResponseMessage<DictData> edit(DictData dictData) {
         return ResponseMessage.success(this.dictDataService.update(dictData));
@@ -87,9 +87,9 @@ public class DictDataController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+    @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "编辑字典数据")
-    public ResponseMessage<Boolean> deleteById(Long id) {
+    public ResponseMessage<Boolean> deleteById(@PathVariable("id")Long id) {
         return ResponseMessage.success(this.dictDataService.deleteById(id));
     }
 

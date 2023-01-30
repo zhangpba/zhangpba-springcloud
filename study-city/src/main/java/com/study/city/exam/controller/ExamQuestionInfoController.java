@@ -93,7 +93,7 @@ public class ExamQuestionInfoController {
      * @param examQuestionInfo 实体
      * @return 新增结果
      */
-    @PostMapping
+    @PostMapping("/add")
     @ApiOperation(value = "新增题目", response = Dictionary.class)
     @LoginToken
     public ResponseMessage<ExamQuestionInfo> add(@RequestBody ExamQuestionInfo examQuestionInfo) {
@@ -107,7 +107,7 @@ public class ExamQuestionInfoController {
      * @param examQuestionInfo 实体
      * @return 编辑结果
      */
-    @PutMapping
+    @PutMapping("/edit")
     @ApiOperation(value = "编辑题目", response = Dictionary.class)
     @LoginToken
     public ResponseMessage<ExamQuestionInfo> edit(@RequestBody ExamQuestionInfo examQuestionInfo) {
@@ -121,10 +121,10 @@ public class ExamQuestionInfoController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+    @DeleteMapping("/delete/{id}")
     @ApiOperation(value = "删除题目", response = Dictionary.class)
     @LoginToken
-    public ResponseMessage<Boolean> deleteById(Integer id) {
+    public ResponseMessage<Boolean> deleteById(@PathVariable("id")Integer id) {
         logger.info("删除题目! 参数id:{}",id);
         return ResponseMessage.success(this.examQuestionInfoService.deleteById(id));
     }

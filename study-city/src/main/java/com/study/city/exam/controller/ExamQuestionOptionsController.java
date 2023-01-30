@@ -75,7 +75,7 @@ public class ExamQuestionOptionsController {
      * @return 新增结果
      */
     @ApiOperation(value = "新增选项", response = Dictionary.class)
-    @PostMapping
+    @PostMapping("/add")
     @LoginToken
     public ResponseMessage<ExamQuestionOptions> add(@RequestBody ExamQuestionOptions examQuestionOptions) {
         logger.info("新增选项! 参数:{}", examQuestionOptions.toString());
@@ -89,7 +89,7 @@ public class ExamQuestionOptionsController {
      * @return 编辑结果
      */
     @ApiOperation(value = "编辑选项", response = Dictionary.class)
-    @PutMapping
+    @PutMapping("/edit")
     @LoginToken
     public ResponseMessage<ExamQuestionOptions> edit(@RequestBody ExamQuestionOptions examQuestionOptions) {
         logger.info("编辑选项! 参数:{}", examQuestionOptions.toString());
@@ -103,9 +103,9 @@ public class ExamQuestionOptionsController {
      * @return 删除是否成功
      */
     @ApiOperation(value = "删除选项", response = Dictionary.class)
-    @DeleteMapping
+    @DeleteMapping("/delete/{id}")
     @LoginToken
-    public ResponseMessage<Boolean> deleteById(Integer id) {
+    public ResponseMessage<Boolean> deleteById(@PathVariable("id") Integer id) {
         logger.info("删除选项! 参数id:{}", id);
         return ResponseMessage.success(this.examQuestionOptionsService.deleteById(id));
     }

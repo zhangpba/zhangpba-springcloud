@@ -30,7 +30,7 @@
     <!--查询指定行数据-->
     <select id="queryAll" resultMap="SysUserMap">
         select
-          user_id, username, nickname, password, age, email, phone, address, birthday, sex, create_by, update_by, create_date, update_date
+          user_id, username, realname, password, age, email, phone, address, birthday, sex, create_by, update_by, create_date, update_date
         from sys_user
         <where>
             <if test="userId != null">
