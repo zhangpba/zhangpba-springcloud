@@ -4,9 +4,6 @@ import com.study.city.common.entity.DictData;
 import com.study.city.common.mapper.DictDataMapper;
 import com.study.city.common.service.IDictDataService;
 import org.springframework.stereotype.Service;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -41,7 +38,7 @@ public class DictDataServiceImpl implements IDictDataService {
      * @return
      */
     @Override
-    public List<DictData> getDataByDictType(String dictType){
+    public List<DictData> getDataByDictType(String dictType) {
         DictData dictData = new DictData();
         dictData.setDictType(dictType);
         return dictDataMapper.queryAll(dictData);
