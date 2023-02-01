@@ -125,5 +125,17 @@ public class SysUserController {
         return ResponseMessage.success(this.sysUserService.login(sysUser));
     }
 
+    /**
+     * todo 用户退出登录
+     *
+     * @param sysUser 实体
+     * @return token
+     */
+    @PostMapping("logOut")
+    @ApiOperation(value = "退出登录", response = Dictionary.class)
+    public ResponseMessage<SysUser> logOut(@RequestBody SysUser sysUser) {
+        logger.info("退出登录！");
+        return ResponseMessage.success(this.sysUserService.logOut(sysUser));
+    }
 }
 

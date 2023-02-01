@@ -2,7 +2,7 @@ package com.study.city.user.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.study.city.config.exception.CustomException;
+import com.study.city.exception.CustomException;
 import com.study.city.user.entity.LoginResponse;
 import com.study.city.user.entity.SysUser;
 import com.study.city.user.entity.SysUserRole;
@@ -174,5 +174,24 @@ public class SysUserServiceImpl implements ISysUserService {
             redisUtils.set(tokenKey, token, 30L, TimeUnit.MINUTES);
         }
         return token;
+    }
+
+    /**
+     * 退出登录
+     *
+     * @param sysUser 用户
+     * @return token
+     */
+    public String logOut(SysUser sysUser) {
+        String tokenKey = TokenUtils.TOKEN_NAME + ":" + sysUser.getUsername();
+        try {
+            if (redisUtils.get(tokenKey) != null) {
+                redisUtils.remove(tokenKey);
+            }
+            return sysUser.getUsername() + "退出登录!";
+        } catch (Exception e) {
+//            throw new CustomException(401, "退出失败！");
+        }
+        return sysUser.getUsername() + "退出登录!";
     }
 }

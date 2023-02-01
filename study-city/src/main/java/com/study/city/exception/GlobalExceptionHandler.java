@@ -1,4 +1,4 @@
-package com.study.city.config.exception;
+package com.study.city.exception;
 
 import com.study.city.base.ResponseEnum;
 import com.study.common.web.ResponseMessage;

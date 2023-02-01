@@ -62,4 +62,12 @@ public interface ISysUserService {
      * @return token
      */
     LoginResponse login(SysUser sysUser);
+
+    /**
+     * 退出登录
+     *
+     * @param sysUser 用户
+     * @return token
+     */
+    String logOut(SysUser sysUser);
 }
