@@ -1,6 +1,6 @@
-package com.study.city.exception;
+package com.study.common.exception;
 
-import com.study.city.base.ResponseEnum;
+import com.study.common.web.ResponseEnum;
 import lombok.Getter;
 
 /**

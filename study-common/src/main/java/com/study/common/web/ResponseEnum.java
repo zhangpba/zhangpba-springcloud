@@ -1,4 +1,4 @@
-package com.study.city.base;
+package com.study.common.web;
 
 import lombok.Getter;
 
@@ -11,7 +11,7 @@ import lombok.Getter;
 public enum ResponseEnum {
 
     // 返回值枚举
-    SUCCESS(200, "操作成功！"),
+    SUCCESS(0, "操作成功！"),
     FAIL(-1, "失败！"),
     ERROR_400(400, "错误的请求！"),
     ERROR_404(404, "访问资源不存在！"),

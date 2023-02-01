@@ -34,8 +34,6 @@ public class ResponseMessage<T> {
     @ApiModelProperty(value = "具体的信息内容")
     private T data;
 
-    private Long requestId = 0L;
-
     public ResponseMessage() {
 
     }
@@ -54,7 +52,7 @@ public class ResponseMessage<T> {
 
     public static ResponseMessage success(Object object, String message, String service) {
         ResponseMessage<Object> responseMessage = new ResponseMessage<>();
-        responseMessage.setErrCode(0);// 成功
+        responseMessage.setErrCode(ResponseEnum.SUCCESS.getCode());// 成功
         responseMessage.setErrMsg(message);
         responseMessage.setData(object);
         if (service == null) {
@@ -96,7 +94,7 @@ public class ResponseMessage<T> {
 
     public static ResponseMessage error(String message) {
         ResponseMessage responseMessage = new ResponseMessage();
-        responseMessage.setErrCode(-1);
+        responseMessage.setErrCode(ResponseEnum.FAIL.getCode());
         responseMessage.setErrMsg(message);
         return responseMessage;
     }

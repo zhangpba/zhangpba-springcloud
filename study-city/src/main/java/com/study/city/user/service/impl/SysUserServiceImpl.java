@@ -2,7 +2,7 @@ package com.study.city.user.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.study.city.exception.CustomException;
+import com.study.common.exception.CustomException;
 import com.study.city.user.entity.LoginResponse;
 import com.study.city.user.entity.SysUser;
 import com.study.city.user.entity.SysUserRole;

@@ -3,7 +3,7 @@ package com.study.city.interceptor;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.study.city.annotation.LoginToken;
 import com.study.city.annotation.PassToken;
-import com.study.city.exception.CustomException;
+import com.study.common.exception.CustomException;
 import com.study.city.utils.TokenUtils;
 import com.study.common.utils.StringUtils;
 import org.slf4j.Logger;

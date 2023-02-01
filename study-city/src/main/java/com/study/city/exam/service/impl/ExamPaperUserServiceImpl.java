@@ -2,7 +2,7 @@ package com.study.city.exam.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.study.city.exception.CustomException;
+import com.study.common.exception.CustomException;
 import com.study.city.exam.entity.ExamPaper;
 import com.study.city.exam.entity.ExamPaperDetail;
 import com.study.city.exam.entity.ExamPaperUser;

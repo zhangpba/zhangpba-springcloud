@@ -1,6 +1,6 @@
 package com.study.city.interceptor;
 
-import com.study.city.base.ResponseEnum;
+import com.study.common.web.ResponseEnum;
 import com.study.common.utils.IpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
