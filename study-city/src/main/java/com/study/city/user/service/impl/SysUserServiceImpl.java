@@ -2,10 +2,10 @@ package com.study.city.user.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.study.common.exception.CustomException;
 import com.study.city.user.entity.LoginResponse;
 import com.study.city.user.entity.SysUser;
 import com.study.city.user.entity.SysUserRole;
+import com.study.city.user.entity.model.LoginUserVo;
 import com.study.city.user.entity.request.SysRoleListRequest;
 import com.study.city.user.entity.request.SysUserCreateRequest;
 import com.study.city.user.entity.request.SysUserListRequest;
@@ -14,13 +14,22 @@ import com.study.city.user.mapper.SysUserRoleMapper;
 import com.study.city.user.service.ISysUserService;
 import com.study.city.utils.RedisUtils;
 import com.study.city.utils.TokenUtils;
+import com.study.common.exception.CustomException;
+import com.study.common.utils.IpUtils;
+import com.study.common.utils.JsonUtils;
+import com.study.common.utils.ServletUtils;
+import eu.bitwalker.useragentutils.UserAgent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -32,6 +41,9 @@ import java.util.concurrent.TimeUnit;
  */
 @Service("sysUserService")
 public class SysUserServiceImpl implements ISysUserService {
+
+    private static final Logger logger = LoggerFactory.getLogger(SysUserServiceImpl.class);
+
     @Resource
     private SysUserMapper sysUserMapper;
 
@@ -39,7 +51,7 @@ public class SysUserServiceImpl implements ISysUserService {
     private SysUserRoleMapper sysUserRoleMapper;
 
     @Resource
-    RedisUtils redisUtils;
+    private RedisUtils redisUtils;
 
     /**
      * 通过ID查询单条数据
@@ -151,29 +163,64 @@ public class SysUserServiceImpl implements ISysUserService {
             throw new CustomException(401, "用户不存在，请重新登录");
         }
         // 先去缓存中看一下是否有token
-        token = TokenUtils.getToken(username, password);
-//        token = getString(username, password);
+//        token = TokenUtils.getToken(username, password);
+        token = this.getTokenFromRedis(user);
 
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setToken(token);
         loginResponse.setUsername(sysUser.getUsername());
+        loginResponse.setIsLine(0);
         return loginResponse;
+    }
+
+    /**
+     * 获取登录用户的模型
+     *
+     * @param user 用户信息
+     * @return
+     */
+    private String getTokenFromRedis(SysUser user) {
+        LoginUserVo loginUser = null;
+        try {
+            loginUser = getLoginUser(user);
+        } catch (IOException e) {
+            throw new CustomException(-1, "缓存中没有用户！");
+        }
+        return loginUser.getToken();
     }
 
     // 加入redis组件，如果用到这个方法，需要加入redis组件
     // redis中是token加上用户名为key，例如 token:zhangpba=qwertyuiosdfghjkdfghj
-    private String getTokenFromRedis(String username, String password) {
-        String tokenKey = TokenUtils.TOKEN_NAME + ":" + username;
-        String token;
+    private LoginUserVo getLoginUser(SysUser user) throws IOException {
+        String tokenKey = TokenUtils.TOKEN_NAME + ":" + user.getUsername();
+        logger.info("key:{}", tokenKey);
+        LoginUserVo loginUser = new LoginUserVo();
         if (redisUtils.get(tokenKey) != null) {
-            token = (String) redisUtils.get(tokenKey);
+            String loginUserStr = (String) redisUtils.get(tokenKey);
+            loginUser = JsonUtils.json2Object(loginUserStr, LoginUserVo.class);
         } else {
             // 生成token
-            token = TokenUtils.getToken(username, password);
+            String token = TokenUtils.getToken(user.getUsername(), user.getPassword());
+            // 把登录信息保存起来
+            final UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
+            String ip = IpUtils.getRequestIp(ServletUtils.getRequest());
+            // 获取客户端操作系统
+            String os = userAgent.getOperatingSystem().getName();
+            // 获取客户端浏览器
+            String browser = userAgent.getBrowser().getName();
+            // 过期时间
+            loginUser.setExpireTime(new Date().getTime());
+            loginUser.setUserId(user.getUserId());
+            loginUser.setUsername(user.getUsername());
+            loginUser.setBrowser(browser);
+            loginUser.setIpaddr(ip);
+            loginUser.setOs(os);
+            loginUser.setToken(token);
+            String userStr = JsonUtils.obj2Json(loginUser);
             // 有效期为30分钟
-            redisUtils.set(tokenKey, token, 30L, TimeUnit.MINUTES);
+            redisUtils.set(tokenKey, userStr, 30L, TimeUnit.MINUTES);
         }
-        return token;
+        return loginUser;
     }
 
     /**
@@ -193,5 +240,31 @@ public class SysUserServiceImpl implements ISysUserService {
 //            throw new CustomException(401, "退出失败！");
         }
         return sysUser.getUsername() + "退出登录!";
+    }
+
+    /**
+     * 用户是否在线
+     *
+     * @param username 用户名
+     * @return
+     */
+    public LoginResponse isLine(String username) {
+        LoginResponse loginResponse = new LoginResponse();
+        String tokenKey = TokenUtils.TOKEN_NAME + ":" + username;
+        logger.info("key:{}", tokenKey);
+        LoginUserVo loginUser = new LoginUserVo();
+        // 在线返回token
+        if (redisUtils.get(tokenKey) != null) {
+            String loginUserStr = (String) redisUtils.get(tokenKey);
+            loginUser = JsonUtils.json2Object(loginUserStr, LoginUserVo.class);
+            loginResponse.setUsername(loginUser.getUsername());
+            loginResponse.setToken(loginUser.getToken());
+            loginResponse.setIsLine(0);
+        } else {
+            loginResponse.setUsername(username);
+            loginResponse.setToken("");
+            loginResponse.setIsLine(1);
+        }
+        return loginResponse;
     }
 }

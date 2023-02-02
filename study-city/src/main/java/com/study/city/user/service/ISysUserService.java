@@ -70,4 +70,11 @@ public interface ISysUserService {
      * @return token
      */
     String logOut(SysUser sysUser);
+
+    /**
+     * 用户是否在线
+     * @param sysUser
+     * @return
+     */
+    LoginResponse isLine(String username);
 }

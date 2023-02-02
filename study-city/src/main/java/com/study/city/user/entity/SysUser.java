@@ -47,6 +47,9 @@ public class SysUser implements Serializable {
 
     @ApiModelProperty(value = "性别")
     private Integer sex;
+
+    @ApiModelProperty(value = "状态 0-正常 1-停用")
+    private Integer statue;
     
     private String createBy;
     

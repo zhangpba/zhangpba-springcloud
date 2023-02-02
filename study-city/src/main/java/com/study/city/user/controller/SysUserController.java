@@ -6,6 +6,8 @@ import com.study.city.user.entity.SysUser;
 import com.study.city.user.entity.request.SysUserCreateRequest;
 import com.study.city.user.entity.request.SysUserListRequest;
 import com.study.city.user.service.ISysUserService;
+import com.study.common.annotation.Log;
+import com.study.common.enums.BusinessType;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -76,6 +79,7 @@ public class SysUserController {
      * @return 新增结果
      */
     @PostMapping("/add")
+    @Log(title = "新增用户", businessType = BusinessType.INSERT)
     @ApiOperation(value = "新增用户", response = Dictionary.class)
     @LoginToken
     public ResponseMessage<SysUser> add(@RequestBody SysUserCreateRequest sysUserCreateRequest) {
@@ -90,6 +94,7 @@ public class SysUserController {
      * @return 编辑结果
      */
     @PutMapping("/eidt")
+    @Log(title = "编辑用户", businessType = BusinessType.UPDATE)
     @ApiOperation(value = "编辑用户", response = Dictionary.class)
     @LoginToken
     public ResponseMessage<SysUser> edit(@RequestBody SysUser sysUser) {
@@ -104,6 +109,7 @@ public class SysUserController {
      * @return 删除是否成功
      */
     @DeleteMapping("/delete/{id}")
+    @Log(title = "删除用户数据", businessType = BusinessType.DELETE)
     @ApiOperation(value = "删除用户数据", response = Dictionary.class)
     @LoginToken
     public ResponseMessage<Boolean> deleteById(@PathVariable("id") Integer id) {
@@ -119,6 +125,7 @@ public class SysUserController {
      * @return token
      */
     @PostMapping("login")
+    @Log(title = "用户登录", businessType = BusinessType.LOGIN)
     @ApiOperation(value = "用户登录", response = Dictionary.class)
     public ResponseMessage<SysUser> login(@RequestBody SysUser sysUser) {
         logger.info("用户登录！");
@@ -132,10 +139,23 @@ public class SysUserController {
      * @return token
      */
     @PostMapping("logOut")
+    @Log(title = "退出登录日志", businessType = BusinessType.LOGOUT)
     @ApiOperation(value = "退出登录", response = Dictionary.class)
     public ResponseMessage<SysUser> logOut(@RequestBody SysUser sysUser) {
-        logger.info("退出登录！");
         return ResponseMessage.success(this.sysUserService.logOut(sysUser));
+    }
+
+
+    /**
+     * 是否在线
+     *
+     * @param username 用户名
+     * @return token
+     */
+    @PostMapping("isLine")
+    @ApiOperation(value = "是否在线", response = Dictionary.class)
+    public ResponseMessage<SysUser> isLine(@RequestParam(value = "username") String username) {
+        return ResponseMessage.success(this.sysUserService.isLine(username));
     }
 }
 
