@@ -19,8 +19,10 @@ public enum ResponseEnum {
     ERROR_403(403, "无访问权限"),
     ERROR_401(401, "账号密码错误！"),
     ERROR_402(402, "参数错误！"),
-    ERROR_405(405, "未登录！token失效"),
+    ERROR_405(405, "token失效"),
     ERROR_406(406, "用户已停用"),
+    ERROR_407(407, "无token，请传入token"),
+    ERROR_408(408, "token验证失败"),
     ERROR_501(501, "数据异常！");
 
     private Integer code;

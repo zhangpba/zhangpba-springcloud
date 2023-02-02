@@ -162,6 +162,11 @@ qywx: # 企业微信
     get-token: https://qyapi.weixin.qq.com/cgi-bin/gettoke # 获取企业微信的token
     send-message: https://qyapi.weixin.qq.com/cgi-bin/message/send  # 应用给企业微信发送消息
 
+# token过期时间 毫秒
+user:
+  token:
+    expire: 30000
+
 logging:
   level:
     root: INFO                    #默认的日志级别

@@ -22,6 +22,7 @@ import eu.bitwalker.useragentutils.UserAgent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -52,6 +53,9 @@ public class SysUserServiceImpl implements ISysUserService {
 
     @Resource
     private RedisUtils redisUtils;
+
+    @Value("${user.token.expire}")
+    private Long tokenExpire;
 
     /**
      * 通过ID查询单条数据
@@ -200,7 +204,7 @@ public class SysUserServiceImpl implements ISysUserService {
             loginUser = JsonUtils.json2Object(loginUserStr, LoginUserVo.class);
         } else {
             // 生成token
-            String token = TokenUtils.getToken(user.getUsername(), user.getPassword());
+            String token = TokenUtils.getToken(user.getUsername(), user.getPassword(),tokenExpire);
             // 把登录信息保存起来
             final UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
             String ip = IpUtils.getRequestIp(ServletUtils.getRequest());

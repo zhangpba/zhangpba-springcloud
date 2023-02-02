@@ -1,10 +1,10 @@
 package com.study.city.interceptor;
 
-import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.study.city.annotation.LoginToken;
 import com.study.city.annotation.PassToken;
-import com.study.common.exception.CustomException;
+import com.study.city.user.enums.UserCodeEnum;
 import com.study.city.utils.TokenUtils;
+import com.study.common.exception.CustomException;
 import com.study.common.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,12 +51,12 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
             if (userLoginToken.required()) {
                 // 执行认证
                 if (StringUtils.isEmpty(token)) {
-                    throw new CustomException(401, "无token，请重新登录获取token");
+                    throw new CustomException(UserCodeEnum.ERROR_407.getCode(), UserCodeEnum.ERROR_407.getMsg());
                 }
-                try {
-                    return TokenUtils.verify(token);
-                } catch (JWTDecodeException j) {
-                    throw new CustomException(401, "验证失败");
+                // 验证token
+                boolean isExpired = TokenUtils.verify(token);
+                if (!isExpired) {
+                    throw new CustomException(UserCodeEnum.ERROR_405.getCode(), UserCodeEnum.ERROR_405.getMsg());
                 }
             }
         }

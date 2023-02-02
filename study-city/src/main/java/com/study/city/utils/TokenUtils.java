@@ -23,8 +23,8 @@ public class TokenUtils {
     private static final Logger logger = LoggerFactory.getLogger(TokenUtils.class);
 
     // 设置过期时间:一个小时有效时间
-    public static final long EXPIRE_DATE = 60 * 60 * 100000;
-
+    public static final long EXPIRE_DATE = 60 * 60 * 1000;
+    //    public static final long EXPIRE_DATE =  60 * 1000;
     // token秘钥
     public static final String TOKEN_SECRET = "chengxuyuandeziwoxiuyang2023";
 
@@ -36,9 +36,10 @@ public class TokenUtils {
      *
      * @param username 用户名
      * @param password 密码
+     * @param tokenExpire token过期时间
      * @return token
      */
-    public static String getToken(String username, String password) {
+    public static String getToken(String username, String password, Long tokenExpire) {
         // Algorithm.HMAC256():使用HS256生成token,密钥则是用户的密码，唯一密钥的话可以保存在服务端。
         // withAudience()存入需要保存在token的信息，这里我把用户ID存入token中
         // 登陆的时候调用此方法，来获取token
@@ -46,7 +47,7 @@ public class TokenUtils {
         try {
             Date start = new Date();
             // 过期时间，一个小时有效时间
-            long currentTime = System.currentTimeMillis() + EXPIRE_DATE;
+            long currentTime = System.currentTimeMillis() + tokenExpire;
             Date end = new Date(currentTime);
 
             // 秘钥及加密算法
@@ -120,7 +121,7 @@ public class TokenUtils {
     public static void main(String[] args) throws InterruptedException {
         String username = "zhangsan";
         String password = "123";
-        String token = getToken(username, password);
+        String token = getToken(username, password, 3 * 1000L);
         System.out.println(token);
         boolean b = verify(token);
         System.out.println("b:" + b);
