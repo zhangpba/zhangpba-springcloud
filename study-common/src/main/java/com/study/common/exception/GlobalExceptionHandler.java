@@ -18,15 +18,15 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
     @ResponseBody
-    public ResponseMessage customExceptionHandler(CustomException e) {
+    public ResponseMessage<Object> handle(CustomException e) {
         log.error("自定义CustomException异常处理：{}", e.getMessage(), e);
         return ResponseMessage.error(e.getCode(), e.getMessage());
     }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseBody
-    public ResponseMessage exceptionHandler(Exception e) {
-        log.error("全局异常处理：{}", e.getMessage(), e);
-        return ResponseMessage.error(ResponseEnum.FAIL.getCode(), ResponseEnum.FAIL.getMsg());
-    }
+//    @ExceptionHandler(Exception.class)
+//    @ResponseBody
+//    public ResponseMessage exceptionHandler(Exception e) {
+//        log.error("全局异常处理：{}", e.getMessage(), e);
+//        return ResponseMessage.error(ResponseEnum.FAIL.getCode(), ResponseEnum.FAIL.getMsg());
+//    }
 }

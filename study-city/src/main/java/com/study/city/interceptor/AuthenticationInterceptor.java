@@ -5,7 +5,10 @@ import com.study.city.annotation.PassToken;
 import com.study.city.user.enums.UserCodeEnum;
 import com.study.city.utils.TokenUtils;
 import com.study.common.exception.CustomException;
+import com.study.common.utils.JsonUtils;
 import com.study.common.utils.StringUtils;
+import com.study.common.web.ResponseEnum;
+import com.study.common.web.ResponseMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -15,6 +18,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Method;
 
 /**
@@ -56,11 +61,35 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
                 // 验证token
                 boolean isExpired = TokenUtils.verify(token);
                 if (!isExpired) {
-                    throw new CustomException(UserCodeEnum.ERROR_405.getCode(), UserCodeEnum.ERROR_405.getMsg());
+                    returnJson(response);
                 }
             }
         }
         return true;
+    }
+
+    /**
+     * 异常返回固定格式的信息
+     *
+     * @param response
+     */
+    private void returnJson(HttpServletResponse response) {
+        PrintWriter writer = null;
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+        ResponseMessage responseMessage = ResponseMessage.error(ResponseEnum.ERROR_405.getCode(), ResponseEnum.ERROR_405.getMsg());
+        try {
+            writer = response.getWriter();
+            String jsonRresponse = JsonUtils.obj2Json(responseMessage);
+            writer.print(jsonRresponse);
+        } catch (IOException e) {
+            new CustomException(-1, "拦截器输出流异常");
+            logger.error("拦截器输出流异常" + e);
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
     }
 
     @Override
