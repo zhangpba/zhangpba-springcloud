@@ -8,7 +8,7 @@ Type=simple
 Restart=always
 RestartSec=30s
 WorkingDirectory=/opt/zhangpb/study-city
-ExecStart=/home/zhangpba/software/jdk1.8.0_40/bin/java -Xms1024m -Xmx1024m -Dloader.path=/opt/zhangpb/study-city/lib -jar /opt/zhangpb/study-city/study-city.jar
+ExecStart=/home/zhangpba/software/jdk1.8.0_40/bin/java -Xms1024m -Xmx1024m -Dloader.path=/opt/zhangpb/study-city/lib -jar /opt/zhangpb/study-city/study-city.jar --spring.cloud.bootstrap.location=/data/server/study-city/bootstrap.yml
 ExecStop=/usr/bin/kill -15 $MAINPID
 SuccessExitStatus=143
 

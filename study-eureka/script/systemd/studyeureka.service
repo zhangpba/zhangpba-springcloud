@@ -8,7 +8,7 @@ Type=simple
 Restart=always
 RestartSec=30s
 WorkingDirectory=/data/server/study-eureka
-ExecStart=/usr/local/software/jdk1.8.0_131/bin/java -Xms1024m -Xmx1024m -Dloader.path=/data/server/lib -jar /data/server/study-eureka/study-eureka.jar
+ExecStart=/usr/local/software/jdk1.8.0_131/bin/java -Xms1024m -Xmx1024m -Dloader.path=/data/server/lib -jar /data/server/study-eureka/study-eureka.jar --spring.cloud.bootstrap.location=/data/server/study-eureka/bootstrap.yml
 ExecStop=/usr/bin/kill -15 $MAINPID
 SuccessExitStatus=143
 
