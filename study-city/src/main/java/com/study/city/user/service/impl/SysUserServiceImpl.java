@@ -2,6 +2,8 @@ package com.study.city.user.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.study.city.data.entity.response.QQResponse;
+import com.study.city.data.service.IQQService;
 import com.study.city.user.entity.LoginResponse;
 import com.study.city.user.entity.SysUser;
 import com.study.city.user.entity.SysUserRole;
@@ -17,11 +19,14 @@ import com.study.city.utils.TokenUtils;
 import com.study.common.exception.CustomException;
 import com.study.common.utils.IpUtils;
 import com.study.common.utils.JsonUtils;
+import com.study.common.utils.ObjectUtils;
 import com.study.common.utils.ServletUtils;
+import com.study.common.utils.StringUtils;
 import eu.bitwalker.useragentutils.UserAgent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,6 +61,9 @@ public class SysUserServiceImpl implements ISysUserService {
 
     @Value("${user.token.expire}")
     private Long tokenExpire;
+
+    @Autowired
+    private IQQService qqService;
 
     /**
      * 通过ID查询单条数据
@@ -172,8 +180,20 @@ public class SysUserServiceImpl implements ISysUserService {
 
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setToken(token);
+        loginResponse.setUserId(user.getUserId());
         loginResponse.setUsername(sysUser.getUsername());
         loginResponse.setIsLine(0);
+
+        // 获取用户头像
+        String email = user.getEmail();
+        if (!StringUtils.isEmpty(email) && email.contains("@qq.com")) {
+            String qq = StringUtils.substring(email, 0, email.indexOf("@qq.com"));
+            QQResponse qqResponse = qqService.getQQInfo(qq);
+            if (ObjectUtils.isNotNull(qqResponse)) {
+                loginResponse.setTouxiang(qqResponse.getTouxiang());
+            }
+        }
+
         return loginResponse;
     }
 
@@ -204,7 +224,7 @@ public class SysUserServiceImpl implements ISysUserService {
             loginUser = JsonUtils.json2Object(loginUserStr, LoginUserVo.class);
         } else {
             // 生成token
-            String token = TokenUtils.getToken(user.getUsername(), user.getPassword(),tokenExpire);
+            String token = TokenUtils.getToken(user.getUsername(), user.getPassword(), tokenExpire);
             // 把登录信息保存起来
             final UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
             String ip = IpUtils.getRequestIp(ServletUtils.getRequest());
