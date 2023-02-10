@@ -5,6 +5,9 @@ import com.study.city.data.entity.area.City;
 import com.study.city.data.entity.area.Province;
 import com.study.city.data.service.IAreaService;
 import com.study.city.data.service.IProvinceService;
+import com.study.common.exception.CustomException;
+import com.study.common.utils.CollectionUtils;
+import com.study.common.utils.ObjectUtils;
 import com.study.common.web.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -44,7 +47,7 @@ public class AreaController {
         logger.info("全国各个城市区域数据入库 start...");
         List<Area> areas = areaService.getAllArea();
         String result = "";
-        if (areas == null || areas.isEmpty()) {
+        if (CollectionUtils.isNotEmpty(areas)) {
             result = areaService.initArea();
         } else {
             result = "数据已经初始化，无需再次初始化！";
@@ -67,40 +70,75 @@ public class AreaController {
     }
 
     /**
-     * 后期可以开放提供给外界 一：查询所有的省信息
+     * 级连查询-查询所有的省信息
      *
      * @return
      */
-    @ApiOperation(value = "查询所有的省信息")
+    @ApiOperation(value = "级连查询-查询所有的省信息")
     @GetMapping(value = "/getProvinceDesc")
-    public ResponseMessage getProvinceDesc() {
+    public ResponseMessage<List<Province>> getProvinceDesc() {
         List<Province> provinces = provinceService.getAllProvinceDesc();
         return ResponseMessage.success(provinces);
     }
 
     /**
-     * 后期可以开放提供给外界 二：全国所有的省、市或辖区、区信息
+     * 级连查询-根据省编码查询市
      *
      * @return
      */
-    @ApiOperation(value = "查询所有的省及其下属部门信息")
+    @ApiOperation(value = "级连查询-根据省编码查询市")
+    @GetMapping(value = "/getCityDesc")
+    public ResponseMessage<List<City>> getCityDesc(@ApiParam(name = "provinceCode", value = "省编码", required = true) @RequestParam String provinceCode) {
+        List<City> cities = provinceService.getCityDesc(provinceCode);
+        return ResponseMessage.success(cities);
+    }
+
+
+    /**
+     * 级连查询-根据省编码查询市
+     *
+     * @return
+     */
+    @ApiOperation(value = "级连查询-根据市编码查询区县")
+    @GetMapping(value = "/getAreaDesc")
+    public ResponseMessage<List<Area>> getAreaDesc(@ApiParam(name = "cityCode", value = "省编码", required = true) @RequestParam String cityCode) {
+        List<Area> areas = areaService.getAreaListByCode(cityCode);
+        return ResponseMessage.success(areas);
+    }
+
+
+    /**
+     * 查询全国的省、市、区县信息
+     *
+     * @return
+     */
+    @ApiOperation(value = "查询全国的省、市、区县信息")
     @GetMapping(value = "/allProvince")
-    public ResponseMessage getAllProvince() {
+    public ResponseMessage<List<Province>> getAllProvince() {
         List<Province> areaNames = provinceService.getAllProvince();
         return ResponseMessage.success(areaNames);
     }
 
     /**
-     * 后期可以开放提供给外界 三：某一个省的市获或者辖区、区信息
+     * 根据省编码（或者名称）查询市、区县信息
      *
      * @param codeOrName 省编码或者名称
      * @return
      */
-    @ApiOperation(value = "根据省编码获取名称查询 省下面的市或者辖区、以及辖区下面的地域")
+    @ApiOperation(value = "根据省编码（或者名称）查询市、区县信息")
     @GetMapping(value = "/getAreas")
     public ResponseMessage getAreaByProvince(@ApiParam(name = "codeOrName", value = "省编码或者名称", required = true) @RequestParam String codeOrName) {
         Province province = provinceService.getProvinceByCodeOrName(codeOrName);
-        List<City> cityList = areaService.getAreaByProvince(province.getCode());
-        return ResponseMessage.success(cityList);
+        List<City> cityList = null;
+        if (ObjectUtils.isNotNull(province)) {
+            cityList = areaService.getAreaByProvince(province.getCode());
+            if (CollectionUtils.isNotEmpty(cityList)) {
+                return ResponseMessage.success(cityList);
+            } else {
+                return ResponseMessage.success(province);
+            }
+        } else {
+            throw new CustomException(-1, "没有" + codeOrName + "的信息");
+        }
     }
 }

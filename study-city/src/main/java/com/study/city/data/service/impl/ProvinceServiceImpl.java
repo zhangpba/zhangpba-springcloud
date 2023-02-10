@@ -42,6 +42,13 @@ public class ProvinceServiceImpl implements IProvinceService {
     }
 
 
+    // 根据省编码或者省名称查询 省下面的市
+    @Override
+    public List<City> getCityDesc(String provinceCode) {
+        List<City> cityList = areaService.getCityListByCode(provinceCode);
+        return cityList;
+    }
+
     // 根据省编码或者省名称查询 省下面的市或者辖区
     @Override
     public Province getProvinceByCodeOrName(String provinceCodeOrName) {

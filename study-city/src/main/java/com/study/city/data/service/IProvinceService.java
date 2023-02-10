@@ -1,5 +1,6 @@
 package com.study.city.data.service;
 
+import com.study.city.data.entity.area.City;
 import com.study.city.data.entity.area.Province;
 
 import java.util.List;
@@ -8,6 +9,9 @@ public interface IProvinceService {
 
     // 查询所有的省
     List<Province> getAllProvinceDesc();
+
+    // 根据省编码查询市
+    List<City> getCityDesc(String provinceCode);
 
     // 查询所有的省及其下属部门信息
     List<Province> getAllProvince();
