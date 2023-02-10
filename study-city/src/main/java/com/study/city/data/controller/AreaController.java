@@ -47,7 +47,7 @@ public class AreaController {
         logger.info("全国各个城市区域数据入库 start...");
         List<Area> areas = areaService.getAllArea();
         String result = "";
-        if (CollectionUtils.isNotEmpty(areas)) {
+        if (CollectionUtils.isEmpty(areas)) {
             result = areaService.initArea();
         } else {
             result = "数据已经初始化，无需再次初始化！";
