@@ -1,0 +1,18 @@
+环境
+安装jdk
+
+一 打包
+    选择release打.tar.gz包
+
+二 打好的 .tar.gz包上传服务器解压到路径/data/server/
+    tar -zxvf data-chain.tar.gz -C /data/server/
+
+三 执行脚本
+    ./opt/zhangpb/data-chain/install.sh
+    ./opt/zhangpb/data-chain/start.sh
+
+拥有的功能说明：
+    1、对topic进行增、删、改、查
+    2、可以通过两种方式发送给kafka数据（可以回调、无回调）
+    3、启动就可以对配置文件中的kafka.topics进行监听（消费）
+

@@ -1,0 +1,16 @@
+[Unit]
+Description=data-chain
+After=network.target
+After=syslog.target
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=30s
+WorkingDirectory=/data/server/data-chain
+ExecStart=/software/TencentKona-8.0.10-332/bin/java -Xms1024m -Xmx1024m -Dloader.path=/data/server/data-chain/lib -jar /data/server/data-chain/data-chain.jar
+ExecStop=/usr/bin/kill -15 $MAINPID
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-chain.target
